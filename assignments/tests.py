@@ -44,6 +44,7 @@ class AssignmentsTestBase(TestCase):
             title=title,
             description='Add two numbers.',
             sample_input='1 2\n',
+            test_cases=[{'input': '1 2\n', 'expected_output': '3\n'}],
             created_by=supervisor_user.admin_profile,
             **extra,
         )
@@ -68,6 +69,10 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         'title': 'Reverse a String',
         'description': 'Read a string and print it reversed.',
         'sample_input': 'hello\n',
+        'test_cases': [
+            {'input': 'hello\n', 'expected_output': 'olleh\n'},
+            {'input': 'world\n', 'expected_output': 'dlrow\n'},
+        ],
         'week_number': 2,
     }
 
@@ -84,13 +89,18 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         self.assertEqual(problem.created_by, supervisor.admin_profile)
         self.assertEqual(problem.week_number, 2)
         self.assertEqual(problem.sample_input, 'hello\n')
+        self.assertEqual(problem.test_cases, self.PAYLOAD['test_cases'])
 
     def test_week_number_and_sample_input_are_optional(self):
         supervisor = self._make_supervisor()
 
         response = self._post_json(
             '/api/supervisor/problem-statements',
-            {'title': 'Hello World', 'description': 'Print hello.'},
+            {
+                'title': 'Hello World',
+                'description': 'Print hello.',
+                'test_cases': [{'input': '', 'expected_output': 'Hello\n'}],
+            },
             supervisor,
         )
 
@@ -103,6 +113,18 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         response = self._post_json(
             '/api/supervisor/problem-statements', {'title': 'No description'}, supervisor,
         )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(ProblemStatement.objects.count(), 0)
+
+    def test_problem_creation_requires_grading_test_cases(self):
+        supervisor = self._make_supervisor()
+        payload = {
+            'title': 'No tests',
+            'description': 'A problem without expected results.',
+        }
+
+        response = self._post_json('/api/supervisor/problem-statements', payload, supervisor)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(ProblemStatement.objects.count(), 0)
@@ -138,6 +160,7 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 2)
         self.assertIn('sample_input', response.json()[0])
+        self.assertIn('test_cases', response.json()[0])
 
     def test_student_cannot_use_supervisor_list(self):
         student = self._make_student()
@@ -179,6 +202,7 @@ class StudentProblemStatementTests(AssignmentsTestBase):
         self.assertEqual(body['title'], 'Two Sum')
         self.assertEqual(body['description'], 'Add two numbers.')
         self.assertEqual(body['sample_input'], '1 2\n')
+        self.assertNotIn('test_cases', body)
 
     def test_detail_for_missing_problem_is_404(self):
         student = self._make_student()

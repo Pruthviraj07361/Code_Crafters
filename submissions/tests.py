@@ -1,5 +1,5 @@
 import json
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.core.management import call_command
 from django.test import TestCase
@@ -59,6 +59,9 @@ class SubmissionsTestBase(TestCase):
             title=title,
             description='Add two numbers.',
             sample_input='1 2\n',
+            test_cases=extra.pop(
+                'test_cases', [{'input': '1 2\n', 'expected_output': '3\n'}]
+            ),
             created_by=supervisor_user.admin_profile,
             **extra,
         )
@@ -89,15 +92,10 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
         student = self._make_student()
         problem = self._make_problem(supervisor)
 
-        with patch('submissions.views.Submission.objects.create') as fake_create:
-            fake_create.return_value = Submission.objects.create(
-                student=student.student_profile,
-                problem_statement=problem,
-                language='c',
-                code='int main(){return 0;}',
-                status=Submission.STATUS_PENDING,
-            )
-
+        with patch(
+            'submissions.views.run_judge0_check',
+            return_value=(True, 'All 1 test cases passed.'),
+        ) as fake_check:
             response = self._post_json(
                 f'/api/student/problem-statements/{problem.pk}/submit',
                 {'language': 'c', 'code': 'int main(){return 0;}'},
@@ -106,13 +104,18 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Submission.objects.filter(student=student.student_profile).count(), 1)
+        self.assertEqual(response.json()['status'], Submission.STATUS_PASSED)
+        fake_check.assert_called_once()
 
-    def test_submission_does_not_trigger_judge0_synchronously(self):
+    def test_incorrect_code_is_saved_as_failed(self):
         supervisor = self._make_supervisor()
         student = self._make_student()
         problem = self._make_problem(supervisor)
 
-        with patch('submissions.judge0.run_judge0_check') as fake_check:
+        with patch(
+            'submissions.views.run_judge0_check',
+            return_value=(False, 'Test case 1 failed: Wrong Answer'),
+        ):
             response = self._post_json(
                 f'/api/student/problem-statements/{problem.pk}/submit',
                 {'language': 'c', 'code': 'int main(){return 0;}'},
@@ -120,7 +123,42 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
             )
 
         self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()['status'], Submission.STATUS_FAILED)
+        self.assertEqual(Submission.objects.get().status, Submission.STATUS_FAILED)
+
+    def test_problem_without_test_cases_cannot_be_submitted(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor, test_cases=[])
+
+        with patch('submissions.views.run_judge0_check') as fake_check:
+            response = self._post_json(
+                f'/api/student/problem-statements/{problem.pk}/submit',
+                {'language': 'c', 'code': 'int main(){return 0;}'},
+                student,
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(Submission.objects.count(), 0)
         fake_check.assert_not_called()
+
+    def test_grader_outage_keeps_submission_pending(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+
+        with patch(
+            'submissions.views.run_judge0_check',
+            side_effect=RuntimeError('Judge0 is unavailable.'),
+        ):
+            response = self._post_json(
+                f'/api/student/problem-statements/{problem.pk}/submit',
+                {'language': 'c', 'code': 'int main(){return 0;}'},
+                student,
+            )
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(Submission.objects.get().status, Submission.STATUS_PENDING)
 
     def test_student_can_list_their_own_submissions(self):
         supervisor = self._make_supervisor()
@@ -239,3 +277,53 @@ class SubmissionCheckCommandTests(SubmissionsTestBase):
         submission.refresh_from_db()
         self.assertEqual(submission.status, Submission.STATUS_SUBMITTED)
         fake_check.assert_not_called()
+
+
+class Judge0CheckTests(TestCase):
+    def setUp(self):
+        self.submission = Mock()
+        self.submission.language = 'c'
+        self.submission.code = 'int main(void) { return 0; }'
+        self.submission.problem_statement.test_cases = [
+            {'input': '1 2\n', 'expected_output': '3\n'},
+            {'input': '3 4\n', 'expected_output': '7\n'},
+        ]
+
+    @patch(
+        'submissions.judge0.get_judge0_config',
+        return_value={'api_key': 'test-key', 'base_url': 'https://judge.example/api'},
+    )
+    @patch('submissions.judge0.requests.post')
+    def test_all_test_cases_must_be_accepted(self, mock_post, mock_config):
+        response = Mock(ok=True, status_code=201)
+        response.json.return_value = {'status': {'id': 3, 'description': 'Accepted'}}
+        mock_post.return_value = response
+
+        from submissions.judge0 import run_judge0_check
+
+        passed, output = run_judge0_check(self.submission)
+
+        self.assertTrue(passed)
+        self.assertIn('2 test cases passed', output)
+        self.assertEqual(mock_post.call_count, 2)
+        self.assertEqual(
+            mock_post.call_args_list[0].kwargs['json']['expected_output'], '3\n'
+        )
+
+    @patch(
+        'submissions.judge0.get_judge0_config',
+        return_value={'api_key': 'test-key', 'base_url': 'https://judge.example/api'},
+    )
+    @patch('submissions.judge0.requests.post')
+    def test_wrong_answer_fails_without_running_later_cases(self, mock_post, mock_config):
+        response = Mock(ok=True, status_code=201)
+        response.json.return_value = {'status': {'id': 4, 'description': 'Wrong Answer'}}
+        mock_post.return_value = response
+
+        from submissions.judge0 import run_judge0_check
+
+        passed, output = run_judge0_check(self.submission)
+
+        self.assertFalse(passed)
+        self.assertIn('Test case 1 failed', output)
+        self.assertEqual(mock_post.call_count, 1)

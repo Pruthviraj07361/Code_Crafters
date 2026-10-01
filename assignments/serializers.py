@@ -13,9 +13,25 @@ class ProblemStatementCreateSerializer(serializers.Serializer):
     sample_input = serializers.CharField(
         required=False, allow_blank=True, trim_whitespace=False
     )
+    test_cases = serializers.JSONField()
     week_number = serializers.IntegerField(
         required=False, allow_null=True, min_value=1
     )
+
+    def validate_test_cases(self, value):
+        if not isinstance(value, list) or not value:
+            raise serializers.ValidationError('Provide at least one grading test case.')
+
+        for index, test_case in enumerate(value, start=1):
+            if not isinstance(test_case, dict):
+                raise serializers.ValidationError(f'Test case {index} must be an object.')
+            if not isinstance(test_case.get('input'), str):
+                raise serializers.ValidationError(f'Test case {index} needs string input.')
+            if not isinstance(test_case.get('expected_output'), str):
+                raise serializers.ValidationError(
+                    f'Test case {index} needs string expected_output.'
+                )
+        return value
 
 
 class MeetingUpdateSerializer(serializers.Serializer):
@@ -32,7 +48,7 @@ class SupervisorProblemStatementSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProblemStatement
         fields = [
-            'id', 'title', 'description', 'sample_input', 'week_number',
+            'id', 'title', 'description', 'sample_input', 'test_cases', 'week_number',
             'created_at', 'created_by_name',
         ]
 

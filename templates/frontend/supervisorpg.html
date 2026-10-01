@@ -34,6 +34,11 @@
 <textarea class="min-h-16 p-3 bg-surface-container-lowest rounded font-code-inline text-code-inline text-on-surface placeholder:text-outline outline-none resize-y" id="problem-sample-input" rows="2" placeholder="Optional sample input"></textarea>
 </div>
 <div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-secondary font-medium" for="problem-test-cases">Grading Test Cases (JSON)</label>
+<textarea class="min-h-28 p-3 bg-surface-container-lowest rounded font-code-inline text-code-inline text-on-surface placeholder:text-outline outline-none resize-y" id="problem-test-cases" rows="4" placeholder='[{"input":"1 2\n","expected_output":"3\n"}]' required></textarea>
+<p class="font-body-sm text-body-sm text-secondary">Every case must include string values for input and expected_output. All cases must pass.</p>
+</div>
+<div class="flex flex-col gap-space-2xs">
 <label class="font-label-sm text-label-sm text-secondary font-medium" for="problem-week-number">Week Number</label>
 <input class="h-10 px-3 bg-surface-container-lowest rounded font-body-sm text-body-sm text-on-surface placeholder:text-outline outline-none" id="problem-week-number" min="1" placeholder="Optional" type="number">
 </div>
@@ -1173,6 +1178,7 @@
     const problemFileInput = document.getElementById('problem-file');
     const problemTitleInput = document.getElementById('problem-title');
     const problemDescriptionInput = document.getElementById('problem-description');
+    const problemTestCasesInput = document.getElementById('problem-test-cases');
     const problemFormMessage = document.getElementById('problem-form-message');
 
     problemFileInput.addEventListener('change', async () => {
@@ -1226,6 +1232,15 @@
         return;
       }
 
+      let testCases;
+      try {
+        testCases = JSON.parse(problemTestCasesInput.value);
+      } catch (error) {
+        message.textContent = 'Enter grading test cases as valid JSON.';
+        message.classList.remove('hidden');
+        return;
+      }
+
       saveBtn.disabled = true;
       try {
         const response = await fetch('/api/supervisor/problem-statements', {
@@ -1238,6 +1253,7 @@
             title,
             description,
             sample_input: document.getElementById('problem-sample-input').value,
+            test_cases: testCases,
             week_number: weekValue ? Number(weekValue) : null,
           }),
         });
@@ -1248,6 +1264,7 @@
         problemDescriptionInput.value = '';
         problemFileInput.value = '';
         document.getElementById('problem-sample-input').value = '';
+        problemTestCasesInput.value = '';
         document.getElementById('problem-week-number').value = '';
         toggleModal(false);
         await loadProblemStatements();

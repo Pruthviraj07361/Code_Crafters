@@ -3,6 +3,12 @@ from django.db import models
 
 class Submission(models.Model):
     LANGUAGE_C = 'c'
+    LANGUAGE_CPP = 'cpp'
+    LANGUAGE_GO = 'go'
+    LANGUAGE_JAVA = 'java'
+    LANGUAGE_JAVASCRIPT = 'javascript'
+    LANGUAGE_PYTHON = 'python'
+    LANGUAGE_RUST = 'rust'
     LANGUAGE_HTML = 'html'
     STATUS_PENDING = 'pending'
     STATUS_CHECKING = 'checking'
@@ -12,6 +18,12 @@ class Submission(models.Model):
 
     LANGUAGE_CHOICES = [
         (LANGUAGE_C, 'C'),
+        (LANGUAGE_CPP, 'C++'),
+        (LANGUAGE_GO, 'Go'),
+        (LANGUAGE_JAVA, 'Java'),
+        (LANGUAGE_JAVASCRIPT, 'JavaScript'),
+        (LANGUAGE_PYTHON, 'Python'),
+        (LANGUAGE_RUST, 'Rust'),
         (LANGUAGE_HTML, 'HTML'),
     ]
     STATUS_CHOICES = [

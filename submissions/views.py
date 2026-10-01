@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from accounts.permissions import IsApprovedStudent
 from assignments.models import ProblemStatement
 
+from .judge0 import run_judge0_check
 from .models import Submission
 from .serializers import SubmissionCreateSerializer, SubmissionDetailSerializer, SubmissionListSerializer
 
@@ -15,16 +16,52 @@ from .serializers import SubmissionCreateSerializer, SubmissionDetailSerializer,
 @permission_classes([IsApprovedStudent])
 def student_submit_problem(request, pk):
     problem = get_object_or_404(ProblemStatement, pk=pk)
+    student = request.user.student_profile
+    if Submission.objects.filter(
+        student=student,
+        problem_statement=problem,
+        status=Submission.STATUS_PASSED,
+    ).exists():
+        return Response(
+            {'detail': 'This problem has already been completed.'},
+            status=status.HTTP_409_CONFLICT,
+        )
+
     serializer = SubmissionCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+    if not problem.test_cases:
+        return Response(
+            {'detail': 'This problem has no grading test cases configured yet.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if serializer.validated_data['language'] == Submission.LANGUAGE_HTML:
+        return Response(
+            {'detail': 'HTML cannot be automatically graded. Choose an executable language.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     submission = Submission.objects.create(
-        student=request.user.student_profile,
+        student=student,
         problem_statement=problem,
         language=serializer.validated_data['language'],
         code=serializer.validated_data['code'],
-        status=Submission.STATUS_PENDING,
+        status=Submission.STATUS_CHECKING,
     )
+    try:
+        passed, judge0_output = run_judge0_check(submission)
+    except Exception as exc:
+        submission.status = Submission.STATUS_PENDING
+        submission.judge0_output = str(exc)
+        submission.save(update_fields=['status', 'judge0_output'])
+        return Response(
+            {'detail': 'Your code was saved, but automatic grading is unavailable. Try again later.'},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+    submission.status = Submission.STATUS_PASSED if passed else Submission.STATUS_FAILED
+    submission.judge0_output = judge0_output
+    submission.checked_at = timezone.now()
+    submission.save(update_fields=['status', 'judge0_output', 'checked_at'])
 
     return Response(
         SubmissionDetailSerializer(submission).data,

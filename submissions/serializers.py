@@ -4,7 +4,7 @@ from .models import Submission
 
 
 class SubmissionCreateSerializer(serializers.Serializer):
-    language = serializers.ChoiceField(choices=['c', 'html'])
+    language = serializers.ChoiceField(choices=Submission.LANGUAGE_CHOICES)
     code = serializers.CharField(trim_whitespace=False)
 
 

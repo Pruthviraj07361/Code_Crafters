@@ -31,11 +31,13 @@ class Command(BaseCommand):
             try:
                 passed, judge0_output = run_judge0_check(submission)
             except Exception as exc:  # pragma: no cover - branch only exercised with a real API misconfig
-                submission.status = Submission.STATUS_FAILED
+                submission.status = Submission.STATUS_PENDING
                 submission.judge0_output = str(exc)
-                submission.checked_at = timezone.now()
-                submission.save(update_fields=['status', 'judge0_output', 'checked_at'])
-                raise
+                submission.save(update_fields=['status', 'judge0_output'])
+                self.stderr.write(
+                    self.style.ERROR(f'Could not check submission #{submission.pk}: {exc}')
+                )
+                continue
 
             submission.status = Submission.STATUS_PASSED if passed else Submission.STATUS_FAILED
             submission.judge0_output = judge0_output

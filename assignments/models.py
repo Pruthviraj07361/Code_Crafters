@@ -9,6 +9,7 @@ class ProblemStatement(models.Model):
     # Input fed to the student's program when their submission is checked
     # (checking itself comes later, with the Submission model + Judge0).
     sample_input = models.TextField(blank=True)
+    test_cases = models.JSONField(default=list, blank=True)
     week_number = models.PositiveSmallIntegerField(null=True, blank=True)
     # SET_NULL so problems survive if the supervisor's account is removed.
     created_by = models.ForeignKey(

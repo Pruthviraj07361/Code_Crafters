@@ -1,11 +1,18 @@
-"""Judge0 integration facade.
-
-The real HTTP client will be added once the project has the Judge0 API key and
-host configuration from the user. This stub keeps the application and tests
-structured without hardcoding a specific public API assumption.
-"""
-
 import os
+from urllib.parse import urlparse
+
+import requests
+
+
+DEFAULT_LANGUAGE_IDS = {
+    'c': 50,
+    'cpp': 54,
+    'go': 60,
+    'java': 62,
+    'javascript': 63,
+    'python': 71,
+    'rust': 73,
+}
 
 
 def get_judge0_config():
@@ -17,20 +24,64 @@ def get_judge0_config():
     }
 
 
-def run_judge0_check(submission):
-    """Placeholder for the real Judge0 HTTP call.
+def _language_id(language):
+    if language not in DEFAULT_LANGUAGE_IDS:
+        raise ValueError(f'Automatic grading does not support {language}.')
 
-    The management command will call this helper, and tests will patch it to
-    simulate the remote API response without hitting the real network.
-    """
+    configured_id = os.environ.get(f'JUDGE0_LANGUAGE_ID_{language.upper()}')
+    try:
+        return int(configured_id) if configured_id else DEFAULT_LANGUAGE_IDS[language]
+    except ValueError as exc:
+        raise RuntimeError(f'Invalid Judge0 language ID for {language}.') from exc
+
+
+def run_judge0_check(submission):
     config = get_judge0_config()
     if not config['api_key'] or not config['base_url']:
         raise RuntimeError(
-            'Judge0 is not configured yet. Set JUDGE0_API_KEY and JUDGE0_BASE_URL '
-            'before enabling the real check client.'
+            'Judge0 is not configured. Set JUDGE0_API_KEY and JUDGE0_BASE_URL.'
         )
 
-    raise NotImplementedError(
-        'Real Judge0 HTTP client not implemented yet. Add the API key and endpoint '
-        'details before filling in the actual request logic.'
-    )
+    test_cases = submission.problem_statement.test_cases
+    if not isinstance(test_cases, list) or not test_cases:
+        raise ValueError('This problem has no grading test cases configured.')
+
+    base_url = config['base_url'].rstrip('/')
+    headers = {'X-RapidAPI-Key': config['api_key']}
+    host = urlparse(base_url).hostname
+    if host:
+        headers['X-RapidAPI-Host'] = host
+
+    for index, test_case in enumerate(test_cases, start=1):
+        response = requests.post(
+            f'{base_url}/submissions',
+            params={'base64_encoded': 'false', 'wait': 'true'},
+            headers=headers,
+            json={
+                'language_id': _language_id(submission.language),
+                'source_code': submission.code,
+                'stdin': test_case['input'],
+                'expected_output': test_case['expected_output'],
+            },
+            timeout=30,
+        )
+        if not response.ok:
+            raise RuntimeError(f'Judge0 returned HTTP {response.status_code}.')
+
+        result = response.json()
+        result_status = result.get('status') or {}
+        status_description = result_status.get('description', 'Unknown status')
+        if result_status.get('id') != 3:
+            output = '\n'.join(
+                value.strip()
+                for value in (
+                    status_description,
+                    result.get('compile_output') or '',
+                    result.get('stderr') or '',
+                    result.get('stdout') or '',
+                )
+                if value and value.strip()
+            )
+            return False, f'Test case {index} failed: {output}'
+
+    return True, f'All {len(test_cases)} test cases passed.'

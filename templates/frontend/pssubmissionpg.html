@@ -27,6 +27,10 @@
 <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline font-semibold">Sample Input</span>
 <pre class="bg-surface-container-low p-space-md rounded-lg font-code-inline text-code-inline text-on-surface whitespace-pre-wrap" id="problemSampleInput">No sample input provided.</pre>
 </div>
+<div class="hidden flex-col gap-space-sm" id="problemSampleOutputSection">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-outline font-semibold">Sample Output</span>
+<pre class="bg-surface-container-low p-space-md rounded-lg font-code-inline text-code-inline text-on-surface whitespace-pre-wrap" id="problemSampleOutput">No sample output provided.</pre>
+</div>
 <div class="bg-surface-container-low rounded-lg p-space-md flex items-start gap-space-sm">
 <span class="material-symbols-outlined text-on-surface-variant text-[20px] mt-0.5">terminal</span>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Submissions are saved for review. Automated code execution is not configured yet.</p>
@@ -42,36 +46,20 @@
 <!-- Editor Body: Line Gutters + Live Interactive Buffer -->
 <div class="relative flex text-[13px] min-h-[500px] max-h-[620px] overflow-auto bg-primary-container">
 <!-- Line Numbers -->
-<div class="select-none py-space-md px-space-sm text-right text-on-primary-container bg-primary-container w-12 shrink-0 leading-6 font-normal" id="lineGutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br></div>
+<div class="select-none py-space-md px-space-sm text-right text-on-primary-container bg-primary-container w-12 shrink-0 leading-6 font-normal" id="lineGutter">1<br>2<br>3<br>4<br></div>
 <!-- Code Input Canvas -->
 <div class="relative flex-1 py-space-md pr-space-md">
 <textarea autocapitalize="off" autocomplete="off" autocorrect="off" class="w-full h-full min-h-[480px] bg-transparent text-surface-container-lowest resize-none outline-none leading-6 text-[13px] pl-space-xs whitespace-pre overflow-x-auto selection:bg-surface-variant selection:text-on-surface" id="codeEditor" spellcheck="false" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
-struct ListNode {
-    int val;
-    struct ListNode *next;
-};
-
-struct ListNode* reverseList(struct ListNode* head) {
-    struct ListNode *prev = NULL;
-    struct ListNode *curr = head;
-    struct ListNode *next = NULL;
-    
-    while (curr != NULL) {
-        next = curr-&gt;next;
-        curr-&gt;next = prev;
-        prev = curr;
-        curr = next;
-    }
-    return prev;
+int main(void) {
+  return 0;
 }</textarea>
 </div>
 </div>
 <!-- Bottom Status Bar -->
 <div class="bg-tertiary-container px-space-md py-space-2xs flex items-center justify-between text-on-primary-container text-[12px] select-none">
 <div class="flex items-center gap-space-md">
-<span id="cursorPos" class="">Ln 12, Col 34</span>
+<span id="cursorPos" class="">Ln 1, Col 1</span>
 <span class="hidden sm:inline">Spaces: 4</span>
 <span class="hidden sm:inline">UTF-8</span>
 </div>
@@ -245,7 +233,30 @@ struct ListNode* reverseList(struct ListNode* head) {
 
       const token = sessionStorage.getItem('authToken');
       if (!token) {
-        window.location.replace('/preview/');
+        const previewProblems = {
+          '1': {
+            title: 'Reverse a String',
+            description: 'Read a line of text and print its characters in reverse order.',
+            sampleInput: 'hello',
+            sampleOutput: 'olleh',
+          },
+        };
+        const problem = previewProblems[problemId];
+        if (!problem) {
+          document.getElementById('problemTitle').textContent = 'Problem unavailable';
+          document.getElementById('problemDescription').textContent = 'Sign in to load this problem statement.';
+          submitBtn.disabled = true;
+          return;
+        }
+
+        document.getElementById('problemTitle').textContent = `PS-${problemId.padStart(2, '0')}: ${problem.title}`;
+        document.getElementById('problemDescription').textContent = problem.description;
+        document.getElementById('problemSampleSection').classList.remove('hidden');
+        document.getElementById('problemSampleInput').textContent = problem.sampleInput;
+        document.getElementById('problemSampleOutputSection').classList.remove('hidden');
+        document.getElementById('problemSampleOutput').textContent = problem.sampleOutput;
+        const pageTitle = document.querySelector('header .font-headline-sm');
+        if (pageTitle) pageTitle.textContent = problem.title;
         return;
       }
 
@@ -298,7 +309,10 @@ struct ListNode* reverseList(struct ListNode* head) {
 
         const token = sessionStorage.getItem('authToken');
         if (!token) {
-          window.location.assign('/preview/');
+          drawer.classList.remove('hidden');
+          statusMsg.textContent = 'Sign in before submitting this solution.';
+          document.getElementById('statusIcon').textContent = 'info';
+          document.getElementById('outputDetails').textContent = 'Preview mode cannot submit or grade code. Log in, then reopen this problem.';
           return;
         }
 
@@ -318,9 +332,14 @@ struct ListNode* reverseList(struct ListNode* head) {
           });
           const result = await response.json();
           if (!response.ok) throw new Error(result.detail || Object.values(result).flat().join(' '));
-          statusMsg.textContent = `Submission #${result.id} saved: ${result.status}.`;
-          document.getElementById('statusIcon').textContent = 'schedule';
-          document.getElementById('outputDetails').textContent = 'Your code is stored and awaiting review.';
+          if (result.status === 'passed') {
+            statusMsg.textContent = 'Correct. All test cases passed.';
+            document.getElementById('statusIcon').textContent = 'check_circle';
+          } else {
+            statusMsg.textContent = 'Incorrect. Review the test results and try again.';
+            document.getElementById('statusIcon').textContent = 'error';
+          }
+          document.getElementById('outputDetails').textContent = result.judge0_output || '';
         } catch (error) {
           statusMsg.textContent = error.message || 'Unable to submit your code.';
           document.getElementById('statusIcon').textContent = 'error';
