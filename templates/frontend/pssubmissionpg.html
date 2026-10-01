@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Crimson Text',Georgia,serif;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.code-editor-font,.code-editor-font *:not(.material-symbols-outlined){font-family:'JetBrains Mono','Fira Code','Courier New',monospace!important;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-container":"#596372","on-secondary":"#ffffff","background":"#f8f9fa","on-primary":"#ffffff","surface-bright":"#f8f9fa","primary-fixed":"#dce2f7","surface-container":"#edeeef","tertiary-fixed-dim":"#c0c7d3","error-container":"#ffdad6","on-primary-fixed-variant":"#404758","primary-fixed-dim":"#c0c6db","surface-container-low":"#f3f4f5","inverse-surface":"#2e3132","inverse-primary":"#c0c6db","on-tertiary":"#ffffff","on-background":"#191c1d","on-surface":"#191c1d","on-tertiary-container":"#7d8490","on-primary-fixed":"#141b2b","tertiary-container":"#151c25","surface-dim":"#d9dadb","primary-container":"#141b2b","surface-container-highest":"#e1e3e4","secondary-fixed-dim":"#bdc7d8","outline-variant":"#c6c6cd","surface":"#f8f9fa","inverse-on-surface":"#f0f1f2","on-tertiary-fixed":"#151c25","primary":"#000000","secondary-fixed":"#d9e3f4","on-secondary-fixed":"#121c28","outline":"#76777d","surface-container-lowest":"#ffffff","on-error-container":"#93000a","on-surface-variant":"#45464c","secondary":"#555f6d","surface-variant":"#e1e3e4","secondary-container":"#d6e0f1","surface-tint":"#575e70","surface-container-high":"#e7e8e9","error":"#ba1a1a","on-tertiary-fixed-variant":"#404752","on-primary-container":"#7d8497","on-error":"#ffffff","tertiary-fixed":"#dce3f0","tertiary":"#000000","on-secondary-fixed-variant":"#3e4755"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"margin-desktop":"3rem","space-xl":"2.5rem","gutter-sm":"1rem","space-xs":"0.5rem","margin-mobile":"1rem",margin:"2rem","gutter-lg":"2rem","space-md":"1rem","space-2xs":"0.25rem",gutter:"1.5rem","space-lg":"1.5rem","space-sm":"0.75rem","space-2xl":"4rem"},fontFamily:{"headline-sm":["'Crimson Text'","Georgia","serif"],"body-lg":["'Crimson Text'","Georgia","serif"],"headline-xl":["'Crimson Text'","Georgia","serif"],"headline-lg-mobile":["'Crimson Text'","Georgia","serif"],"code-inline":["'JetBrains Mono'","'Fira Code'","monospace"],"label-md":["'Crimson Text'","Georgia","serif"],"headline-md":["'Crimson Text'","Georgia","serif"],"headline-lg":["'Crimson Text'","Georgia","serif"],"headline-xl-mobile":["'Crimson Text'","Georgia","serif"],"body-sm":["'Crimson Text'","Georgia","serif"],"body-md":["'Crimson Text'","Georgia","serif"],"label-sm":["'Crimson Text'","Georgia","serif"]},fontSize:{"headline-sm":["1.35rem",{lineHeight:"1.75rem",letterSpacing:"-0.015em",fontWeight:"600"}],"body-lg":["1.25rem",{lineHeight:"1.85rem",letterSpacing:"-0.01em",fontWeight:"400"}],"headline-xl":["2.65rem",{lineHeight:"3.15rem",letterSpacing:"-0.03em",fontWeight:"700"}],"headline-lg-mobile":["1.65rem",{lineHeight:"2.15rem",letterSpacing:"-0.02em",fontWeight:"700"}],"code-inline":["0.875rem",{lineHeight:"1.25rem",letterSpacing:"-0.01em",fontWeight:"500"}],"label-md":["1rem",{lineHeight:"1.35rem",letterSpacing:"0.005em",fontWeight:"600"}],"headline-md":["1.75rem",{lineHeight:"2.25rem",letterSpacing:"-0.02em",fontWeight:"600"}],"headline-lg":["2.25rem",{lineHeight:"2.75rem",letterSpacing:"-0.025em",fontWeight:"700"}],"headline-xl-mobile":["2rem",{lineHeight:"2.4rem",letterSpacing:"-0.02em",fontWeight:"700"}],"body-sm":["0.9375rem",{lineHeight:"1.35rem",letterSpacing:"0em",fontWeight:"400"}],"body-md":["1.0625rem",{lineHeight:"1.65rem",letterSpacing:"-0.005em",fontWeight:"400"}],"label-sm":["0.875rem",{lineHeight:"1.15rem",letterSpacing:"0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen" style="font-family: 'Crimson Text', Georgia, serif;"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 w-full px-gutter flex items-center justify-between"><div class="flex items-center min-w-[200px]"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-space-2xs" data-path="dashboard" href="#">← Back to Dashboard</a></div><div class="flex-1 text-center truncate px-space-md"><span class="font-headline-sm text-[1.1rem] text-on-surface font-semibold tracking-tight">PS-04 • Reverse a Singly Linked List</span></div><div class="flex items-center justify-end gap-space-md min-w-[200px]"><nav class="flex items-center gap-space-md" data-active-classes="text-on-surface font-semibold"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="profile" href="#">Profile</a></nav><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-surface min-h-[calc(100vh-3.5rem)] flex flex-col"><div class="flex flex-col w-full">
+<div class="w-full px-gutter-lg py-gutter-lg max-w-[1720px] mx-auto">
+<!-- Two Column Split Workbench -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+<!-- Left Column: Problem Details & Constraints (6 cols) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-lg shadow-sm p-space-xl flex flex-col gap-space-lg">
+<!-- Header Metadata Badges -->
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center px-space-xs py-0.5 rounded-full bg-surface-container-low text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+                Easy
+              </span>
+<span class="text-outline text-label-sm">•</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">100 PTS</span>
+<span class="text-outline text-label-sm">•</span>
+</div>
+<div class="flex items-center gap-space-2xs text-on-surface-variant">
+</div>
+</div>
+<!-- Problem Header & Objective -->
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight" id="problemTitle">Loading problem statement...</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed" id="problemDescription"></p>
+</div>
+<div class="flex flex-col gap-space-sm" id="problemSampleSection">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-outline font-semibold">Sample Input</span>
+<pre class="bg-surface-container-low p-space-md rounded-lg font-code-inline text-code-inline text-on-surface whitespace-pre-wrap" id="problemSampleInput">No sample input provided.</pre>
+</div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mt-0.5">terminal</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Submissions are saved for review. Automated code execution is not configured yet.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Code Editor & Control Actions (6 cols) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<!-- Code Editor Surface (Dark Terminal Container) -->
+<div class="code-editor-font bg-primary-container text-surface-container-lowest rounded-lg shadow-md flex flex-col overflow-hidden" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">
+<!-- Editor Title Bar / Tab strip -->
+<div class="bg-tertiary-container px-space-md py-space-xs flex items-center justify-between select-none"><div class="flex items-center gap-space-sm"><div class="flex items-center gap-space-xs bg-primary-container px-space-sm py-1.5 rounded text-surface-container-lowest text-[13px]"><span class="w-2 h-2 rounded-full bg-secondary-fixed"></span><span class="" id="tabFileName">solution.c</span></div><div class="relative inline-block text-left" id="langDropdownContainer"><button aria-expanded="false" aria-haspopup="true" class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded bg-primary-container/60 hover:bg-primary-container text-on-primary-container hover:text-surface-container-lowest text-[13px] border border-outline-variant/20 transition-colors" id="langSelectBtn" type="button"><span class="" id="currentLangLabel">C (GCC 12.2)</span><span class="material-symbols-outlined text-[16px]">expand_more</span></button><div class="hidden absolute left-0 mt-1 w-56 rounded-lg bg-tertiary-container border border-outline-variant/20 shadow-xl py-1 z-50 focus:outline-none" id="langMenu"><div class="px-space-sm py-1 border-b border-outline-variant/10 text-[11px] uppercase tracking-wider text-on-primary-container/70">Select Language</div><div class="max-h-56 overflow-y-auto py-0.5" role="menu"><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="C (GCC 12.2)" data-file="solution.c" data-lang="c" type="button"><span class="">C <span class="text-on-primary-container text-[11px]">(GCC 12.2)</span></span><span class="material-symbols-outlined text-[16px] text-secondary-fixed" data-check="c">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="C++ (GCC 12.2)" data-file="solution.cpp" data-lang="cpp" type="button"><span class="">C++ <span class="text-on-primary-container text-[11px]">(GCC 12.2)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="cpp">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="Python 3 (v3.11)" data-file="solution.py" data-lang="python" type="button"><span class="">Python 3 <span class="text-on-primary-container text-[11px]">(v3.11)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="python">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="Java (OpenJDK 17)" data-file="Solution.java" data-lang="java" type="button"><span class="">Java <span class="text-on-primary-container text-[11px]">(OpenJDK 17)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="java">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="JavaScript (Node.js 20)" data-file="solution.js" data-lang="javascript" type="button"><span class="">JavaScript <span class="text-on-primary-container text-[11px]">(Node 20)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="javascript">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="Rust (1.75)" data-file="solution.rs" data-lang="rust" type="button"><span class="">Rust <span class="text-on-primary-container text-[11px]">(1.75)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="rust">check</span></button><button class="w-full text-left px-space-sm py-1.5 flex items-center justify-between text-on-primary-container hover:text-surface-container-lowest hover:bg-primary-container text-[13px] transition-colors group" data-display="Go (1.21)" data-file="main.go" data-lang="go" type="button"><span class="">Go <span class="text-on-primary-container text-[11px]">(1.21)</span></span><span class="material-symbols-outlined text-[16px] hidden" data-check="go">check</span></button></div></div></div></div><div class="flex items-center gap-space-xs"><button class="text-on-primary-container hover:text-surface-container-lowest p-1 rounded transition-colors flex items-center" id="resetCodeBtn" title="Reset to template"><span class="material-symbols-outlined text-[18px]">restart_alt</span></button><button class="text-on-primary-container hover:text-surface-container-lowest p-1 rounded transition-colors flex items-center" id="formatCodeBtn" title="Reformat buffer"><span class="material-symbols-outlined text-[18px]">reorder</span></button></div></div>
+<!-- Editor Body: Line Gutters + Live Interactive Buffer -->
+<div class="relative flex text-[13px] min-h-[500px] max-h-[620px] overflow-auto bg-primary-container">
+<!-- Line Numbers -->
+<div class="select-none py-space-md px-space-sm text-right text-on-primary-container bg-primary-container w-12 shrink-0 leading-6 font-normal" id="lineGutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br></div>
+<!-- Code Input Canvas -->
+<div class="relative flex-1 py-space-md pr-space-md">
+<textarea autocapitalize="off" autocomplete="off" autocorrect="off" class="w-full h-full min-h-[480px] bg-transparent text-surface-container-lowest resize-none outline-none leading-6 text-[13px] pl-space-xs whitespace-pre overflow-x-auto selection:bg-surface-variant selection:text-on-surface" id="codeEditor" spellcheck="false" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
+
+struct ListNode* reverseList(struct ListNode* head) {
+    struct ListNode *prev = NULL;
+    struct ListNode *curr = head;
+    struct ListNode *next = NULL;
+    
+    while (curr != NULL) {
+        next = curr-&gt;next;
+        curr-&gt;next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}</textarea>
+</div>
+</div>
+<!-- Bottom Status Bar -->
+<div class="bg-tertiary-container px-space-md py-space-2xs flex items-center justify-between text-on-primary-container text-[12px] select-none">
+<div class="flex items-center gap-space-md">
+<span id="cursorPos" class="">Ln 12, Col 34</span>
+<span class="hidden sm:inline">Spaces: 4</span>
+<span class="hidden sm:inline">UTF-8</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+<span class="text-surface-container-lowest font-medium">Ready</span>
+</div>
+</div>
+</div>
+<!-- Terminal Output / Test Runner Feedback Drawer (Collapsible) -->
+<div class="hidden bg-surface-container-lowest rounded-lg p-space-md shadow-sm" id="outputDrawer">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface" id="statusIcon">check_circle</span>
+<span class="font-label-md text-label-md font-bold text-on-surface" id="statusMessage">Test Suite Passed</span>
+</div>
+<span class="font-code-inline text-[0.875rem] text-on-surface-variant" id="executionTime" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">2.4ms (1.8MB)</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded text-[13px] text-on-surface overflow-x-auto whitespace-pre" id="outputDetails" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">
+[PASS] Test Case 1: head = [1, 2, 3, 4, 5] -&gt; Output: [5, 4, 3, 2, 1]
+[PASS] Test Case 2: head = [1, 2]          -&gt; Output: [2, 1]
+[PASS] Test Case 3: head = []              -&gt; Output: []
+[PASS] Test Case 4: head = [42]            -&gt; Output: [42]
+          </div>
+</div>
+<!-- Action Tray: Run & Submit -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-code-inline text-[0.875rem]" style="font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;">Autosaved buffer</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md px-space-lg py-2.5 rounded-lg shadow-sm font-semibold transition-colors flex items-center gap-space-2xs" id="runTestsBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span class="">Run Tests</span>
+</button>
+<button class="bg-primary text-on-primary hover:bg-inverse-surface font-label-md text-label-md px-space-lg py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-space-2xs shadow-sm" id="submitCodeBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span class="">Submit Code</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const editor = document.getElementById('codeEditor');
+    const gutter = document.getElementById('lineGutter');
+    const cursorPos = document.getElementById('cursorPos');
+    const runBtn = document.getElementById('runTestsBtn');
+    const submitBtn = document.getElementById('submitCodeBtn');
+    const drawer = document.getElementById('outputDrawer');
+    const statusMsg = document.getElementById('statusMessage');
+    const resetBtn = document.getElementById('resetCodeBtn');
+
+    // Language dropdown elements
+    const langSelectBtn = document.getElementById('langSelectBtn');
+    const langMenu = document.getElementById('langMenu');
+    const currentLangLabel = document.getElementById('currentLangLabel');
+    const tabFileName = document.getElementById('tabFileName');
+    const langButtons = langMenu ? langMenu.querySelectorAll('button[data-lang]') : [];
+    const problemId = new URLSearchParams(window.location.search).get('problem');
+    let selectedLanguage = 'c';
+    const backLink = document.querySelector('header [data-path="dashboard"]');
+    if (backLink) backLink.href = '/preview/student/';
+
+    const defaultCode = `#include <stdio.h>
+  \nint main(void) {
+    return 0;
+  }`;
+
+    // Toggle dropdown
+    if (langSelectBtn && langMenu) {
+      langSelectBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        langMenu.classList.toggle('hidden');
+      });
+      document.addEventListener('click', function(e) {
+        if (!langMenu.contains(e.target) && !langSelectBtn.contains(e.target)) {
+          langMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    // Language switcher
+    langButtons.forEach(btn => {
+      if (btn.dataset.lang !== 'c') btn.classList.add('hidden');
+      btn.addEventListener('click', function() {
+        const file = this.getAttribute('data-file');
+        const display = this.getAttribute('data-display');
+        const lang = this.getAttribute('data-lang');
+        selectedLanguage = lang;
+        if (currentLangLabel) currentLangLabel.textContent = display;
+        if (tabFileName) tabFileName.textContent = file;
+
+        // update active checkmarks
+        langButtons.forEach(b => {
+          const check = b.querySelector('[data-check]');
+          if (check) {
+            if (b === btn) {
+              check.classList.remove('hidden');
+            } else {
+              check.classList.add('hidden');
+            }
+          }
+        });
+        if (langMenu) langMenu.classList.add('hidden');
+      });
+    });
+
+    // Update lines in gutter
+    function updateGutter() {
+      if (!editor || !gutter) return;
+      const lineCount = editor.value.split('\n').length;
+      let numbers = '';
+      for (let i = 1; i <= Math.max(lineCount, 22); i++) {
+        numbers += i + '<br>';
+      }
+      gutter.innerHTML = numbers;
+    }
+
+    // Update Cursor Location Tracking
+    function updateCursorInfo() {
+      if (!editor || !cursorPos) return;
+      const text = editor.value.substr(0, editor.selectionStart);
+      const lines = text.split('\n');
+      const line = lines.length;
+      const col = lines[lines.length - 1].length + 1;
+      cursorPos.textContent = `Ln ${line}, Col ${col}`;
+    }
+
+    // Support Tab indent insertion in textarea
+    if (editor) {
+      editor.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+          this.value = this.value.substring(0, start) + "    " + this.value.substring(end);
+          this.selectionStart = this.selectionEnd = start + 4;
+          updateGutter();
+          updateCursorInfo();
+        }
+      });
+
+      editor.addEventListener('input', function() {
+        updateGutter();
+        updateCursorInfo();
+      });
+
+      editor.addEventListener('keyup', updateCursorInfo);
+      editor.addEventListener('click', updateCursorInfo);
+    }
+
+    // Reset code behavior
+    if (resetBtn && editor) {
+      resetBtn.addEventListener('click', function() {
+        editor.value = defaultCode;
+        updateGutter();
+        updateCursorInfo();
+      });
+    }
+
+    async function loadProblem() {
+      if (!problemId || !/^\d+$/.test(problemId)) {
+        window.location.replace('/preview/student/');
+        return;
+      }
+
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        window.location.replace('/preview/');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/student/problem-statements/${problemId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const problem = await response.json();
+        if (!response.ok) throw new Error(problem.detail || 'Unable to load this problem statement.');
+
+        document.getElementById('problemTitle').textContent = `PS-${String(problem.id).padStart(2, '0')}: ${problem.title}`;
+        document.getElementById('problemDescription').textContent = problem.description;
+        const sampleSection = document.getElementById('problemSampleSection');
+        const sampleInput = document.getElementById('problemSampleInput');
+        sampleSection.classList.toggle('hidden', !problem.sample_input);
+        sampleInput.textContent = problem.sample_input || '';
+        const pageTitle = document.querySelector('header .font-headline-sm');
+        if (pageTitle) pageTitle.textContent = problem.title;
+        if (editor) {
+          editor.value = defaultCode;
+          updateGutter();
+        }
+      } catch (error) {
+        document.getElementById('problemTitle').textContent = 'Problem unavailable';
+        document.getElementById('problemDescription').textContent = error.message || 'Unable to load this problem statement.';
+        submitBtn.disabled = true;
+      }
+    }
+
+    // Run tests interaction
+    if (runBtn && drawer) {
+      runBtn.addEventListener('click', function() {
+        drawer.classList.remove('hidden');
+        statusMsg.textContent = 'Automated code execution is not configured yet.';
+        document.getElementById('statusIcon').textContent = 'info';
+        document.getElementById('outputDetails').textContent = 'Use Submit Code to save your solution for review.';
+      });
+    }
+
+    // Submission interaction
+    if (submitBtn && drawer) {
+      submitBtn.addEventListener('click', async function() {
+        if (!editor || !editor.value.trim()) {
+          drawer.classList.remove('hidden');
+          statusMsg.textContent = 'Write your solution before submitting.';
+          document.getElementById('statusIcon').textContent = 'error';
+          document.getElementById('outputDetails').textContent = '';
+          return;
+        }
+
+        const token = sessionStorage.getItem('authToken');
+        if (!token) {
+          window.location.assign('/preview/');
+          return;
+        }
+
+        drawer.classList.remove('hidden');
+        statusMsg.textContent = 'Saving submission...';
+        document.getElementById('statusIcon').textContent = 'progress_activity';
+        document.getElementById('outputDetails').textContent = '';
+        submitBtn.disabled = true;
+        try {
+          const response = await fetch(`/api/student/problem-statements/${problemId}/submit`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ language: selectedLanguage, code: editor.value }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.detail || Object.values(result).flat().join(' '));
+          statusMsg.textContent = `Submission #${result.id} saved: ${result.status}.`;
+          document.getElementById('statusIcon').textContent = 'schedule';
+          document.getElementById('outputDetails').textContent = 'Your code is stored and awaiting review.';
+        } catch (error) {
+          statusMsg.textContent = error.message || 'Unable to submit your code.';
+          document.getElementById('statusIcon').textContent = 'error';
+          document.getElementById('outputDetails').textContent = '';
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    }
+
+    // Initial render
+    updateGutter();
+    loadProblem();
+  })();
+</script></main>
+
+</body></html>

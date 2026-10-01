@@ -1,0 +1,1051 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><link class="" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container": "#edeeef",
+          "on-tertiary-fixed": "#151c25",
+          "tertiary-fixed-dim": "#c0c7d3",
+          "on-primary": "#ffffff",
+          "on-secondary-fixed-variant": "#3e4755",
+          "on-surface-variant": "#45464c",
+          "surface-container-highest": "#e1e3e4",
+          "secondary-container": "#d6e0f1",
+          "surface-container-low": "#f3f4f5",
+          "primary-fixed": "#dce2f7",
+          "primary-fixed-dim": "#c0c6db",
+          "surface-dim": "#d9dadb",
+          "error-container": "#ffdad6",
+          "surface-tint": "#575e70",
+          "outline-variant": "#c6c6cd",
+          "on-secondary-container": "#596372",
+          "on-secondary": "#ffffff",
+          "secondary-fixed-dim": "#bdc7d8",
+          "surface-container-lowest": "#ffffff",
+          "tertiary-fixed": "#dce3f0",
+          "surface-bright": "#f8f9fa",
+          "outline": "#76777d",
+          "on-background": "#191c1d",
+          "tertiary-container": "#151c25",
+          "on-primary-fixed": "#141b2b",
+          "on-surface": "#191c1d",
+          "primary-container": "#141b2b",
+          "secondary": "#555f6d",
+          "on-secondary-fixed": "#121c28",
+          "on-primary-container": "#7d8497",
+          "on-tertiary-container": "#7d8490",
+          "surface-variant": "#e1e3e4",
+          "on-primary-fixed-variant": "#404758",
+          "on-tertiary": "#ffffff",
+          "on-tertiary-fixed-variant": "#404752",
+          "secondary-fixed": "#d9e3f4",
+          "background": "#f8f9fa",
+          "surface": "#f8f9fa",
+          "inverse-primary": "#c0c6db",
+          "primary": "#000000",
+          "on-error-container": "#93000a",
+          "surface-container-high": "#e7e8e9",
+          "on-error": "#ffffff",
+          "tertiary": "#000000",
+          "inverse-on-surface": "#f0f1f2",
+          "inverse-surface": "#2e3132",
+          "error": "#ba1a1a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "gutter": "1.5rem",
+          "space-xl": "2.5rem",
+          "space-2xl": "4rem",
+          "space-2xs": "0.25rem",
+          "margin": "2rem",
+          "gutter-lg": "2rem",
+          "space-xs": "0.5rem",
+          "space-sm": "0.75rem",
+          "space-md": "1rem",
+          "gutter-sm": "1rem",
+          "margin-desktop": "3rem",
+          "space-lg": "1.5rem",
+          "margin-mobile": "1rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Space Grotesk"
+          ],
+          "headline-md": [
+            "Space Grotesk"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-lg": [
+            "Space Grotesk"
+          ],
+          "headline-xl-mobile": [
+            "Space Grotesk"
+          ],
+          "code-inline": [
+            "Space Grotesk"
+          ],
+          "body-md": [
+            "Inter"
+          ],
+          "label-sm": [
+            "Inter"
+          ],
+          "body-sm": [
+            "Inter"
+          ],
+          "headline-xl": [
+            "Space Grotesk"
+          ],
+          "headline-lg-mobile": [
+            "Space Grotesk"
+          ],
+          "label-md": [
+            "Inter"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "1.25rem",
+            {
+              "lineHeight": "1.75rem",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-md": [
+            "1.5rem",
+            {
+              "lineHeight": "2rem",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-lg": [
+            "1.125rem",
+            {
+              "lineHeight": "1.75rem",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg": [
+            "2rem",
+            {
+              "lineHeight": "2.5rem",
+              "letterSpacing": "-0.025em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-xl-mobile": [
+            "1.875rem",
+            {
+              "lineHeight": "2.25rem",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "code-inline": [
+            "0.8125rem",
+            {
+              "lineHeight": "1.25rem",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-md": [
+            "0.9375rem",
+            {
+              "lineHeight": "1.5rem",
+              "letterSpacing": "-0.005em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "0.75rem",
+            {
+              "lineHeight": "1rem",
+              "letterSpacing": "0.015em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-sm": [
+            "0.8125rem",
+            {
+              "lineHeight": "1.25rem",
+              "letterSpacing": "0em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "2.5rem",
+            {
+              "lineHeight": "3rem",
+              "letterSpacing": "-0.03em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg-mobile": [
+            "1.5rem",
+            {
+              "lineHeight": "2rem",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "0.875rem",
+            {
+              "lineHeight": "1.25rem",
+              "letterSpacing": "0.005em",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      }
+    }
+  };</script><style id="crimson-text-global-override">*, *::before, *::after, html, body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea, label, div, nav, header, footer, code, pre, kbd, samp, small, strong, b, i, em { font-family: 'Crimson Text', Georgia, serif !important; }</style></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col justify-between" style="font-family: &quot;Crimson Text&quot;, Georgia, serif !important;"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-surface-container-highest"><div class="h-14 max-w-6xl mx-auto px-gutter flex items-center justify-between"><div class="flex items-center gap-space-xs"><a class="font-headline-sm text-headline-sm text-primary flex items-center gap-space-2xs tracking-tight" data-path="challenges" href="javascript:void(0)" onclick="switchView('challenges')"><span class="">Coding Club</span><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary mb-2"></span></a></div><nav class="flex items-center gap-space-sm" id="main-nav"><a class="nav-tab px-space-xs py-1 transition-colors border-b-2 cursor-pointer text-on-surface border-primary font-medium" data-path="challenges" href="javascript:void(0)" id="nav-challenges" onclick="switchView('challenges')" aria-current="page">Challenges</a><a class="nav-tab font-label-md text-label-md hover:text-on-surface px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-on-surface-variant border-transparent" data-path="projects" href="javascript:void(0)" id="nav-projects" onclick="switchView('projects')">Projects</a><div class="h-4 w-px bg-surface-container-highest mx-space-2xs"></div><a class="nav-tab font-label-md text-label-md hover:text-on-surface px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-on-surface-variant border-transparent" data-path="profile" href="javascript:void(0)" id="nav-profile" onclick="switchView('profile')">Profile</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-xs py-1 transition-colors border border-surface-container-highest rounded hover:border-outline-variant" data-path="login" href="javascript:void(0)">Logout</a></nav></div></header><main class="w-full max-w-6xl mx-auto px-gutter pt-14 pb-space-2xl flex-1 bg-surface">
+<!-- VIEW 1: CHALLENGES (DEFAULT) -->
+<div class="flex-col w-full flex" id="view-challenges">
+<!-- Minimalist Page Context & Header -->
+<section class="mb-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-surface-container-highest">
+<div>
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-code-inline text-code-inline text-on-surface">C Programming Track&nbsp;</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight" style="font-family: &quot;Crimson Text&quot;, Georgia, serif !important;">Student Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Overview of your pending lab assignments, completed problem sets, and upcoming club meetups.
+        </p>
+</div>
+<!-- Quick Metrics Stream -->
+<div class="flex flex-wrap items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">4 Assigned</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">2 Pending</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">2 Completed</span>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface-variant font-medium">Next: Thursday 17:30</span>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+<!-- Left Column: Problem Statements (70%) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-md">
+<!-- Section Action Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-xs">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Problem Statements</h2>
+<p class="font-body-sm text-body-sm text-secondary">C Programming Core Concepts &amp; Pointers</p>
+</div>
+<!-- Filter Tabs -->
+<div class="inline-flex p-0.5 rounded bg-surface-container-highest self-start sm:self-auto border border-surface-container-highest" id="filter-controls">
+<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded bg-surface-container-lowest text-primary font-medium transition-all shadow-none" data-filter="all" type="button">
+            All
+          </button>
+<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-secondary hover:text-primary transition-all" data-filter="pending" type="button">
+            Pending
+          </button>
+<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-secondary hover:text-primary transition-all" data-filter="done" type="button">
+            Done
+          </button>
+</div>
+</div>
+<!-- Problem Statement Cards Feed -->
+<div class="space-y-space-sm" id="cards-container">
+<!-- Card 1 (Pending) -->
+<article class="problem-card group bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors" data-status="pending">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PS-01</span>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-black">Dynamic Memory Allocation &amp; Linked Lists</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest self-start sm:self-auto">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Pending
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Implement singly linked list insertion, deletion, and reverse traversal handling malloc/free bounds.
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="">Due: Oct 24, 23:59</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-on-surface">git push origin/lab-01</span>
+<span class="text-outline-variant">•</span>
+<span class="">100 pts</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-medium hover:underline" href="#">
+<span class="">View Statement</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 2 (Pending) -->
+<article class="problem-card group bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors" data-status="pending">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PS-02</span>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-black">Pointer Arithmetic &amp; 2D Matrix Manipulation</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest self-start sm:self-auto">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Pending
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Perform matrix transposition and dynamic memory flattening using double pointers without VLA syntax.
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="">Due: Oct 28, 23:59</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-on-surface">git push origin/lab-02</span>
+<span class="text-outline-variant">•</span>
+<span class="">100 pts</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-medium hover:underline" href="#">
+<span class="">View Statement</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 3 (Done) -->
+<article class="problem-card group bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors" data-status="done">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PS-03</span>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-black">Bitwise Operators &amp; Bitmask Flags</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary border border-outline-variant self-start sm:self-auto">
+<span class="material-symbols-outlined text-[14px]">check</span> Done
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Construct bitmask configurations for 8-bit virtual hardware registers with bit toggling utilities.
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="">Submitted: Oct 14</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">98/100 pts</span>
+<span class="text-outline-variant">•</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-primary font-medium" href="#">
+<span class="">Review Submission</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 4 (Done) -->
+<article class="problem-card group bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors" data-status="done">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PS-04</span>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-black">UNIX File Descriptors &amp; Custom Buffer I/O</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary border border-outline-variant self-start sm:self-auto">
+<span class="material-symbols-outlined text-[14px]">check</span> Done
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Simulate a buffered file reading pipeline utilizing POSIX read(), write(), and open() syscalls.
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="">Submitted: Oct 08</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">100/100 pts</span>
+<span class="text-outline-variant">•</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-primary font-medium" href="#">
+<span class="">Review Submission</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</div>
+<!-- Right Column: Updates & Offline Meetings (30%) -->
+<div class="lg:col-span-3 flex flex-col space-y-space-md">
+<!-- Section Header -->
+<div class="pb-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Offline Meetings</h2>
+<p class="font-body-sm text-body-sm text-secondary">Campus workshops &amp; syncs</p>
+</div>
+<!-- Feed Container -->
+<div class="space-y-space-sm">
+<!-- Meeting Block 1: Mandatory Workshop -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">Mandatory Workshop</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">C Debugging with GDB &amp; Valgrind</h3>
+<div class="space-y-1 py-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">event</span>
+<span class="">Thursday, Oct 24, 2025</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">schedule</span>
+<span class="">5:30 PM – 7:00 PM IST</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">location_on</span>
+<span class="text-on-surface font-medium">Turing Lab, CS Block (302)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1 border-t border-surface-container-highest">
+            Hands-on debugging session tracking segmentation faults, memory leaks, and core dumps with club mentors.
+          </p>
+<div class="pt-1">
+<span class="font-code-inline text-code-inline text-secondary block bg-surface-container-low p-2 rounded border border-surface-container-highest">
+              Prereq: Laptop with gcc and gdb pre-installed.
+            </span>
+</div>
+</div>
+<!-- Meeting Block 2: Weekly Code Jam -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-medium">Weekly Code Jam</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Algorithm Sprint &amp; Peer Review</h3>
+<div class="space-y-1 py-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">event</span>
+<span class="">Saturday, Oct 26, 2025</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">schedule</span>
+<span class="">2:00 PM – 4:30 PM IST</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">location_on</span>
+<span class="text-on-surface font-medium">Innovation Center, Open Lounge B</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1 border-t border-surface-container-highest">
+            Collaborative peer code reviews for PS-01/02 and speed-solving pointer challenges in pairs.
+          </p>
+</div>
+<!-- Notice Box / Mentorship Office Hours -->
+<div class="bg-surface-container-low rounded-lg border border-surface-container-highest p-space-md">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[18px] text-primary">support</span>
+<span class="font-headline-sm text-headline-sm text-primary text-[1.1rem]">Lab Office Hours</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">
+            Senior student mentors will be available in <strong class="text-on-surface font-medium">Lab 304</strong> on Wednesday from <strong class="text-on-surface font-medium">4:00 PM to 6:00 PM</strong> for pointer logic doubt clearing.
+          </p>
+</div>
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-xs relative z-10" id="cohort-settings-card"><div class="flex items-center justify-between pb-space-xs border-b border-surface-container-highest"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">school</span><h4 class="font-label-md text-label-md text-primary font-medium">Student Cohort</h4></div><span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Active</span></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed pt-1">Configure your academic stream to filter track assignments and peer reviews.</p><div class="space-y-space-xs pt-1 relative" id="cohort-form"><div class="space-y-1 relative" id="dropdown-container-year"><label class="font-label-sm text-label-sm text-secondary block">Academic Year</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded px-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-year" onclick="toggleCohortDropdown('year')" type="button"><span class="" id="selected-cohort-year">Year 2</span><span class="material-symbols-outlined text-secondary text-[18px] transition-transform" id="icon-cohort-year">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-surface-container-lowest border border-surface-container-highest rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden" id="menu-cohort-year"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 1')" type="button">Year 1</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('year', 'Year 2')" type="button">Year 2</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 3')" type="button">Year 3</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 4')" type="button">Year 4</button></div></div></div><div class="space-y-1 relative" id="dropdown-container-sem"><label class="font-label-sm text-label-sm text-secondary block">Semester</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded px-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-sem" onclick="toggleCohortDropdown('sem')" type="button"><span class="" id="selected-cohort-sem">Odd Semester</span><span class="material-symbols-outlined text-secondary text-[18px] transition-transform" id="icon-cohort-sem">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-surface-container-lowest border border-surface-container-highest rounded shadow-lg py-1 hidden" id="menu-cohort-sem"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('sem', 'Odd Semester')" type="button">Odd Semester</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('sem', 'Even Semester')" type="button">Even Semester</button></div></div></div><div class="space-y-1 relative" id="dropdown-container-div"><label class="font-label-sm text-label-sm text-secondary block">Division</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded px-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-div" onclick="toggleCohortDropdown('div')" type="button"><span class="" id="selected-cohort-div">Division D3</span><span class="material-symbols-outlined text-secondary text-[18px] transition-transform" id="icon-cohort-div">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-surface-container-lowest border border-surface-container-highest rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden" id="menu-cohort-div"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D1')" type="button">Division D1</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D2')" type="button">Division D2</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('div', 'Division D3')" type="button">Division D3</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D4')" type="button">Division D4</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D5')" type="button">Division D5</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D6')" type="button">Division D6</button></div></div></div><div class="pt-1"><button class="w-full bg-primary text-on-primary font-label-md text-label-md py-1.5 px-3 rounded hover:bg-secondary transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer" id="cohort-save-btn" onclick="saveCohortCustom()" type="button"><span class="material-symbols-outlined text-[16px]" id="cohort-save-icon">save</span><span class="" id="cohort-save-text">Update Cohort</span></button></div><div class="pt-1 border-t border-surface-container-highest flex items-center justify-between text-secondary font-label-sm text-label-sm"><span class="text-on-surface-variant">Current:</span><span class="font-code-inline text-code-inline text-on-surface font-medium" id="cohort-status-display">Year 2 • Odd Sem • Div D3</span></div><div class="text-body-sm font-label-sm text-primary hidden pt-0.5" id="cohort-toast-msg"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Cohort preference updated</span></div></div></div></div>
+</div>
+</div>
+</div>
+<!-- VIEW 2: PROJECTS -->
+<div class="flex-col w-full hidden" id="view-projects">
+<!-- Minimalist Page Context & Header -->
+<section class="mb-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-surface-container-highest">
+<div>
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-code-inline text-code-inline text-on-surface">Development Repository &amp; Sprints</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Club Projects &amp; Repositories</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Collaborative development builds, assigned team projects, and term submissions.
+        </p>
+</div>
+<!-- Quick Metrics Stream -->
+<div class="flex flex-wrap items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">Active Projects (2)</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">Completed (1)</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">Under Review (1)</span>
+<span class="hidden sm:inline text-outline-variant">•</span>
+
+</div>
+</div>
+</section>
+<!-- Main Projects Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+<!-- Left Column: Projects Feed (70%) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Assigned Team &amp; Solo Builds</h2>
+<p class="font-body-sm text-body-sm text-secondary">Term projects monitored by technical club leads</p>
+</div>
+<span class="font-code-inline text-code-inline text-secondary bg-surface-container px-2 py-1 rounded border border-surface-container-highest">3 Repositories Total</span>
+</div>
+<div class="space-y-space-sm">
+<!-- Project 1 -->
+<article class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PRJ-01</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Distributed Key-Value Store</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest self-start sm:self-auto">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active / In Progress
+</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Scalable in-memory distributed store with master-worker replication, socket networking in C, and thread-pool concurrency handling.
+          </p>
+<!-- Progress Bar -->
+<div class="mt-space-sm pt-space-xs">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary mb-1">
+<span class="">Milestone Completion (Phase 2)</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">78%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="text-on-surface font-medium">Team: Aarav Sharma (Lead), Priya Patel</span>
+<span class="text-outline-variant">•</span>
+<span class="">Division D3 &amp; D4 Cohort</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-on-surface">Due: Nov 15</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-medium hover:underline" href="https://github.com/campus-cc/distributed-kv" target="_blank">
+<span class="font-code-inline text-code-inline">github.com/campus-cc/distributed-kv</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Project 2 -->
+<article class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PRJ-02</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Custom Memory Allocator (malloc/free)</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary border border-outline-variant self-start sm:self-auto">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Under Review
+</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Constructed explicit free list memory manager using sbrk/mmap syscalls with 8-byte boundary alignment and boundary tag coalescing.
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="text-on-surface font-medium">Single Contributor: Aarav Sharma</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">Passing 14/15 stress tests</span>
+<span class="text-outline-variant">•</span>
+<span class="">Submitted Oct 18</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-primary font-medium" href="#">
+<span class="">Review Automated Test</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Project 3 -->
+<article class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors">
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest">PRJ-03</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">POSIX Shell Interpreter</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary border border-outline-variant self-start sm:self-auto">
+<span class="material-symbols-outlined text-[14px]">check</span> Completed
+</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Minimal unix-like terminal prompt parsing, multi-level piping (|), background job execution (&amp;), and standard redirection (&lt;, &gt;, &gt;&gt;).
+          </p>
+<div class="mt-space-md pt-space-xs border-t border-surface-container-highest flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
+<span class="text-on-surface font-medium">Grade Finalized: Oct 02</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">98/100 pts</span>
+<span class="text-outline-variant">•</span>
+<span class="">OS &amp; Systems Track</span>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-primary font-medium" href="#">
+<span class="">View Evaluation&nbsp;</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</div>
+<!-- Right Column: Projects Sidebar (30%) -->
+<div class="lg:col-span-3 flex flex-col space-y-space-md">
+<div class="pb-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Milestones &amp; Syncs</h2>
+<p class="font-body-sm text-body-sm text-secondary">Upcoming deliverables &amp; reviews</p>
+</div>
+<div class="space-y-space-sm">
+<!-- Milestone Sync Card -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">Review</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">KV Store Architecture Check</h3>
+<div class="space-y-1 py-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">event</span>
+<span class="">Monday, Nov 03, 2025</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">schedule</span>
+<span class="">4:30 PM – 5:30 PM IST</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">location_on</span>
+<span class="text-on-surface font-medium">Systems Lab (401), CSE Block</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1 border-t border-surface-container-highest">
+            Live demo of RPC packet serializer and client concurrency stress tests with club technical advisors.
+          </p>
+</div>
+<!-- Project Guidelines Card -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-xs">
+<div class="flex items-center gap-2 pb-space-xs border-b border-surface-container-highest">
+<span class="material-symbols-outlined text-[18px] text-primary">rule</span>
+<h4 class="font-label-md text-label-md text-primary font-medium">Submission Guidelines</h4>
+</div>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-2 pt-1 list-disc list-inside">
+<li class="">Always include a reproducible <code class="font-code-inline text-code-inline text-on-surface bg-surface-container px-1 py-0.5 rounded">Makefile</code> targeting standard C99/C11 flags.</li>
+<li class="">Ensure zero memory errors under&nbsp;</li>
+<li class="">Team branches must be pushed with conventional commits and signed commits before tagging release builds.</li>
+</ul>
+<div class="pt-2 border-t border-surface-container-highest">
+<a class="font-label-md text-label-md text-primary font-medium hover:underline inline-flex items-center gap-1" href="#">
+<span class="">Read Club Engineering Standards</span>
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VIEW 3: PROFILE -->
+<div class="flex-col w-full hidden" id="view-profile">
+<!-- Minimalist Page Context & Header -->
+<section class="mb-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-surface-container-highest">
+<div class="flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-primary font-bold">
+AS
+</div>
+<div>
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-code-inline text-code-inline text-on-surface">Enrollment: 21BECE30041</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-secondary">Computer Science &amp; Engineering</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Aarav Sharma</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1" id="profile-cohort-banner">
+          Enrolled Cohort: <span class="font-medium text-on-surface" id="profile-cohort-text">Year 2 • Odd Sem • Division D3</span>
+</p>
+</div>
+</div>
+<!-- Quick Profile Metrics Stream -->
+<div class="flex flex-wrap items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">18 Solved Problems</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">Current Rank #14</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest border border-surface-container-highest text-on-surface font-medium">1,450 pts</span>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-medium">94% Attendance</span>
+</div>
+</div>
+</section>
+<!-- Profile Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+<!-- Left Column: Details, Badges & Activity (70%) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-md">
+<!-- Club Badges & Achievements -->
+
+<!-- Activity Timeline & Submissions -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-highest mb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Recent Submissions &amp; Activity Log</h3>
+<p class="font-body-sm text-body-sm text-secondary">Authenticated autograder results and workshop attendances</p>
+</div>
+</div>
+<div class="space-y-space-xs font-body-sm text-body-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-surface-container-highest gap-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-medium text-on-surface">Submitted PS-03 (Bitwise Operators &amp; Bitmask Flags)</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm">
+<span class="">Oct 14, 2025</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">98/100 pts</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-surface-container-highest gap-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-medium text-on-surface">Submitted PS-04 (UNIX File Descriptors &amp; Custom Buffer I/O)</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm">
+<span class="">Oct 08, 2025</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">100/100 pts</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-surface-container-highest gap-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-medium text-on-surface">Attended Offline Meetup: Systems Concurrency &amp; Pthreads</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm">
+<span class="">Oct 05, 2025</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary">Turing Lab 302</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-medium text-on-surface">Finalized POSIX Shell Interpreter Capstone</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm">
+<span class="">Oct 02, 2025</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-inline text-code-inline text-primary font-medium">98/100 pts</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Profile Settings & Info (30%) -->
+<div class="lg:col-span-3 flex flex-col space-y-space-md">
+<div class="pb-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Profile Details</h2>
+<p class="font-body-sm text-body-sm text-secondary">Student credentials &amp; contacts</p>
+</div>
+<!-- Info & Settings Card -->
+<div class="bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-md flex flex-col space-y-space-sm">
+<div class="space-y-space-xs">
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-0.5">Campus Email</label>
+<input class="w-full font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded px-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors" id="prof-email" type="text" value="aarav.s@college.edu">
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-0.5">GitHub Handle</label>
+<div class="relative">
+<span class="absolute left-2.5 top-1.5 text-secondary font-code-inline text-code-inline">@</span>
+<input class="w-full font-code-inline text-code-inline text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded pl-6 pr-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors" id="prof-github" type="text" value="aarav-codes">
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-0.5">Enrolled Track</label>
+<input class="w-full font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-surface-container-highest rounded px-2.5 py-1.5 focus:border-outline focus:outline-none transition-colors" id="prof-track" type="text" value="C Programming &amp; Systems Core">
+</div>
+<div>
+
+
+</div>
+</div>
+<div class="pt-2 border-t border-surface-container-highest">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-1.5 px-3 rounded hover:bg-secondary transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer" id="prof-save-btn" onclick="saveProfileSettings()" type="button">
+<span class="material-symbols-outlined text-[16px]" id="prof-save-icon">save</span>
+<span id="prof-save-text" class="">Save Profile Settings</span>
+</button>
+<div class="text-body-sm font-label-sm text-primary hidden pt-1 text-center" id="prof-toast-msg">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Profile updated successfully</span>
+</div>
+</div>
+</div>
+<!-- Academic Enrolment Summary Card -->
+<div class="bg-surface-container-low rounded-lg border border-surface-container-highest p-space-md">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[18px] text-primary">badge</span>
+<span class="font-headline-sm text-headline-sm text-primary text-[1.1rem]">Club Status</span>
+</div>
+<div class="space-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex justify-between">
+<span class="text-secondary">Club Role:</span>
+<span class="font-medium text-on-surface">Junior Track Member</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Active Since:</span>
+<span class="font-code-inline text-code-inline text-on-surface">Aug 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Mentor:</span>
+<span class="font-medium text-on-surface">Devansh Mehta (Lead)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main><footer class="w-full bg-surface-container-lowest border-t border-surface-container-highest py-space-md"><div class="max-w-6xl mx-auto px-gutter h-14 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center"><span class="">Coding Club Portal</span></div><div></div></div></footer>
+<!-- Micro-interactions Script for Filter Tabs -->
+<script>
+    (function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cardsContainer = document.getElementById('cards-container');
+      let activeFilter = 'all';
+
+      function applyFilter() {
+        cardsContainer.querySelectorAll('.problem-card').forEach(card => {
+          card.style.display = activeFilter === 'all' || card.dataset.status === activeFilter ? 'block' : 'none';
+        });
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeFilter = btn.getAttribute('data-filter');
+
+          // Style tabs
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-medium');
+            b.classList.add('text-secondary');
+          });
+          btn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-medium');
+          btn.classList.remove('text-secondary');
+
+          applyFilter();
+        });
+      });
+
+      async function loadProblems() {
+        const token = sessionStorage.getItem('authToken');
+        if (!token) {
+          window.location.replace('/preview/');
+          return;
+        }
+
+        cardsContainer.textContent = 'Loading problem statements...';
+        try {
+          const headers = { Authorization: `Bearer ${token}` };
+          const [problemsResponse, submissionsResponse] = await Promise.all([
+            fetch('/api/student/problem-statements', { headers }),
+            fetch('/api/student/submissions', { headers }),
+          ]);
+          const problems = await problemsResponse.json();
+          const submissions = await submissionsResponse.json();
+          if (!problemsResponse.ok) throw new Error(problems.detail || 'Unable to load problem statements.');
+          if (!submissionsResponse.ok) throw new Error(submissions.detail || 'Unable to load submissions.');
+
+          cardsContainer.replaceChildren();
+          if (!problems.length) {
+            cardsContainer.textContent = 'No problem statements are available yet.';
+            return;
+          }
+
+          problems.forEach(problem => {
+            const latestSubmission = submissions.find(submission => submission.problem_statement === problem.id);
+            const isDone = latestSubmission && ['passed', 'submitted'].includes(latestSubmission.status);
+            const card = document.createElement('article');
+            card.className = 'problem-card group bg-surface-container-lowest rounded-lg border border-surface-container-highest p-space-lg hover:border-outline transition-colors';
+            card.dataset.status = isDone ? 'done' : 'pending';
+
+            const header = document.createElement('div');
+            header.className = 'flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs';
+            const identity = document.createElement('div');
+            identity.className = 'flex items-center gap-space-xs';
+            const problemCode = document.createElement('span');
+            problemCode.className = 'font-code-inline text-code-inline px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest';
+            problemCode.textContent = `PS-${String(problem.id).padStart(2, '0')}`;
+            const title = document.createElement('h3');
+            title.className = 'font-headline-sm text-headline-sm text-primary group-hover:text-black';
+            title.textContent = problem.title;
+            identity.append(problemCode, title);
+
+            const status = document.createElement('span');
+            status.className = 'inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface border border-surface-container-highest self-start sm:self-auto';
+            status.textContent = isDone ? 'Submitted' : 'Pending';
+            header.append(identity, status);
+
+            const description = document.createElement('p');
+            description.className = 'font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed';
+            description.textContent = problem.week_number ? `Week ${problem.week_number} problem statement` : 'Open the problem statement to write and submit your code.';
+
+            const footer = document.createElement('div');
+            footer.className = 'mt-space-md pt-space-xs border-t border-surface-container-highest flex items-center justify-between gap-space-xs text-secondary font-label-sm text-label-sm';
+            const week = document.createElement('span');
+            week.textContent = problem.week_number ? `Week ${problem.week_number}` : 'Coding assignment';
+            const link = document.createElement('a');
+            link.className = 'inline-flex items-center gap-1 font-label-md text-label-md text-primary font-medium hover:underline';
+            link.href = `/preview/submission/?problem=${problem.id}`;
+            link.textContent = isDone ? 'View Submission' : 'View Statement';
+            footer.append(week, link);
+            card.append(header, description, footer);
+            cardsContainer.append(card);
+          });
+          applyFilter();
+        } catch (error) {
+          cardsContainer.textContent = error.message || 'Unable to load problem statements.';
+        }
+      }
+
+      loadProblems();
+    })();
+</script>
+<script>
+window.cohortState = { year: 'Year 2', sem: 'Odd Semester', div: 'Division D3' };
+
+function toggleCohortDropdown(type) {
+  var types = ['year', 'sem', 'div'];
+  var targetMenu = document.getElementById('menu-cohort-' + type);
+  var targetIcon = document.getElementById('icon-cohort-' + type);
+  var willOpen = targetMenu && targetMenu.classList.contains('hidden');
+  
+  types.forEach(function(t) {
+    var m = document.getElementById('menu-cohort-' + t);
+    var icon = document.getElementById('icon-cohort-' + t);
+    if (m) m.classList.add('hidden');
+    if (icon) icon.textContent = 'expand_more';
+  });
+  
+  if (willOpen && targetMenu) {
+    targetMenu.classList.remove('hidden');
+    if (targetIcon) targetIcon.textContent = 'expand_less';
+  }
+}
+
+function selectCohortOption(type, value) {
+  window.cohortState[type] = value;
+  var label = document.getElementById('selected-cohort-' + type);
+  if (label) label.textContent = value;
+  var menu = document.getElementById('menu-cohort-' + type);
+  if (menu) menu.classList.add('hidden');
+  var icon = document.getElementById('icon-cohort-' + type);
+  if (icon) icon.textContent = 'expand_more';
+  
+  updateCohortSummary();
+}
+
+function getCohortPreviewText() {
+  var y = window.cohortState.year;
+  var s = window.cohortState.sem === 'Odd Semester' ? 'Odd Sem' : 'Even Sem';
+  var d = window.cohortState.div.replace('Division ', 'Div ');
+  return y + ' • ' + s + ' • ' + d;
+}
+
+function updateCohortSummary() {
+  var display = document.getElementById('cohort-status-display');
+  if (display) display.textContent = getCohortPreviewText();
+  
+  var profCohort = document.getElementById('profile-cohort-text');
+  if (profCohort) profCohort.textContent = window.cohortState.year + ' • ' + window.cohortState.sem + ' • ' + window.cohortState.div;
+}
+
+function saveCohortCustom() {
+  updateCohortSummary();
+  var toast = document.getElementById('cohort-toast-msg');
+  var saveBtn = document.getElementById('cohort-save-btn');
+  var saveText = document.getElementById('cohort-save-text');
+  var saveIcon = document.getElementById('cohort-save-icon');
+  
+  if (saveText) saveText.textContent = 'Updated!';
+  if (saveIcon) saveIcon.textContent = 'done';
+  if (saveBtn) {
+    saveBtn.classList.remove('bg-primary');
+    saveBtn.classList.add('bg-secondary');
+  }
+  if (toast) toast.classList.remove('hidden');
+  
+  setTimeout(function() {
+    if (saveText) saveText.textContent = 'Update Cohort';
+    if (saveIcon) saveIcon.textContent = 'save';
+    if (saveBtn) {
+      saveBtn.classList.add('bg-primary');
+      saveBtn.classList.remove('bg-secondary');
+    }
+    if (toast) toast.classList.add('hidden');
+  }, 2000);
+}
+
+document.addEventListener('click', function(e) {
+  var form = document.getElementById('cohort-form');
+  if (form && !form.contains(e.target)) {
+    ['year', 'sem', 'div'].forEach(function(t) {
+      var m = document.getElementById('menu-cohort-' + t);
+      var icon = document.getElementById('icon-cohort-' + t);
+      if (m) m.classList.add('hidden');
+      if (icon) icon.textContent = 'expand_more';
+    });
+  }
+});
+
+// View switching logic
+function switchView(viewName) {
+  const views = ['challenges', 'projects', 'profile'];
+  
+  views.forEach(v => {
+    const el = document.getElementById('view-' + v);
+    const navEl = document.getElementById('nav-' + v);
+    
+    if (el) {
+      if (v === viewName) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      } else {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+    
+    if (navEl) {
+      if (v === viewName) {
+        navEl.setAttribute('aria-current', 'page');
+        navEl.classList.remove('text-on-surface-variant', 'border-transparent');
+        navEl.classList.add('text-on-surface', 'border-primary', 'font-medium');
+      } else {
+        navEl.removeAttribute('aria-current');
+        navEl.classList.add('text-on-surface-variant', 'border-transparent');
+        navEl.classList.remove('text-on-surface', 'border-primary', 'font-medium');
+      }
+    }
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Profile settings save toast
+function saveProfileSettings() {
+  const toast = document.getElementById('prof-toast-msg');
+  const btn = document.getElementById('prof-save-btn');
+  const text = document.getElementById('prof-save-text');
+  const icon = document.getElementById('prof-save-icon');
+  
+  if (text) text.textContent = 'Saved!';
+  if (icon) icon.textContent = 'done';
+  if (btn) {
+    btn.classList.remove('bg-primary');
+    btn.classList.add('bg-secondary');
+  }
+  if (toast) toast.classList.remove('hidden');
+
+  setTimeout(function() {
+    if (text) text.textContent = 'Save Profile Settings';
+    if (icon) icon.textContent = 'save';
+    if (btn) {
+      btn.classList.add('bg-primary');
+      btn.classList.remove('bg-secondary');
+    }
+    if (toast) toast.classList.add('hidden');
+  }, 2200);
+}
+</script>
+
+
+</body></html>
