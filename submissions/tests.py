@@ -327,3 +327,12 @@ class Judge0CheckTests(TestCase):
         self.assertFalse(passed)
         self.assertIn('Test case 1 failed', output)
         self.assertEqual(mock_post.call_count, 1)
+
+    @patch.dict('os.environ', {'JUDGE0_URL': 'http://localhost:2358'}, clear=False)
+    def test_get_judge0_config_accepts_self_hosted_url_alias(self):
+        from submissions.judge0 import get_judge0_config
+
+        config = get_judge0_config()
+
+        self.assertEqual(config['base_url'], 'http://localhost:2358')
+        self.assertEqual(config['api_key'], '')

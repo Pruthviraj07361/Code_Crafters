@@ -17,7 +17,11 @@ DEFAULT_LANGUAGE_IDS = {
 
 def get_judge0_config():
     api_key = os.environ.get('JUDGE0_API_KEY', '').strip()
-    base_url = os.environ.get('JUDGE0_BASE_URL', '').strip()
+    base_url = (
+        os.environ.get('JUDGE0_BASE_URL')
+        or os.environ.get('JUDGE0_URL')
+        or ''
+    ).strip()
     return {
         'api_key': api_key,
         'base_url': base_url,
@@ -37,9 +41,9 @@ def _language_id(language):
 
 def run_judge0_check(submission):
     config = get_judge0_config()
-    if not config['api_key'] or not config['base_url']:
+    if not config['base_url']:
         raise RuntimeError(
-            'Judge0 is not configured. Set JUDGE0_API_KEY and JUDGE0_BASE_URL.'
+            'Judge0 is not configured. Set JUDGE0_BASE_URL or JUDGE0_URL.'
         )
 
     test_cases = submission.problem_statement.test_cases
@@ -47,10 +51,12 @@ def run_judge0_check(submission):
         raise ValueError('This problem has no grading test cases configured.')
 
     base_url = config['base_url'].rstrip('/')
-    headers = {'X-RapidAPI-Key': config['api_key']}
-    host = urlparse(base_url).hostname
-    if host:
-        headers['X-RapidAPI-Host'] = host
+    headers = {}
+    if config['api_key']:
+        headers['X-RapidAPI-Key'] = config['api_key']
+        host = urlparse(base_url).hostname
+        if host:
+            headers['X-RapidAPI-Host'] = host
 
     for index, test_case in enumerate(test_cases, start=1):
         response = requests.post(
