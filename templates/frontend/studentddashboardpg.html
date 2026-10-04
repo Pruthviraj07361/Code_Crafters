@@ -385,7 +385,7 @@
 <p class="font-body-sm text-body-sm text-slate-400">Campus workshops &amp; syncs</p>
 </div>
 <!-- Feed Container -->
-<div class="space-y-space-sm">
+<div class="space-y-space-sm" aria-live="polite" id="student-meeting-feed">
 <!-- Meeting Block 1: Mandatory Workshop -->
 <div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs">
 <div class="flex items-center justify-between">
@@ -916,6 +916,48 @@ AS
     })();
 </script>
 <script>
+async function loadStudentMeeting() {
+  const feed = document.getElementById('student-meeting-feed');
+  const token = sessionStorage.getItem('authToken');
+  if (!token) {
+    feed.textContent = 'No meetings scheduled.';
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/student/meeting', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const meeting = await response.json();
+    if (response.status === 404) {
+      feed.textContent = 'No meetings scheduled.';
+      return;
+    }
+    if (!response.ok) throw new Error(meeting.detail || 'Unable to load meetings.');
+
+    const card = document.createElement('article');
+    card.className = 'bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs';
+    const title = document.createElement('h3');
+    title.className = 'font-headline-sm text-headline-sm text-white';
+    title.textContent = meeting.title;
+    const scheduledFor = document.createElement('p');
+    scheduledFor.className = 'font-body-sm text-body-sm text-slate-300';
+    scheduledFor.textContent = new Date(meeting.scheduled_for).toLocaleString();
+    card.append(title, scheduledFor);
+    if (meeting.notes) {
+      const notes = document.createElement('p');
+      notes.className = 'font-body-sm text-body-sm text-slate-300 pt-1 border-t border-white/10';
+      notes.textContent = meeting.notes;
+      card.append(notes);
+    }
+    feed.replaceChildren(card);
+  } catch (error) {
+    feed.textContent = error.message || 'Unable to load meetings.';
+  }
+}
+
+loadStudentMeeting();
+
 window.cohortState = { year: 'Year 2', sem: 'Odd Semester', div: 'Division D3' };
 
 function toggleCohortDropdown(type) {
@@ -1066,5 +1108,6 @@ function saveProfileSettings() {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-<script src="background.js"></script>
+{% load static %}
+<script src="{% static 'background.js' %}"></script>
 </body></html>

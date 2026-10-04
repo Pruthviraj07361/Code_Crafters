@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import AdminProfile, StudentProfile
-from .permissions import IsFaculty, IsSuperuser
+from .permissions import IsFaculty, IsFacultyOrSuperuser, IsSuperuser
 from .serializers import (
     AdminRegisterSerializer,
     LoginSerializer,
@@ -26,7 +26,7 @@ def register_student(request):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(
-        {'detail': 'Registration received, pending faculty approval.'},
+        {'detail': 'Registration received, pending approval.'},
         status=status.HTTP_201_CREATED,
     )
 
@@ -38,7 +38,7 @@ def register_admin(request):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(
-        {'detail': 'Registration received, pending role assignment by a superuser.'},
+        {'detail': 'Registration received, pending admin approval.'},
         status=status.HTTP_201_CREATED,
     )
 
@@ -106,13 +106,13 @@ def login(request):
     if student_profile is not None:
         if not student_profile.is_approved:
             return Response(
-                {'detail': 'Your registration is pending faculty approval.'},
+                {'detail': 'Your registration is pending approval.'},
                 status=status.HTTP_403_FORBIDDEN,
             )
     elif admin_profile is not None:
         if not admin_profile.is_approved or not admin_profile.staff_type:
             return Response(
-                {'detail': 'Your registration is pending role assignment by a superuser.'},
+                {'detail': 'Your registration is pending admin approval.'},
                 status=status.HTTP_403_FORBIDDEN,
             )
     else:
@@ -128,15 +128,18 @@ def login(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsFaculty])
+@permission_classes([IsFacultyOrSuperuser])
 def pending_students(request):
-    queryset = StudentProfile.objects.filter(is_approved=False).select_related('user')
+    queryset = StudentProfile.objects.filter(
+        is_approved=False,
+        user__is_active=True,
+    ).select_related('user')
     serializer = PendingStudentSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
-@permission_classes([IsFaculty])
+@permission_classes([IsFacultyOrSuperuser])
 def approve_student(request, pk):
     profile = get_object_or_404(StudentProfile, pk=pk)
     serializer = StudentApprovalActionSerializer(data=request.data)
@@ -157,7 +160,10 @@ def approve_student(request, pk):
 @api_view(['GET'])
 @permission_classes([IsSuperuser])
 def pending_staff(request):
-    queryset = AdminProfile.objects.filter(staff_type='').select_related('user')
+    queryset = AdminProfile.objects.filter(
+        is_approved=False,
+        user__is_active=True,
+    ).select_related('user')
     serializer = PendingStaffSerializer(queryset, many=True)
     return Response(serializer.data)
 

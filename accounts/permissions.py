@@ -33,11 +33,32 @@ class IsFaculty(BasePermission):
         return _staff_type(request.user) == AdminProfile.STAFF_FACULTY
 
 
+class IsFacultyOrSuperuser(BasePermission):
+    message = 'Only faculty or superusers can access this endpoint.'
+
+    def has_permission(self, request, view):
+        return _staff_type(request.user) in (
+            AdminProfile.STAFF_FACULTY,
+            AdminProfile.STAFF_SUPERUSER,
+        )
+
+
 class IsSupervisor(BasePermission):
     message = 'Only supervisors can access this endpoint.'
 
     def has_permission(self, request, view):
         return _staff_type(request.user) == AdminProfile.STAFF_SUPERVISOR
+
+
+class CanViewStudentProgress(BasePermission):
+    message = 'Only faculty, supervisors, or superusers can access this endpoint.'
+
+    def has_permission(self, request, view):
+        return _staff_type(request.user) in (
+            AdminProfile.STAFF_FACULTY,
+            AdminProfile.STAFF_SUPERVISOR,
+            AdminProfile.STAFF_SUPERUSER,
+        )
 
 
 class IsSuperuser(BasePermission):

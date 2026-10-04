@@ -219,6 +219,107 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
         self.assertEqual(response.status_code, 403)
 
 
+class SupervisorStudentProgressEndpointTests(SubmissionsTestBase):
+    def test_supervisor_receives_approved_students_and_real_submission_progress(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student(
+            email='alex@example.com',
+            enrollment='ALEX001',
+        )
+        self._make_student(
+            email='pending@example.com',
+            enrollment='PENDING001',
+            approved=False,
+        )
+        problem = self._make_problem(supervisor, title='Reverse a String')
+        Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=problem,
+            language='c',
+            code='int main(void) { return 0; }',
+            status=Submission.STATUS_PASSED,
+        )
+
+        response = self._get('/api/supervisor/student-progress', supervisor)
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body['students']), 1)
+        progress = body['students'][0]
+        self.assertEqual(progress['name'], 'Test Student')
+        self.assertEqual(progress['enrollment_number'], 'ALEX001')
+        self.assertEqual(progress['solved_count'], 1)
+        self.assertEqual(progress['total_count'], 1)
+        self.assertEqual(progress['latest_problem_title'], 'Reverse a String')
+        self.assertEqual(progress['progress_status'], 'on-track')
+        self.assertEqual(body['summary'], {
+            'active_student_count': 1,
+            'average_solved': 1.0,
+            'pending_review_count': 0,
+            'pass_rate': 100.0,
+        })
+
+    def test_progress_lists_each_student_once_and_orders_by_division(self):
+        supervisor = self._make_supervisor()
+        first_student = self._make_student('first@example.com', 'FIRST001')
+        second_student = self._make_student('second@example.com', 'SECOND001')
+        third_student = self._make_student('third@example.com', 'THIRD001')
+        first_student.student_profile.division = 'D2'
+        first_student.student_profile.division_roll_number = '1'
+        first_student.student_profile.save()
+        second_student.student_profile.division = 'D1'
+        second_student.student_profile.division_roll_number = '2'
+        second_student.student_profile.save()
+        third_student.student_profile.division = 'D1'
+        third_student.student_profile.division_roll_number = '1'
+        third_student.student_profile.save()
+        first_problem = self._make_problem(supervisor, title='Problem One')
+        second_problem = self._make_problem(supervisor, title='Problem Two')
+        for problem in (first_problem, second_problem):
+            Submission.objects.create(
+                student=first_student.student_profile,
+                problem_statement=problem,
+                language='c',
+                code='int main(void) { return 0; }',
+                status=Submission.STATUS_PASSED,
+            )
+
+        response = self._get('/api/supervisor/student-progress', supervisor)
+
+        self.assertEqual(response.status_code, 200)
+        students = response.json()['students']
+        self.assertEqual(
+            [student['enrollment_number'] for student in students],
+            ['THIRD001', 'SECOND001', 'FIRST001'],
+        )
+        first_student_progress = students[-1]
+        self.assertEqual(first_student_progress['solved_count'], 2)
+
+    def test_superuser_can_view_student_progress(self):
+        superuser = self._make_admin(
+            'admin@example.com', AdminProfile.STAFF_SUPERUSER,
+        )
+
+        response = self._get('/api/supervisor/student-progress', superuser)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_faculty_can_view_student_progress(self):
+        faculty = self._make_faculty()
+
+        response = self._get('/api/supervisor/student-progress', faculty)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['students'], [])
+
+    def test_student_cannot_access_supervisor_progress(self):
+        student = self._make_student()
+
+        response = self._get('/api/supervisor/student-progress', student)
+
+        self.assertEqual(response.status_code, 403)
+
+
 class SubmissionCheckCommandTests(SubmissionsTestBase):
     def test_check_submissions_marks_c_code_as_passed(self):
         supervisor = self._make_supervisor()

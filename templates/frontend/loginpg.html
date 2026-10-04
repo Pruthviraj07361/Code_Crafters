@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
     <!-- Your Custom Stylesheet -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/static/style.css" />
 
     <!-- Tailwind CSS & Configuration -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -96,7 +96,7 @@
       };
     </script>
 </head>
-  <body class="min-h-screen bg-surface text-white flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-space-xl md:py-space-2xl selection:bg-primary selection:text-on-primary">
+  <body class="min-h-screen text-white flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-space-xl md:py-space-2xl selection:bg-primary selection:text-on-primary">
   
   <div id="vanta-canvas" class="fixed inset-0 -z-10 h-screen w-full"></div>
   <div class="grain-overlay"></div>
@@ -187,8 +187,14 @@
         <div class="flex-col w-full transition-opacity duration-200 hidden" id="registerView">
           <!-- Header -->
           <div class="flex flex-col gap-1 mb-5 select-none">
-            <h1 class="text-2xl text-white tracking-tight font-semibold">Student Registration</h1>
-            <p class="text-base text-slate-300">Join the campus coding club cohort.</p>
+            <h1 class="text-2xl text-white tracking-tight font-semibold" id="register-title">Student Registration</h1>
+            <p class="text-base text-slate-300" id="register-description">Join the campus coding club cohort.</p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 p-1 rounded-full flex mb-5" role="group" aria-label="Registration type">
+            <button class="flex-1 py-1.5 px-3 rounded-full text-sm text-white bg-white/15 transition-all" id="register-type-student" onclick="setRegistrationType('student')" type="button">Student</button>
+            <button class="flex-1 py-1.5 px-3 rounded-full text-sm text-slate-400 hover:text-white transition-all" id="register-type-faculty" onclick="setRegistrationType('faculty')" type="button">Faculty</button>
+            <button class="flex-1 py-1.5 px-3 rounded-full text-sm text-slate-400 hover:text-white transition-all" id="register-type-admin" onclick="setRegistrationType('admin')" type="button">Admin / Staff</button>
           </div>
 
           <!-- Registration Form -->
@@ -199,8 +205,8 @@
                 <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-fullname" name="fullname" placeholder="Alex Johnson" required type="text" />
               </div>
               <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-gmail">Gmail</label>
-                <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-gmail" name="gmail" placeholder="alex@gmail.com" required type="email" />
+                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-gmail">Email</label>
+                <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-gmail" name="gmail" placeholder="alex@example.com" required type="email" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-password">Password</label>
@@ -214,6 +220,7 @@
                 <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-phone">Phone Number</label>
                 <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-phone" name="phone" placeholder="+1 (555) 019-2834" required type="tel" />
               </div>
+              <div class="col-span-full grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="student-registration-fields">
               <div class="flex flex-col gap-1">
                 <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-enrollment">Enrollment Number</label>
                 <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-enrollment" name="enrollment" placeholder="21012011001" required type="text" />
@@ -259,6 +266,7 @@
                   </select>
                   <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
                 </div>
+              </div>
               </div>
             </div>
 
@@ -311,6 +319,35 @@
 
     loginView.classList.remove('hidden');
     loginView.classList.add('flex');
+  }
+
+  let registrationType = 'student';
+
+  function setRegistrationType(type) {
+    registrationType = type;
+    const isStudent = type === 'student';
+    const studentFields = document.getElementById('student-registration-fields');
+    studentFields.classList.toggle('hidden', !isStudent);
+    studentFields.querySelectorAll('input, select').forEach(field => {
+      field.required = isStudent;
+    });
+
+    const labels = {
+      student: ['Student Registration', 'Join the campus coding club cohort.'],
+      faculty: ['Faculty Registration', 'Faculty applications require administrator approval.'],
+      admin: ['Admin / Staff Registration', 'An administrator will review your application and assign staff access.'],
+    };
+    document.getElementById('register-title').textContent = labels[type][0];
+    document.getElementById('register-description').textContent = labels[type][1];
+
+    ['student', 'faculty', 'admin'].forEach(option => {
+      const button = document.getElementById(`register-type-${option}`);
+      const selected = option === type;
+      button.className = selected
+        ? 'flex-1 py-1.5 px-3 rounded-full text-sm text-white bg-white/15 transition-all'
+        : 'flex-1 py-1.5 px-3 rounded-full text-sm text-slate-400 hover:text-white transition-all';
+      button.setAttribute('aria-pressed', String(selected));
+    });
   }
 
   function selectRole(role) {
@@ -403,31 +440,38 @@
     }
 
     btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span><span>Creating cohort profile...</span>`;
+    btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span><span>Submitting application...</span>`;
     showFormMessage('registerMessage', '');
     try {
-      const response = await fetch('/api/auth/student/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: document.getElementById('reg-fullname').value,
-          email: document.getElementById('reg-gmail').value,
-          phone: document.getElementById('reg-phone').value,
+      const payload = {
+        name: document.getElementById('reg-fullname').value,
+        email: document.getElementById('reg-gmail').value,
+        phone: document.getElementById('reg-phone').value,
+        password,
+      };
+      let endpoint = '/api/auth/admin/register';
+      if (registrationType === 'student') {
+        endpoint = '/api/auth/student/register';
+        Object.assign(payload, {
           enrollment_number: document.getElementById('reg-enrollment').value,
           division_roll_number: document.getElementById('reg-roll').value,
           branch: document.getElementById('reg-branch').value,
           division: document.getElementById('reg-division').value,
-          password,
-        }),
+        });
+      } else {
+        payload.requested_role = registrationType === 'faculty' ? 'faculty' : '';
+      }
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(getApiErrorMessage(data));
 
-      document.getElementById('email').value = document.getElementById('reg-gmail').value;
-      selectRole('student');
-      document.getElementById('loginTitle').textContent = 'Student Login';
-      switchToLogin();
-      showFormMessage('loginMessage', data.detail, false);
+      document.querySelector('#registerView form').reset();
+      showFormMessage('registerMessage', data.detail, false);
     } catch (error) {
       showFormMessage('registerMessage', error.message || 'Unable to register. Please try again.');
     } finally {
@@ -439,6 +483,7 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-  <script src="background.js"></script>
+  {% load static %}
+  <script src="{% static 'background.js' %}"></script>
   </body>
 </html>

@@ -1,15 +1,86 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
-from accounts.permissions import IsApprovedStudent
+from accounts.models import StudentProfile
+from accounts.permissions import CanViewStudentProgress, IsApprovedStudent
 from assignments.models import ProblemStatement
 
 from .judge0 import run_judge0_check
 from .models import Submission
 from .serializers import SubmissionCreateSerializer, SubmissionDetailSerializer, SubmissionListSerializer
+
+
+@api_view(['GET'])
+@permission_classes([CanViewStudentProgress])
+def supervisor_student_progress(request):
+    total_problems = ProblemStatement.objects.count()
+    students = StudentProfile.objects.filter(is_approved=True).select_related(
+        'user',
+    ).prefetch_related(
+        Prefetch(
+            'submissions',
+            queryset=Submission.objects.select_related('problem_statement').order_by(
+                '-submitted_at', '-id',
+            ),
+        ),
+    ).order_by('division', 'division_roll_number', 'name', 'id')
+
+    progress = []
+    passed_attempts = 0
+    failed_attempts = 0
+    for student in students:
+        submissions = list(student.submissions.all())
+        passed_attempts += sum(
+            submission.status == Submission.STATUS_PASSED
+            for submission in submissions
+        )
+        failed_attempts += sum(
+            submission.status == Submission.STATUS_FAILED
+            for submission in submissions
+        )
+        solved_problem_ids = {
+            submission.problem_statement_id
+            for submission in submissions
+            if submission.status == Submission.STATUS_PASSED
+        }
+        latest_submission = submissions[0] if submissions else None
+        if latest_submission is None:
+            progress_status = 'inactive'
+        elif latest_submission.status == Submission.STATUS_PASSED:
+            progress_status = 'on-track'
+        else:
+            progress_status = 'needs-review'
+
+        progress.append({
+            'id': student.id,
+            'name': student.name,
+            'enrollment_number': student.enrollment_number,
+            'division': student.division,
+            'solved_count': len(solved_problem_ids),
+            'total_count': total_problems,
+            'latest_problem_id': latest_submission.problem_statement_id if latest_submission else None,
+            'latest_problem_title': latest_submission.problem_statement.title if latest_submission else None,
+            'latest_status': latest_submission.status if latest_submission else None,
+            'latest_submitted_at': latest_submission.submitted_at if latest_submission else None,
+            'progress_status': progress_status,
+        })
+
+    graded_attempts = passed_attempts + failed_attempts
+    summary = {
+        'active_student_count': len(progress),
+        'average_solved': round(
+            sum(student['solved_count'] for student in progress) / len(progress), 1,
+        ) if progress else 0,
+        'pending_review_count': sum(
+            student['progress_status'] == 'needs-review' for student in progress
+        ),
+        'pass_rate': round(passed_attempts / graded_attempts * 100, 1) if graded_attempts else 0,
+    }
+    return Response({'students': progress, 'summary': summary})
 
 
 @api_view(['POST'])

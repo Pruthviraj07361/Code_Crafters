@@ -79,10 +79,10 @@
           All Pending (6)
         </button>
 <button class="filter-tab px-3 py-1 rounded text-body-sm font-label-md font-medium text-slate-300 hover:text-white transition-all" data-filter="flagged" id="filter-flagged">
-          Flagged (1)
+          Flagged (0)
         </button>
 <button class="filter-tab px-3 py-1 rounded text-body-sm font-label-md font-medium text-slate-300 hover:text-white transition-all" data-filter="priority" id="filter-priority">
-          High Priority (2)
+          High Priority (0)
         </button>
 </div>
 </div>
@@ -303,7 +303,7 @@
 <!-- Table Footer -->
 <div class="p-4 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-t flex flex-col sm:flex-row items-center justify-between gap-4 font-label-sm text-label-sm text-slate-300">
 <div class="flex items-center gap-4">
-<span class="">Showing <span id="visible-count" class="">1-6</span> of <span id="total-count" class="">6</span> pending applications • Selected: <span class="font-medium text-white" id="selected-count">0</span></span>
+<span class="">Showing <span id="visible-count" class="">Loading</span> of <span id="total-count" class="">Loading</span> pending applications • Selected: <span class="font-medium text-white" id="selected-count">0</span></span>
 <div class="flex items-center gap-2 border-l border-white/10 pl-4">
 <button class="px-2.5 py-1 rounded bg-white/5 text-slate-300 opacity-50 cursor-not-allowed hover:bg-white/15 transition-colors font-medium" disabled="" id="batch-approve">Approve Selected</button>
 <button class="px-2.5 py-1 rounded bg-white/5 text-slate-300 opacity-50 cursor-not-allowed hover:bg-white/15 transition-colors font-medium" disabled="" id="batch-reject">Reject Selected</button>
@@ -328,7 +328,7 @@
 <span class="material-symbols-outlined text-[18px]">pending_actions</span>
 </div>
 <div class="my-3">
-<div class="font-headline-md text-headline-md font-semibold text-white tracking-tight" id="metric-pending">6 Applications</div>
+<div class="font-headline-md text-headline-md font-semibold text-white tracking-tight" id="metric-pending">Loading</div>
 </div>
 <div class="font-label-sm text-label-sm text-slate-300 flex items-center gap-1">
 <span class="w-1.5 h-1.5 rounded-full bg-white"></span> Requires review
@@ -336,14 +336,14 @@
 </div>
 <div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-5 flex flex-col justify-between">
 <div class="flex items-center justify-between text-slate-300">
-<span class="font-code-inline text-code-inline uppercase tracking-wider text-[11px] font-medium">VERIFIED TODAY</span>
+<span class="font-code-inline text-code-inline uppercase tracking-wider text-[11px] font-medium">APPROVALS THIS SESSION</span>
 <span class="material-symbols-outlined text-[18px]">verified</span>
 </div>
 <div class="my-3">
-<div class="font-headline-md text-headline-md font-semibold text-white tracking-tight" id="metric-verified">24 Students</div>
+<div class="font-headline-md text-headline-md font-semibold text-white tracking-tight" id="metric-verified">0</div>
 </div>
 <div class="font-label-sm text-label-sm text-slate-300 flex items-center gap-1">
-<span class="text-white font-medium">+18%</span> vs yesterday
+Recorded during this session
       </div>
 </div>
 </div>
@@ -363,7 +363,7 @@
 <div class="flex items-center gap-3 mt-1">
 <h1 class="font-headline-lg text-headline-lg text-white tracking-tight font-medium">Approved Students</h1>
 <span class="font-label-sm text-label-sm bg-white/5 text-slate-300 px-2.5 py-0.5 rounded-full border border-white/10">
-            24 enrolled candidates
+            Approved-student history is not connected to live records.
           </span>
 </div>
 </div>
@@ -521,7 +521,7 @@
 </div>
 <!-- Table Footer -->
 <div class="p-4 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-t flex items-center justify-between text-body-sm font-label-sm text-slate-300">
-<span class="">Showing 1-4 of 24 approved students</span>
+<span id="approved-footer-count" class="">No live approved-student history is connected.</span>
 <div class="flex items-center gap-1">
 <button class="w-8 h-8 rounded border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-40" disabled="">
 <span class="material-symbols-outlined text-[16px]">chevron_left</span>
@@ -549,7 +549,7 @@
 <div class="flex items-center gap-3 mt-1">
 <h1 class="font-headline-lg text-headline-lg text-white tracking-tight font-medium">Rejected Registrations</h1>
 <span class="font-label-sm text-label-sm bg-rose-500/15 text-rose-300 px-2.5 py-0.5 rounded-full border border-rose-500/30" id="rejected-count-badge">
-            3 rejected applications
+            Rejected-student history is not connected to live records.
           </span>
 </div>
 </div>
@@ -682,7 +682,7 @@
 </div>
 <!-- Table Footer -->
 <div class="p-4 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-t flex items-center justify-between text-body-sm font-label-sm text-slate-300">
-<span class="">Showing 3 of 3 rejected records</span>
+<span id="rejected-footer-count" class="">No live rejected-student history is connected.</span>
 <span class="text-xs font-code-inline">Records retained for 30 academic days</span>
 </div>
 </div>
@@ -697,12 +697,12 @@
 <span class="font-code-inline text-code-inline text-slate-300 uppercase tracking-widest flex items-center gap-2">
 <span class="">SUPERVISION &amp; AUDIT FEED</span>
 <span class="text-slate-500 font-bold">•</span>
-<span class="">LIVE RECORD</span>
+<span class="">HISTORY NOT CONNECTED</span>
 </span>
 <div class="flex items-center gap-3 mt-1">
 <h1 class="font-headline-lg text-headline-lg text-white tracking-tight font-medium">Activity &amp; Interaction Log</h1>
 <span class="font-label-sm text-label-sm bg-white/5 text-slate-300 px-2.5 py-0.5 rounded-full border border-white/10">
-            Continuous sync active
+            Live history is not connected
           </span>
 </div>
 </div>
@@ -732,7 +732,7 @@
           Approval Decisions
         </button>
 </div>
-<div class="text-xs font-code-inline text-slate-300">Showing latest supervisor entries</div>
+<div class="text-xs font-code-inline text-slate-300">No live activity entries are available</div>
 </div>
 </div>
 <!-- Activity Feed Cards List -->
@@ -888,6 +888,46 @@
 </div>
 <script>
   // Dynamic Tab Navigation Controller
+  const progressTab = document.createElement('button');
+  progressTab.className = 'nav-tab h-full flex items-center gap-2 font-label-md text-label-md hover:text-white border-b-2 transition-colors whitespace-nowrap text-slate-300 border-transparent';
+  progressTab.dataset.target = 'progress-view';
+  progressTab.type = 'button';
+  progressTab.textContent = 'Student Progress';
+  document.getElementById('portal-nav-tabs').append(progressTab);
+
+  const progressView = document.createElement('section');
+  progressView.id = 'progress-view';
+  progressView.className = 'portal-view flex-col w-full hidden';
+  progressView.innerHTML = `
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pt-6 pb-6">
+      <div>
+        <h1 class="font-headline-lg text-headline-lg text-white tracking-tight font-medium">Student Progress</h1>
+        <p class="text-sm text-slate-300 mt-1" id="faculty-progress-count">Loading student progress...</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input class="h-9 px-3 bg-slate-800/40 border border-white/10 rounded text-sm text-white placeholder:text-slate-400" id="faculty-progress-search" placeholder="Search name or enrollment..." type="search">
+        <select class="h-9 px-3 bg-slate-800/40 border border-white/10 rounded text-sm text-white [&>option]:bg-slate-900" id="faculty-progress-division">
+          <option value="all">All Divisions</option>
+        </select>
+        <button class="h-9 px-4 rounded border border-white/10 bg-white/5 text-white text-sm hover:bg-white/10" id="faculty-progress-refresh" type="button">Refresh</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="bg-slate-900/60 border border-white/10 rounded-lg p-4"><div class="text-xs uppercase text-slate-400">Approved Students</div><div class="text-xl text-white mt-2" id="faculty-progress-total">Loading</div></div>
+      <div class="bg-slate-900/60 border border-white/10 rounded-lg p-4"><div class="text-xs uppercase text-slate-400">Average Solved</div><div class="text-xl text-white mt-2" id="faculty-progress-average">Loading</div></div>
+      <div class="bg-slate-900/60 border border-white/10 rounded-lg p-4"><div class="text-xs uppercase text-slate-400">Needs Review</div><div class="text-xl text-white mt-2" id="faculty-progress-reviews">Loading</div></div>
+      <div class="bg-slate-900/60 border border-white/10 rounded-lg p-4"><div class="text-xs uppercase text-slate-400">Pass Rate</div><div class="text-xl text-white mt-2" id="faculty-progress-pass-rate">Loading</div></div>
+    </div>
+    <div class="w-full bg-slate-900/60 border border-white/10 rounded-lg overflow-x-auto">
+      <table class="w-full text-left min-w-[760px]">
+        <thead><tr class="bg-slate-800/40 text-xs uppercase text-slate-400">
+          <th class="py-3 px-4">Student</th><th class="py-3 px-4">Division</th><th class="py-3 px-4">Solved / Total</th><th class="py-3 px-4">Latest Problem</th><th class="py-3 px-4">Status</th><th class="py-3 px-4">Last Submission</th>
+        </tr></thead>
+        <tbody class="divide-y divide-white/5 text-sm text-white" id="faculty-student-progress-body"><tr><td class="py-8 px-4 text-center text-slate-400" colspan="6">Loading student progress...</td></tr></tbody>
+      </table>
+    </div>`;
+  document.querySelector('.portal-view').parentElement.append(progressView);
+
   const navTabs = document.querySelectorAll('.nav-tab');
   const portalViews = document.querySelectorAll('.portal-view');
 
@@ -915,6 +955,148 @@
       });
     });
   });
+
+  const facultyProgressBody = document.getElementById('faculty-student-progress-body');
+  const facultyProgressSearch = document.getElementById('faculty-progress-search');
+  const facultyProgressDivision = document.getElementById('faculty-progress-division');
+  let facultyProgressStudents = [];
+
+  function filterFacultyProgress() {
+    const query = facultyProgressSearch.value.trim().toLowerCase();
+    const selectedDivision = facultyProgressDivision.value;
+    let visibleCount = 0;
+    facultyProgressBody.querySelectorAll('.faculty-progress-row').forEach(row => {
+      const matchesQuery = !query || row.textContent.toLowerCase().includes(query);
+      const matchesDivision = selectedDivision === 'all' || row.dataset.division === selectedDivision;
+      row.hidden = !matchesQuery || !matchesDivision;
+      if (!row.hidden) visibleCount += 1;
+    });
+    document.getElementById('faculty-progress-count').textContent =
+      `Showing ${visibleCount} of ${facultyProgressStudents.length} approved students`;
+  }
+
+  function renderFacultyStudentProgress(data) {
+    facultyProgressStudents = data.students || [];
+    facultyProgressBody.replaceChildren();
+    facultyProgressDivision.replaceChildren(new Option('All Divisions', 'all'));
+    [...new Set(facultyProgressStudents.map(student => student.division))].sort().forEach(division => {
+      facultyProgressDivision.add(new Option(`Division ${division}`, division));
+    });
+
+    if (!facultyProgressStudents.length) {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.className = 'py-8 px-4 text-center text-slate-400';
+      cell.colSpan = 6;
+      cell.textContent = 'No approved student records available.';
+      row.append(cell);
+      facultyProgressBody.append(row);
+    }
+
+    facultyProgressStudents.forEach(student => {
+      const row = document.createElement('tr');
+      row.className = 'faculty-progress-row hover:bg-slate-800/30';
+      row.dataset.division = student.division;
+      const identityCell = document.createElement('td');
+      identityCell.className = 'py-3 px-4';
+      const identity = document.createElement('div');
+      identity.className = 'flex flex-col';
+      const name = document.createElement('span');
+      name.className = 'font-medium';
+      name.textContent = student.name;
+      const enrollment = document.createElement('span');
+      enrollment.className = 'text-xs text-slate-400';
+      enrollment.textContent = student.enrollment_number;
+      identity.append(name, enrollment);
+      identityCell.append(identity);
+      row.append(identityCell);
+
+      const solvedCell = document.createElement('td');
+      solvedCell.className = 'py-3 px-4';
+      solvedCell.textContent = `${student.solved_count} / ${student.total_count}`;
+      const latestCell = document.createElement('td');
+      latestCell.className = 'py-3 px-4';
+      latestCell.textContent = student.latest_problem_title || 'No submissions yet';
+      const statusLabels = { 'on-track': 'On track', 'needs-review': 'Needs review', inactive: 'No submissions' };
+      const statusCell = document.createElement('td');
+      statusCell.className = 'py-3 px-4';
+      statusCell.textContent = statusLabels[student.progress_status] || student.progress_status;
+      const submittedCell = document.createElement('td');
+      submittedCell.className = 'py-3 px-4 text-slate-300';
+      submittedCell.textContent = student.latest_submitted_at
+        ? new Date(student.latest_submitted_at).toLocaleDateString()
+        : 'No submissions';
+      row.append(
+        Object.assign(document.createElement('td'), { className: 'py-3 px-4', textContent: `Division ${student.division}` }),
+        solvedCell,
+        latestCell,
+        statusCell,
+        submittedCell,
+      );
+      facultyProgressBody.append(row);
+    });
+
+    document.getElementById('faculty-progress-total').textContent = data.summary.active_student_count;
+    document.getElementById('faculty-progress-average').textContent = Number(data.summary.average_solved).toFixed(1);
+    document.getElementById('faculty-progress-reviews').textContent = data.summary.pending_review_count;
+    document.getElementById('faculty-progress-pass-rate').textContent = `${Number(data.summary.pass_rate).toFixed(1)}%`;
+    filterFacultyProgress();
+  }
+
+  async function loadFacultyStudentProgress() {
+    const token = sessionStorage.getItem('authToken');
+    facultyProgressBody.replaceChildren();
+    try {
+      if (!token) throw new Error('Sign in with an approved faculty account to view student progress.');
+      const response = await fetch('/api/supervisor/student-progress', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || 'Unable to load student progress.');
+      renderFacultyStudentProgress(data);
+    } catch (error) {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.className = 'py-8 px-4 text-center text-rose-300';
+      cell.colSpan = 6;
+      cell.textContent = error.message || 'Unable to load student progress.';
+      row.append(cell);
+      facultyProgressBody.append(row);
+      document.getElementById('faculty-progress-count').textContent = 'Progress unavailable';
+      ['faculty-progress-total', 'faculty-progress-average', 'faculty-progress-reviews', 'faculty-progress-pass-rate'].forEach(id => {
+        document.getElementById(id).textContent = '—';
+      });
+    }
+  }
+
+  facultyProgressSearch.addEventListener('input', filterFacultyProgress);
+  facultyProgressDivision.addEventListener('change', filterFacultyProgress);
+  document.getElementById('faculty-progress-refresh').addEventListener('click', loadFacultyStudentProgress);
+
+  function showUnavailableHistory(tableId, columnCount, message) {
+    const tableBody = document.getElementById(tableId);
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.className = 'py-8 px-4 text-center text-slate-400';
+    cell.colSpan = columnCount;
+    cell.textContent = message;
+    row.append(cell);
+    tableBody.replaceChildren(row);
+  }
+
+  showUnavailableHistory('approved-table-body', 8, 'Approved-student history is not connected to live records.');
+  showUnavailableHistory('rejected-table-body', 7, 'Rejected-student history is not connected to live records.');
+  document.getElementById('approved-footer-count').textContent = 'No live approved-student history is connected.';
+  document.getElementById('rejected-footer-count').textContent = 'No live rejected-student history is connected.';
+  ['badge-nav-approved', 'badge-nav-rejected', 'badge-nav-activity'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+
+  const activityList = document.getElementById('activity-items-list');
+  const activityEmptyState = document.createElement('p');
+  activityEmptyState.className = 'py-8 text-center text-sm text-slate-400';
+  activityEmptyState.textContent = 'No live activity entries are available.';
+  activityList.replaceChildren(activityEmptyState);
 
   // Activity Log Filter Chips
   const activityChips = document.querySelectorAll('.activity-chip');
@@ -949,6 +1131,8 @@
     const visibleActiveRows = Array.from(document.querySelectorAll('#applications-table-body tr')).filter(r => !r.classList.contains('hidden') && !r.dataset.processed && !r.dataset.empty);
     const count = visibleActiveRows.length;
     const totalPending = Array.from(document.querySelectorAll('#applications-table-body tr')).filter(r => !r.dataset.processed && !r.dataset.empty).length;
+    const flaggedCount = Array.from(document.querySelectorAll('#applications-table-body tr')).filter(row => row.dataset.flagged === 'true').length;
+    const priorityCount = Array.from(document.querySelectorAll('#applications-table-body tr')).filter(row => row.dataset.priority === 'true').length;
     
     document.getElementById('queue-count').innerText = totalPending;
     document.getElementById('badge-nav-pending').innerText = totalPending;
@@ -957,6 +1141,8 @@
     document.getElementById('visible-count').innerText = count > 0 ? `1-${count}` : '0';
     document.getElementById('queue-counter-badge').innerHTML = `Showing <span id="queue-count">${totalPending}</span> pending application${totalPending === 1 ? '' : 's'}`;
     document.getElementById('filter-all').innerText = `All Pending (${totalPending})`;
+    document.getElementById('filter-flagged').innerText = `Flagged (${flaggedCount})`;
+    document.getElementById('filter-priority').innerText = `High Priority (${priorityCount})`;
     updateSelection();
   }
 
@@ -1106,7 +1292,7 @@
       if (row) row.remove();
       if (approved) {
         verifiedCount += 1;
-        document.getElementById('metric-verified').innerText = `${verifiedCount} Students`;
+        document.getElementById('metric-verified').innerText = String(verifiedCount);
         document.getElementById('badge-nav-approved').innerText = verifiedCount;
       } else {
         rejectedCount += 1;
@@ -1254,9 +1440,11 @@
   });
 
   loadPendingStudents();
+  loadFacultyStudentProgress();
 </script></main><footer class="w-full bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl mt-space-2xl"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-slate-300"><div class="">Coding Club Oversight Board • Internal Portal</div><div class="flex items-center gap-space-lg"></div></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-<script src="background.js"></script>
+{% load static %}
+<script src="{% static 'background.js' %}"></script>
 </body></html>

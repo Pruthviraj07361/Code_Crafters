@@ -54,6 +54,15 @@ class AdminRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     phone = serializers.CharField(max_length=20)
     password = serializers.CharField(write_only=True, min_length=8)
+    requested_role = serializers.ChoiceField(
+        choices=[
+            (AdminProfile.STAFF_FACULTY, 'Faculty'),
+            (AdminProfile.STAFF_SUPERVISOR, 'Supervisor'),
+        ],
+        required=False,
+        allow_blank=True,
+        default='',
+    )
 
     def validate_email(self, value):
         if User.objects.filter(email__iexact=value).exists():
@@ -70,6 +79,7 @@ class AdminRegisterSerializer(serializers.Serializer):
             user=user,
             name=validated_data['name'],
             phone=validated_data['phone'],
+            staff_type=validated_data['requested_role'],
         )
         return user
 

@@ -221,6 +221,66 @@ class ApprovalAPITests(TestCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_superuser_can_approve_pending_student(self):
+        superuser = self._make_superuser()
+        pending = self._make_pending_student()
+
+        response = self.client.post(
+            f'/api/faculty/students/{pending.pk}/approve',
+            data=json.dumps({'approved': True}),
+            content_type='application/json',
+            **self._token_header(superuser),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        pending.refresh_from_db()
+        self.assertTrue(pending.is_approved)
+
+    def test_admin_registration_creates_pending_staff_with_requested_role(self):
+        response = self.client.post(
+            '/api/auth/admin/register',
+            data=json.dumps({
+                'name': 'New Faculty',
+                'email': 'newfaculty@example.com',
+                'phone': '5551234',
+                'password': 'A-secure-password-123',
+                'requested_role': 'faculty',
+            }),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 201)
+        profile = AdminProfile.objects.get(user__email='newfaculty@example.com')
+        self.assertEqual(profile.staff_type, AdminProfile.STAFF_FACULTY)
+        self.assertFalse(profile.is_approved)
+
+        superuser = self._make_superuser()
+        pending_response = self.client.get(
+            '/api/superuser/pending-staff',
+            **self._token_header(superuser),
+        )
+
+        self.assertEqual(pending_response.status_code, 200)
+        self.assertEqual(pending_response.json()[0]['id'], profile.id)
+
+    def test_admin_staff_registration_accepts_unassigned_role(self):
+        response = self.client.post(
+            '/api/auth/admin/register',
+            data=json.dumps({
+                'name': 'New Staff Applicant',
+                'email': 'newstaff@example.com',
+                'phone': '5559876',
+                'password': 'A-secure-password-123',
+                'requested_role': '',
+            }),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 201)
+        profile = AdminProfile.objects.get(user__email='newstaff@example.com')
+        self.assertEqual(profile.staff_type, '')
+        self.assertFalse(profile.is_approved)
+
     def test_faculty_can_approve_student(self):
         faculty = self._make_faculty()
         pending = self._make_pending_student()
