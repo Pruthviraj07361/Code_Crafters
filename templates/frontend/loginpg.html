@@ -1,20 +1,15 @@
+{% load static %}
 <!doctype html>
-<html lang="en" style="">
+<html lang="en" style="background:#0f172a;">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="web_blank" name="shell-type" />
-    
-    <!-- Google Fonts: Crimson Text & Material Symbols -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    
-    <!-- Your Custom Stylesheet -->
     <link rel="stylesheet" href="/static/style.css" />
-
-    <!-- Tailwind CSS & Configuration -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
       tailwind.config = {
@@ -70,42 +65,26 @@
               "on-tertiary-container": "#7d8490",
               "on-error-container": "#93000a",
             },
-            borderRadius: {
-              DEFAULT: "0.125rem",
-              lg: "0.25rem",
-              xl: "0.5rem",
-              full: "0.75rem",
-            },
+            borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
             spacing: {
-              "space-lg": "1.5rem",
-              "gutter-lg": "2rem",
-              "gutter-sm": "1rem",
-              "space-2xl": "4rem",
-              "space-sm": "0.75rem",
-              "space-xs": "0.5rem",
-              "margin-mobile": "1rem",
-              "space-2xs": "0.25rem",
-              "margin-desktop": "3rem",
-              margin: "2rem",
-              gutter: "1.5rem",
-              "space-xl": "2.5rem",
-              "space-md": "1rem",
+              "space-lg": "1.5rem", "gutter-lg": "2rem", "gutter-sm": "1rem", "space-2xl": "4rem",
+              "space-sm": "0.75rem", "space-xs": "0.5rem", "margin-mobile": "1rem", "space-2xs": "0.25rem",
+              "margin-desktop": "3rem", margin: "2rem", gutter: "1.5rem", "space-xl": "2.5rem", "space-md": "1rem",
             },
           },
         },
       };
     </script>
-</head>
-  <body class="min-h-screen text-white flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-space-xl md:py-space-2xl selection:bg-primary selection:text-on-primary">
-  
-  <div id="vanta-canvas" class="fixed inset-0 -z-10 h-screen w-full"></div>
+  </head>
+  <body style="background:#0f172a;" class="min-h-screen text-white flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-space-xl md:py-space-2xl selection:bg-primary selection:text-on-primary">
+
+  <div id="vanta-canvas" class="fixed inset-0 z-0 h-screen w-full" style="background:#0f172a;"></div>
   <div class="grain-overlay"></div>
 
   <main class="w-full mx-auto flex flex-col items-center justify-center transition-all duration-300 ease-out max-w-md relative z-10" id="mainContainer">
     <div class="flex flex-col w-full">
       <div class="w-full bg-transparent border border-white/20 hover:border-white/40 shadow-none p-6 md:p-8 flex flex-col transition-all duration-300 rounded-xl backdrop-blur-sm">
-        
-        <!-- Brand Mark -->
+
         <div class="flex items-center gap-2 mb-6 select-none">
           <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 text-white flex items-center justify-center">
             <span class="material-symbols-outlined text-[18px]">terminal</span>
@@ -115,15 +94,13 @@
           </div>
         </div>
 
-        <!-- ================= LOGIN VIEW ================= -->
+        <!-- LOGIN VIEW -->
         <div class="flex-col w-full transition-opacity duration-200 flex" id="loginView">
-          <!-- Title & Subtitle -->
           <div class="flex flex-col gap-1 mb-5 select-none">
             <h1 class="text-2xl text-white tracking-tight font-semibold" id="loginTitle">ADMIN Login</h1>
             <p class="text-base text-slate-300">Welcome back. Enter your institutional credentials.</p>
           </div>
 
-          <!-- Role Toggle -->
           <div class="bg-white/5 border border-white/10 p-1 rounded-full flex mb-5 relative" id="roleToggleGroup" role="tablist">
             <button aria-selected="false" class="flex-1 py-1.5 px-4 rounded-full text-base text-slate-400 hover:text-white bg-transparent transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer" id="role-student" onclick="selectRole('student'); document.getElementById('loginTitle').textContent = 'Student Login';" role="tab" type="button">
               <span class="material-symbols-outlined text-[16px]">school</span>
@@ -135,7 +112,6 @@
             </button>
           </div>
 
-          <!-- Login Form -->
           <form class="flex flex-col gap-4" onsubmit="event.preventDefault(); handleLoginSubmit();">
             <div class="flex flex-col gap-1.5">
               <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="email">Institutional Email</label>
@@ -144,7 +120,6 @@
               </div>
             </div>
 
-            <!-- Password Field -->
             <div class="flex flex-col gap-1.5">
               <div class="flex items-center justify-between">
                 <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="password">Password</label>
@@ -159,7 +134,7 @@
             </div>
 
             <p aria-live="polite" class="hidden text-sm text-rose-300" id="loginMessage" role="status"></p>
-            <!-- Remember Me -->
+
             <div class="flex items-center justify-between py-0.5">
               <label class="flex items-center gap-2 cursor-pointer select-none">
                 <input class="w-4 h-4 rounded border-white/20 bg-transparent text-white focus:ring-0 cursor-pointer" id="remember" name="remember" type="checkbox" />
@@ -167,14 +142,12 @@
               </label>
             </div>
 
-            <!-- CTA Button -->
             <button class="w-full group relative inline-flex items-center justify-center gap-2 py-3 text-lg font-medium text-white bg-white/10 border border-white/20 rounded-lg overflow-hidden transition-all duration-300 hover:bg-white/20 hover:border-white/40 active:scale-95 shadow-none mt-2 select-none cursor-pointer" id="submitBtn" type="submit">
               <span id="submitBtnText" class="">Sign In</span>
               <span class="material-symbols-outlined text-[18px] transition-transform duration-300 group-hover:translate-x-1" id="submitBtnIcon">arrow_forward</span>
             </button>
           </form>
 
-          <!-- Registration Prompt -->
           <div class="text-center pt-5 border-t border-white/10 mt-5">
             <p class="text-base text-slate-400">
               Don't have an account?
@@ -183,9 +156,8 @@
           </div>
         </div>
 
-        <!-- ================= STUDENT REGISTRATION VIEW ================= -->
+        <!-- REGISTRATION VIEW -->
         <div class="flex-col w-full transition-opacity duration-200 hidden" id="registerView">
-          <!-- Header -->
           <div class="flex flex-col gap-1 mb-5 select-none">
             <h1 class="text-2xl text-white tracking-tight font-semibold" id="register-title">Student Registration</h1>
             <p class="text-base text-slate-300" id="register-description">Join the campus coding club cohort.</p>
@@ -197,7 +169,6 @@
             <button class="flex-1 py-1.5 px-3 rounded-full text-sm text-slate-400 hover:text-white transition-all" id="register-type-admin" onclick="setRegistrationType('admin')" type="button">Admin / Staff</button>
           </div>
 
-          <!-- Registration Form -->
           <form class="flex flex-col gap-4" onsubmit="event.preventDefault(); handleRegisterSubmit();">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div class="flex flex-col gap-1">
@@ -221,64 +192,62 @@
                 <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-phone" name="phone" placeholder="+1 (555) 019-2834" required type="tel" />
               </div>
               <div class="col-span-full grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="student-registration-fields">
-              <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-enrollment">Enrollment Number</label>
-                <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-enrollment" name="enrollment" placeholder="21012011001" required type="text" />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-roll">Roll Number</label>
-                <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-roll" name="roll" placeholder="42" required type="number" />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-program">Program Type</label>
-                <div class="relative">
-                  <select id="reg-program" name="program" required class="w-full h-9 px-3 pr-9 appearance-none bg-none bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
-                    <option disabled selected value="">Select Program</option>
-                    <option value="D2D">D2D</option>
-                    <option value="B.E./B.Tech">B.E./B.Tech</option>
-                  </select>
-                  <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                <div class="flex flex-col gap-1">
+                  <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-enrollment">Enrollment Number</label>
+                  <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-enrollment" name="enrollment" placeholder="21012011001" required type="text" />
                 </div>
-              </div>
-              <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-branch">Branch</label>
-                <div class="relative">
-                  <select id="reg-branch" name="branch" required class="w-full h-9 px-3 pr-9 appearance-none bg-none bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
-                    <option disabled selected value="">Select Branch</option>
-                    <option value="C.S.E">C.S.E</option>
-                    <option value="AI/ML">AI/ML</option>
-                    <option value="DATASCIENCE">DATASCIENCE</option>
-                  </select>
-                  <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                <div class="flex flex-col gap-1">
+                  <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-roll">Roll Number</label>
+                  <input class="w-full bg-transparent text-white placeholder:text-white/30 text-base px-3 py-2 rounded-lg outline-none border border-white/20 focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all duration-150" id="reg-roll" name="roll" placeholder="42" required type="number" />
                 </div>
-              </div>
-              <div class="flex flex-col gap-1">
-                <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-division">Division</label>
-                <div class="relative w-full">
-                 <select id="reg-division" name="division" required class="w-full appearance-none bg-none h-9 px-3 pr-9 bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
-                    <option disabled selected value="">Select Division</option>
-                    <option value="D1">D1</option>
-                    <option value="D2">D2</option>
-                    <option value="D3">D3</option>
-                    <option value="D4">D4</option>
-                    <option value="D5">D5</option>
-                    <option value="D6">D6</option>
-                  </select>
-                  <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                <div class="flex flex-col gap-1">
+                  <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-program">Program Type</label>
+                  <div class="relative">
+                    <select id="reg-program" name="program" required class="w-full h-9 px-3 pr-9 appearance-none bg-none bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
+                      <option disabled selected value="">Select Program</option>
+                      <option value="D2D">D2D</option>
+                      <option value="B.E./B.Tech">B.E./B.Tech</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                  </div>
                 </div>
-              </div>
+                <div class="flex flex-col gap-1">
+                  <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-branch">Branch</label>
+                  <div class="relative">
+                    <select id="reg-branch" name="branch" required class="w-full h-9 px-3 pr-9 appearance-none bg-none bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
+                      <option disabled selected value="">Select Branch</option>
+                      <option value="C.S.E">C.S.E</option>
+                      <option value="AI/ML">AI/ML</option>
+                      <option value="DATASCIENCE">DATASCIENCE</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="text-xs text-slate-300 uppercase tracking-wider font-semibold" for="reg-division">Division</label>
+                  <div class="relative w-full">
+                    <select id="reg-division" name="division" required class="w-full appearance-none bg-none h-9 px-3 pr-9 bg-slate-900/60 border border-white/10 backdrop-blur-xl rounded text-white focus:outline-none focus:border-white/50 transition-colors [&>option]:bg-slate-900 [&>option]:text-white">
+                      <option disabled selected value="">Select Division</option>
+                      <option value="D1">D1</option>
+                      <option value="D2">D2</option>
+                      <option value="D3">D3</option>
+                      <option value="D4">D4</option>
+                      <option value="D5">D5</option>
+                      <option value="D6">D6</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-white/50 pointer-events-none">expand_more</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             <p aria-live="polite" class="hidden text-sm text-rose-300" id="registerMessage" role="status"></p>
-            <!-- Solid Register Button -->
             <button class="w-full group relative inline-flex items-center justify-center gap-2 py-3 text-lg font-medium text-white bg-white/10 border border-white/20 rounded-lg overflow-hidden transition-all duration-300 hover:bg-white/20 hover:border-white/40 active:scale-95 shadow-none mt-2 select-none cursor-pointer" id="registerSubmitBtn" type="submit">
               <span id="registerSubmitBtnText" class="">Register</span>
               <span class="material-symbols-outlined text-[16px] transition-transform duration-300 group-hover:scale-110">how_to_reg</span>
             </button>
           </form>
 
-          <!-- Back to Login Link -->
           <div class="text-center pt-4 border-t border-white/10 mt-5">
             <button class="text-base text-slate-400 hover:text-white transition-colors inline-flex items-center gap-1.5 cursor-pointer bg-transparent border-0 p-0 select-none" onclick="switchToLogin()" type="button">
               <span class="material-symbols-outlined text-[16px]">arrow_back</span>
@@ -289,19 +258,16 @@
       </div>
     </div>
   </main>
-  
+
   <script>
   function switchToRegister() {
     const mainContainer = document.getElementById('mainContainer');
     const loginView = document.getElementById('loginView');
     const registerView = document.getElementById('registerView');
-
     mainContainer.classList.remove('max-w-md');
     mainContainer.classList.add('max-w-xl');
-
     loginView.classList.add('hidden');
     loginView.classList.remove('flex');
-
     registerView.classList.remove('hidden');
     registerView.classList.add('flex');
   }
@@ -310,13 +276,10 @@
     const mainContainer = document.getElementById('mainContainer');
     const loginView = document.getElementById('loginView');
     const registerView = document.getElementById('registerView');
-
     mainContainer.classList.remove('max-w-xl');
     mainContainer.classList.add('max-w-md');
-
     registerView.classList.add('hidden');
     registerView.classList.remove('flex');
-
     loginView.classList.remove('hidden');
     loginView.classList.add('flex');
   }
@@ -331,7 +294,6 @@
     studentFields.querySelectorAll('input, select').forEach(field => {
       field.required = isStudent;
     });
-
     const labels = {
       student: ['Student Registration', 'Join the campus coding club cohort.'],
       faculty: ['Faculty Registration', 'Faculty applications require administrator approval.'],
@@ -339,7 +301,6 @@
     };
     document.getElementById('register-title').textContent = labels[type][0];
     document.getElementById('register-description').textContent = labels[type][1];
-
     ['student', 'faculty', 'admin'].forEach(option => {
       const button = document.getElementById(`register-type-${option}`);
       const selected = option === type;
@@ -354,7 +315,6 @@
     const studentBtn = document.getElementById('role-student');
     const adminBtn = document.getElementById('role-admin');
     const emailInput = document.getElementById('email');
-
     if (role === 'student') {
       studentBtn.className = "flex-1 py-1.5 px-4 rounded-full text-base text-white bg-white/15 shadow-sm transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer";
       studentBtn.setAttribute('aria-selected', 'true');
@@ -438,7 +398,6 @@
       showFormMessage('registerMessage', 'Passwords do not match.');
       return;
     }
-
     btn.disabled = true;
     btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span><span>Submitting application...</span>`;
     showFormMessage('registerMessage', '');
@@ -461,7 +420,6 @@
       } else {
         payload.requested_role = registrationType === 'faculty' ? 'faculty' : '';
       }
-
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -480,10 +438,22 @@
     }
   }
   </script>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-  {% load static %}
   <script src="{% static 'background.js' %}"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var el = document.getElementById('vanta-canvas');
+      if (el && !el.querySelector('canvas') && window.VANTA && window.THREE) {
+        VANTA.WAVES({
+          el: el,
+          mouseControls: true, touchControls: true, gyroControls: false,
+          minHeight: 200, minWidth: 200, scale: 1, scaleMobile: 1,
+          color: 0x2b3a57, shininess: 30, waveHeight: 18, waveSpeed: 0.6, zoom: 0.9
+        });
+      }
+    });
+  </script>
   </body>
 </html>

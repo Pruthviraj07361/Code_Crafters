@@ -679,6 +679,34 @@
 </div>
 </div>
 </div>
+<div aria-labelledby="review-modal-title" aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px] hidden" id="review-modal" role="dialog">
+<div class="w-full max-w-3xl max-h-[90vh] mx-4 overflow-y-auto bg-slate-900/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-white font-semibold" id="review-modal-title">Review Submission</h2>
+<p class="font-body-sm text-slate-400" id="review-student-name"></p>
+</div>
+<button aria-label="Close code review" class="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:bg-slate-800/40" id="close-review-modal" type="button"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-slate-400 font-medium" for="review-submission-select">Problem statement and submission</label>
+<div class="flex flex-col sm:flex-row gap-space-sm">
+<select class="min-w-0 flex-1 h-10 px-3 bg-slate-800/60 border border-white/10 rounded font-body-sm text-white outline-none [&>option]:bg-slate-900" id="review-submission-select"></select>
+<button class="h-10 px-space-lg rounded bg-white/15 text-white font-label-md hover:bg-white/25 border border-white/20 disabled:opacity-40" id="review-load-code-btn" type="button" disabled>View Code</button>
+</div>
+</div>
+<p aria-live="polite" class="text-sm text-slate-300" id="review-message" role="status"></p>
+<section class="hidden flex-col gap-space-sm" id="review-code-panel">
+<div class="flex items-center justify-between gap-space-sm">
+<h3 class="font-label-md text-white font-semibold" id="review-code-language"></h3>
+<span class="font-label-sm text-slate-400" id="review-code-status"></span>
+</div>
+<pre class="max-h-96 overflow-auto p-space-md bg-black/30 border border-white/10 rounded font-code-inline text-sm text-slate-100"><code id="review-code"></code></pre>
+<h3 class="font-label-sm text-slate-300 font-semibold">Grading Output</h3>
+<pre class="max-h-40 overflow-auto p-space-md bg-black/20 border border-white/10 rounded font-code-inline text-sm text-slate-300" id="review-output"></pre>
+</section>
+</div>
+</div>
 <!-- ========================================== -->
 <!-- VIEW 3: MEETING SCHEDULE -->
 <!-- ========================================== -->
@@ -1475,7 +1503,19 @@
     const studentCohortFilter = document.getElementById('student-cohort-filter');
     const studentStatusTabs = document.querySelectorAll('.student-status-tab');
     const studentTableBody = document.getElementById('students-tbody');
+    const reviewModal = document.getElementById('review-modal');
+    const reviewStudentName = document.getElementById('review-student-name');
+    const reviewSubmissionSelect = document.getElementById('review-submission-select');
+    const reviewLoadCodeButton = document.getElementById('review-load-code-btn');
+    const reviewMessage = document.getElementById('review-message');
+    const reviewCodePanel = document.getElementById('review-code-panel');
+    const reviewCodeLanguage = document.getElementById('review-code-language');
+    const reviewCodeStatus = document.getElementById('review-code-status');
+    const reviewCode = document.getElementById('review-code');
+    const reviewOutput = document.getElementById('review-output');
     let studentRows = [];
+    let activeReviewStudentId = null;
+    let reviewRequestVersion = 0;
     const studentRecordCounter = document.getElementById('student-record-counter');
     const studentFooterCount = document.getElementById('student-footer-count');
     let currentStudentStatus = 'all';
@@ -1582,6 +1622,8 @@
 
           const reviewButton = makeStudentText('px-2.5 py-1 rounded font-label-sm text-label-sm text-slate-400 hover:text-white hover:bg-white/10 transition-colors', student.latest_problem_id ? 'Review Code' : 'No submission', 'button');
           reviewButton.type = 'button';
+          reviewButton.disabled = !student.latest_problem_id;
+          reviewButton.addEventListener('click', () => openStudentReview(student));
           appendStudentCell(row, 'py-3 pr-space-md text-right', reviewButton);
           studentTableBody.append(row);
         });
@@ -1649,6 +1691,103 @@
         studentFooterCount.textContent = `Showing ${count ? 1 : 0}-${count} of ${studentRows.length} enrolled students`;
       }
     }
+
+    async function openStudentReview(student) {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) return;
+
+      activeReviewStudentId = student.id;
+      const requestVersion = ++reviewRequestVersion;
+      reviewModal.classList.remove('hidden');
+      reviewStudentName.textContent = `${student.name} (${student.enrollment_number})`;
+      reviewSubmissionSelect.replaceChildren(new Option('Loading submissions...', ''));
+      reviewSubmissionSelect.disabled = true;
+      reviewLoadCodeButton.disabled = true;
+      reviewCodePanel.classList.add('hidden');
+      reviewCodePanel.classList.remove('flex');
+      reviewMessage.textContent = 'Loading submissions...';
+
+      try {
+        const response = await fetch(`/api/supervisor/students/${student.id}/submissions`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const submissions = await response.json();
+        if (requestVersion !== reviewRequestVersion) return;
+        if (!response.ok) throw new Error(submissions.detail || 'Unable to load submissions.');
+
+        reviewSubmissionSelect.replaceChildren();
+        if (!submissions.length) {
+          reviewSubmissionSelect.append(new Option('No submissions found', ''));
+          reviewMessage.textContent = 'This student has no submissions to review.';
+          return;
+        }
+
+        submissions.forEach(submission => {
+          const submittedAt = new Date(submission.submitted_at).toLocaleString();
+          const label = `${submission.problem_title} - ${submission.status} - ${submittedAt}`;
+          reviewSubmissionSelect.append(new Option(label, submission.id));
+        });
+        reviewSubmissionSelect.disabled = false;
+        reviewLoadCodeButton.disabled = false;
+        reviewMessage.textContent = 'Choose a problem statement and submission, then select View Code.';
+        reviewSubmissionSelect.focus();
+      } catch (error) {
+        if (requestVersion !== reviewRequestVersion) return;
+        reviewMessage.textContent = error.message || 'Unable to load submissions.';
+      }
+    }
+
+    async function loadReviewCode() {
+      const token = sessionStorage.getItem('authToken');
+      const studentId = activeReviewStudentId;
+      const submissionId = reviewSubmissionSelect.value;
+      const requestVersion = reviewRequestVersion;
+      if (!token || !studentId || !submissionId) return;
+
+      reviewLoadCodeButton.disabled = true;
+      reviewCodePanel.classList.add('hidden');
+      reviewCodePanel.classList.remove('flex');
+      reviewMessage.textContent = 'Loading code...';
+      try {
+        const response = await fetch(
+          `/api/supervisor/students/${studentId}/submissions/${submissionId}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        const submission = await response.json();
+        if (requestVersion !== reviewRequestVersion) return;
+        if (!response.ok) throw new Error(submission.detail || 'Unable to load submission code.');
+
+        reviewCodeLanguage.textContent = submission.language.toUpperCase();
+        reviewCodeStatus.textContent = submission.status;
+        reviewCode.textContent = submission.code;
+        reviewOutput.textContent = submission.judge0_output || 'No grading output recorded.';
+        reviewCodePanel.classList.remove('hidden');
+        reviewCodePanel.classList.add('flex');
+        reviewMessage.textContent = '';
+      } catch (error) {
+        if (requestVersion !== reviewRequestVersion) return;
+        reviewMessage.textContent = error.message || 'Unable to load submission code.';
+      } finally {
+        if (requestVersion === reviewRequestVersion) reviewLoadCodeButton.disabled = false;
+      }
+    }
+
+    function closeStudentReview() {
+      reviewRequestVersion++;
+      activeReviewStudentId = null;
+      reviewModal.classList.add('hidden');
+    }
+
+    document.getElementById('close-review-modal').addEventListener('click', closeStudentReview);
+    reviewModal.addEventListener('click', (event) => {
+      if (event.target === reviewModal) closeStudentReview();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !reviewModal.classList.contains('hidden')) {
+        closeStudentReview();
+      }
+    });
+    reviewLoadCodeButton.addEventListener('click', loadReviewCode);
 
     if (studentSearch) studentSearch.addEventListener('input', filterStudents);
     if (studentCohortFilter) studentCohortFilter.addEventListener('change', filterStudents);

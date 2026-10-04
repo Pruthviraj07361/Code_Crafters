@@ -36,7 +36,7 @@
 </div>
 <div class="bg-slate-800/40 border border-white/5 rounded-lg p-space-md flex items-start gap-space-sm">
 <span class="material-symbols-outlined text-slate-300 text-[20px] mt-0.5">terminal</span>
-<p class="font-body-sm text-body-sm text-slate-300">Submissions are saved for review. Automated code execution is not configured yet.</p>
+<p class="font-body-sm text-body-sm text-slate-300">Submission status and grading output appear here.</p>
 </div>
 </div>
 </div>
@@ -116,9 +116,9 @@ int main(void) {
     const cursorPos = document.getElementById('cursorPos');
     const runBtn = document.getElementById('runTestsBtn');
     const submitBtn = document.getElementById('submitCodeBtn');
+    const resetBtn = document.getElementById('resetCodeBtn');
     const drawer = document.getElementById('outputDrawer');
     const statusMsg = document.getElementById('statusMessage');
-    const resetBtn = document.getElementById('resetCodeBtn');
 
     // Language dropdown elements
     const langSelectBtn = document.getElementById('langSelectBtn');
@@ -282,10 +282,55 @@ int main(void) {
           editor.value = defaultCode;
           updateGutter();
         }
+
+        try {
+          const submissionsResponse = await fetch('/api/student/submissions', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (submissionsResponse.ok) {
+            const submissions = await submissionsResponse.json();
+            const passedSubmission = submissions.find(submission =>
+              submission.problem_statement === problem.id && submission.status === 'passed'
+            );
+            if (passedSubmission) await showCompletedSubmission(passedSubmission.id, token);
+          }
+        } catch (error) {
+          // The problem remains usable if submission history cannot be loaded.
+        }
       } catch (error) {
         document.getElementById('problemTitle').textContent = 'Problem unavailable';
         document.getElementById('problemDescription').textContent = error.message || 'Unable to load this problem statement.';
         submitBtn.disabled = true;
+      }
+    }
+
+    async function showCompletedSubmission(submissionId, token) {
+      if (runBtn) runBtn.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+      submitBtn.querySelector('span:last-child').textContent = 'Done';
+      if (editor) editor.readOnly = true;
+      if (resetBtn) resetBtn.disabled = true;
+      if (langSelectBtn) langSelectBtn.disabled = true;
+      drawer.classList.remove('hidden');
+      statusMsg.textContent = 'Correct. All test cases passed.';
+      document.getElementById('statusIcon').textContent = 'check_circle';
+      document.getElementById('outputDetails').textContent = 'Loading saved submission...';
+
+      try {
+        const response = await fetch(`/api/student/submissions/${submissionId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const submission = await response.json();
+        if (!response.ok) throw new Error('Unable to load saved submission.');
+        if (editor) {
+          editor.value = submission.code;
+          updateGutter();
+          updateCursorInfo();
+        }
+        document.getElementById('outputDetails').textContent = submission.judge0_output || '';
+      } catch (error) {
+        document.getElementById('outputDetails').textContent = error.message;
       }
     }
 
@@ -320,12 +365,66 @@ int main(void) {
         }
 
         drawer.classList.remove('hidden');
-        statusMsg.textContent = 'Saving submission...';
+        statusMsg.textContent = 'Submitting code...';
         document.getElementById('statusIcon').textContent = 'progress_activity';
         document.getElementById('outputDetails').textContent = '';
         submitBtn.disabled = true;
+        let socket;
+        let completed = false;
+        let fallbackStarted = false;
+        let fallbackTimer;
+
+        function showResult(result) {
+          if (result.status === 'passed') {
+            statusMsg.textContent = 'Correct. All test cases passed.';
+            document.getElementById('statusIcon').textContent = 'check_circle';
+          } else if (result.status === 'failed') {
+            statusMsg.textContent = 'Incorrect. Review the test results and try again.';
+            document.getElementById('statusIcon').textContent = 'error';
+          } else if (result.status === 'pending') {
+            statusMsg.textContent = 'Saved, but automatic grading is unavailable.';
+            document.getElementById('statusIcon').textContent = 'info';
+          } else {
+            statusMsg.textContent = 'Grading your submission...';
+            document.getElementById('statusIcon').textContent = 'progress_activity';
+            return false;
+          }
+          document.getElementById('outputDetails').textContent = result.judge0_output || '';
+          completed = true;
+          clearTimeout(fallbackTimer);
+          if (socket && socket.readyState < WebSocket.CLOSING) socket.close();
+          submitBtn.disabled = false;
+          return true;
+        }
+
+        async function pollSubmission(submissionId) {
+          while (!completed) {
+            try {
+              const response = await fetch(`/api/student/submissions/${submissionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              const result = await response.json();
+              if (!response.ok) throw new Error(result.detail || 'Unable to load submission status.');
+              if (showResult(result)) return;
+            } catch (error) {
+              statusMsg.textContent = error.message || 'Unable to load submission status.';
+              document.getElementById('statusIcon').textContent = 'error';
+              submitBtn.disabled = false;
+              return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1500));
+          }
+        }
+
+        function useHttpFallback(submissionId) {
+          if (fallbackStarted || completed) return;
+          fallbackStarted = true;
+          statusMsg.textContent = 'Live updates unavailable. Checking submission status...';
+          pollSubmission(submissionId);
+        }
+
         try {
-          const response = await fetch(`/api/student/problem-statements/${problemId}/submit`, {
+          const response = await fetch(`/api/student/problem-statements/${problemId}/submit-live`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -335,19 +434,36 @@ int main(void) {
           });
           const result = await response.json();
           if (!response.ok) throw new Error(result.detail || Object.values(result).flat().join(' '));
-          if (result.status === 'passed') {
-            statusMsg.textContent = 'Correct. All test cases passed.';
-            document.getElementById('statusIcon').textContent = 'check_circle';
-          } else {
-            statusMsg.textContent = 'Incorrect. Review the test results and try again.';
-            document.getElementById('statusIcon').textContent = 'error';
+
+          if (showResult(result)) return;
+          const socketProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+          const socketUrl = `${socketProtocol}//${window.location.host}/ws/submissions/${result.id}/?token=${encodeURIComponent(token)}`;
+          try {
+            socket = new WebSocket(socketUrl);
+          } catch (error) {
+            useHttpFallback(result.id);
+            return;
           }
-          document.getElementById('outputDetails').textContent = result.judge0_output || '';
+          socket.onmessage = function(event) {
+            try {
+              showResult(JSON.parse(event.data));
+            } catch (error) {
+              useHttpFallback(result.id);
+            }
+          };
+          socket.onerror = function() {
+            useHttpFallback(result.id);
+          };
+          socket.onclose = function() {
+            useHttpFallback(result.id);
+          };
+          fallbackTimer = setTimeout(function() {
+            useHttpFallback(result.id);
+          }, 10000);
         } catch (error) {
           statusMsg.textContent = error.message || 'Unable to submit your code.';
           document.getElementById('statusIcon').textContent = 'error';
           document.getElementById('outputDetails').textContent = '';
-        } finally {
           submitBtn.disabled = false;
         }
       });

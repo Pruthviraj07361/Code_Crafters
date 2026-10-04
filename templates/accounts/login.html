@@ -1,15 +1,35 @@
 {% extends 'accounts/base.html' %}
+{% load static %}
 
 {% block title %}Log in{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block body_class %}accounts-login{% endblock %}
+
+{% block background %}
+    <div id="vanta-canvas" class="fixed inset-0 -z-10 h-screen w-full"></div>
+    <div class="grain-overlay"></div>
+{% endblock %}
+
 {% block content %}
-    <h1>Log in</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <button type="submit">Log in</button>
-    </form>
-    <p><a href="{% url 'google_login' %}">Continue with Google</a></p>
-    <p>Need an account? <a href="{% url 'accounts:register' %}">Register</a>.</p>
+    <main class="accounts-login-panel">
+        <h1>Log in</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            <button type="submit">Log in</button>
+        </form>
+        <p><a href="{% url 'google_login' %}">Continue with Google</a></p>
+        <p>Need an account? <a href="{% url 'accounts:register' %}">Register</a>.</p>
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script src="{% static 'background.js' %}"></script>
 {% endblock %}

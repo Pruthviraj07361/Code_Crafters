@@ -50,3 +50,73 @@ select option {
   z-index: -5;          /* above the Vanta canvas (-10), below all page content */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
 }
+
+.accounts-login {
+  min-height: 100vh;
+  background-color: #0f172a;
+  color: #fff;
+}
+
+.accounts-login > nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 2rem;
+}
+
+.accounts-login > nav a,
+.accounts-login-panel a {
+  color: #cbd5e1;
+}
+
+.accounts-login > nav a:hover,
+.accounts-login-panel a:hover {
+  color: #fff;
+}
+
+.accounts-login-panel {
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  width: min(100% - 2rem, 32rem);
+  margin: 4rem auto;
+  padding: 2rem;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 0.75rem;
+  background: rgb(15 23 42 / 78%);
+  backdrop-filter: blur(12px);
+}
+
+.accounts-login-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.accounts-login-panel form p {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.accounts-login-panel input:not([type="hidden"]) {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 8%);
+  color: #fff;
+}
+
+.accounts-login-panel button {
+  padding: 0.7rem 1rem;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 14%);
+  color: #fff;
+  cursor: pointer;
+}

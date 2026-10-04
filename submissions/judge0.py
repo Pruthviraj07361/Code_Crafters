@@ -13,6 +13,11 @@ DEFAULT_LANGUAGE_IDS = {
     'python': 71,
     'rust': 73,
 }
+REQUEST_TIMEOUT = (5, 30)
+TRANSIENT_HTTP_STATUSES = {429, 500, 502, 503, 504}
+JUDGE0_UNAVAILABLE_MESSAGE = (
+    'Judge0 is temporarily unavailable. Please retry your submission in a moment.'
+)
 
 
 def get_judge0_config():
@@ -39,6 +44,32 @@ def _language_id(language):
         raise RuntimeError(f'Invalid Judge0 language ID for {language}.') from exc
 
 
+def _post_judge0_submission(url, headers, payload):
+    for attempt in range(2):
+        try:
+            response = requests.post(
+                url,
+                params={'base64_encoded': 'false', 'wait': 'true'},
+                headers=headers,
+                json=payload,
+                timeout=REQUEST_TIMEOUT,
+            )
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            if attempt == 0:
+                continue
+            raise RuntimeError(JUDGE0_UNAVAILABLE_MESSAGE) from exc
+
+        if response.status_code in TRANSIENT_HTTP_STATUSES:
+            if attempt == 0:
+                continue
+            raise RuntimeError(JUDGE0_UNAVAILABLE_MESSAGE)
+        if not response.ok:
+            raise RuntimeError(
+                f'Judge0 could not process the grading request (HTTP {response.status_code}).'
+            )
+        return response
+
+
 def run_judge0_check(submission):
     config = get_judge0_config()
     if not config['base_url']:
@@ -59,22 +90,26 @@ def run_judge0_check(submission):
             headers['X-RapidAPI-Host'] = host
 
     for index, test_case in enumerate(test_cases, start=1):
-        response = requests.post(
+        response = _post_judge0_submission(
             f'{base_url}/submissions',
-            params={'base64_encoded': 'false', 'wait': 'true'},
-            headers=headers,
-            json={
+            headers,
+            {
                 'language_id': _language_id(submission.language),
                 'source_code': submission.code,
                 'stdin': test_case['input'],
                 'expected_output': test_case['expected_output'],
             },
-            timeout=30,
         )
-        if not response.ok:
-            raise RuntimeError(f'Judge0 returned HTTP {response.status_code}.')
-
-        result = response.json()
+        try:
+            result = response.json()
+        except ValueError as exc:
+            raise RuntimeError(
+                'Judge0 returned an invalid response. Please retry your submission.'
+            ) from exc
+        if not isinstance(result, dict):
+            raise RuntimeError(
+                'Judge0 returned an invalid response. Please retry your submission.'
+            )
         result_status = result.get('status') or {}
         status_description = result_status.get('description', 'Unknown status')
         if result_status.get('id') != 3:

@@ -1,8 +1,12 @@
 import json
 from unittest.mock import Mock, patch
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from channels.testing import WebsocketCommunicator
 from django.core.management import call_command
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
+from requests import Timeout
 
 from accounts.models import AdminProfile, StudentProfile
 from assignments.models import Meeting, ProblemStatement
@@ -219,6 +223,135 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
         self.assertEqual(response.status_code, 403)
 
 
+class LiveSubmissionEndpointTests(SubmissionsTestBase):
+    def test_live_submit_returns_submission_before_grading_finishes(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+
+        with patch('submissions.views._grading_executor.submit') as submit_job:
+            response = self._post_json(
+                f'/api/student/problem-statements/{problem.pk}/submit-live',
+                {'language': 'c', 'code': 'int main(void) { return 0; }'},
+                student,
+            )
+
+        submission = Submission.objects.get()
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()['id'], submission.pk)
+        self.assertEqual(response.json()['status'], Submission.STATUS_CHECKING)
+        submit_job.assert_called_once()
+        grader, submission_id = submit_job.call_args.args
+        self.assertEqual(grader.__name__, '_grade_submission')
+        self.assertEqual(submission_id, submission.pk)
+
+    def test_synchronous_submit_broadcasts_the_checked_result(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+
+        with (
+            patch(
+                'submissions.views.run_judge0_check',
+                return_value=(False, 'Test case 1 failed: Wrong Answer'),
+            ),
+            patch('submissions.views._broadcast_submission_status') as broadcast,
+        ):
+            response = self._post_json(
+                f'/api/student/problem-statements/{problem.pk}/submit',
+                {'language': 'c', 'code': 'int main(void) { return 0; }'},
+                student,
+            )
+
+        self.assertEqual(response.status_code, 201)
+        broadcast.assert_called_once()
+        broadcast_submission = broadcast.call_args.args[0]
+        self.assertEqual(broadcast_submission.status, Submission.STATUS_FAILED)
+        self.assertEqual(
+            broadcast_submission.judge0_output,
+            'Test case 1 failed: Wrong Answer',
+        )
+
+
+class SubmissionWebSocketTests(SubmissionsTestBase, TransactionTestCase):
+    def _communicator(self, submission, user):
+        from rest_framework.authtoken.models import Token
+
+        token, _ = Token.objects.get_or_create(user=user)
+        from config.asgi import application
+
+        return WebsocketCommunicator(
+            application,
+            f'/ws/submissions/{submission.pk}/?token={token.key}',
+        )
+
+    def test_owner_receives_initial_status_and_later_result(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+        submission = Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=problem,
+            language='c',
+            code='int main(void) { return 0; }',
+            status=Submission.STATUS_CHECKING,
+        )
+        communicator = self._communicator(submission, student)
+
+        async def connect_and_receive():
+            connected, _ = await communicator.connect()
+            self.assertTrue(connected)
+            initial = await communicator.receive_json_from()
+            await get_channel_layer().group_send(
+                f'submission_{submission.pk}',
+                {
+                    'type': 'submission.status',
+                    'status': Submission.STATUS_PASSED,
+                    'judge0_output': 'All test cases passed.',
+                },
+            )
+            result = await communicator.receive_json_from()
+            await communicator.disconnect()
+            return initial, result
+
+        initial, result = async_to_sync(connect_and_receive)()
+
+        self.assertEqual(initial['status'], Submission.STATUS_CHECKING)
+        self.assertEqual(result, {
+            'status': Submission.STATUS_PASSED,
+            'judge0_output': 'All test cases passed.',
+        })
+
+    def test_other_student_is_rejected_but_supervisor_is_allowed(self):
+        supervisor = self._make_supervisor()
+        owner = self._make_student()
+        other_student = self._make_student('other@example.com', 'ENR002')
+        problem = self._make_problem(supervisor)
+        submission = Submission.objects.create(
+            student=owner.student_profile,
+            problem_statement=problem,
+            language='c',
+            code='int main(void) { return 0; }',
+            status=Submission.STATUS_PENDING,
+        )
+        unauthorized = self._communicator(submission, other_student)
+        authorized_staff = self._communicator(submission, supervisor)
+
+        async def check_access():
+            denied, close_code = await unauthorized.connect()
+            allowed, _ = await authorized_staff.connect()
+            if allowed:
+                await authorized_staff.receive_json_from()
+                await authorized_staff.disconnect()
+            return denied, close_code, allowed
+
+        denied, close_code, allowed = async_to_sync(check_access)()
+
+        self.assertFalse(denied)
+        self.assertEqual(close_code, 4403)
+        self.assertTrue(allowed)
+
+
 class SupervisorStudentProgressEndpointTests(SubmissionsTestBase):
     def test_supervisor_receives_approved_students_and_real_submission_progress(self):
         supervisor = self._make_supervisor()
@@ -320,6 +453,76 @@ class SupervisorStudentProgressEndpointTests(SubmissionsTestBase):
         self.assertEqual(response.status_code, 403)
 
 
+class SupervisorSubmissionReviewEndpointTests(SubmissionsTestBase):
+    def test_staff_can_choose_a_submission_and_load_its_code(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        first_problem = self._make_problem(supervisor, title='Reverse a String')
+        second_problem = self._make_problem(supervisor, title='Prime Number')
+        first_submission = Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=first_problem,
+            language='python',
+            code='print("reversed")',
+            status=Submission.STATUS_FAILED,
+        )
+        Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=second_problem,
+            language='c',
+            code='int main(void) { return 0; }',
+            status=Submission.STATUS_PASSED,
+        )
+
+        response = self._get(
+            f'/api/supervisor/students/{student.student_profile.pk}/submissions',
+            supervisor,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        choices = response.json()
+        self.assertEqual(len(choices), 2)
+        self.assertEqual(
+            {choice['problem_title'] for choice in choices},
+            {'Reverse a String', 'Prime Number'},
+        )
+        self.assertTrue(all('code' not in choice for choice in choices))
+
+        detail_response = self._get(
+            f'/api/supervisor/students/{student.student_profile.pk}/submissions/{first_submission.pk}',
+            supervisor,
+        )
+
+        self.assertEqual(detail_response.status_code, 200)
+        self.assertEqual(detail_response.json()['code'], 'print("reversed")')
+        self.assertEqual(detail_response.json()['problem_title'], 'Reverse a String')
+
+    def test_student_cannot_review_submissions_and_submission_is_student_scoped(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        other_student = self._make_student('other@example.com', 'ENR002')
+        problem = self._make_problem(supervisor)
+        submission = Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=problem,
+            language='python',
+            code='print("hello")',
+            status=Submission.STATUS_SUBMITTED,
+        )
+
+        list_response = self._get(
+            f'/api/supervisor/students/{student.student_profile.pk}/submissions',
+            student,
+        )
+        wrong_student_response = self._get(
+            f'/api/supervisor/students/{other_student.student_profile.pk}/submissions/{submission.pk}',
+            supervisor,
+        )
+
+        self.assertEqual(list_response.status_code, 403)
+        self.assertEqual(wrong_student_response.status_code, 404)
+
+
 class SubmissionCheckCommandTests(SubmissionsTestBase):
     def test_check_submissions_marks_c_code_as_passed(self):
         supervisor = self._make_supervisor()
@@ -410,6 +613,47 @@ class Judge0CheckTests(TestCase):
         self.assertEqual(
             mock_post.call_args_list[0].kwargs['json']['expected_output'], '3\n'
         )
+        self.assertTrue(all(
+            call.kwargs['timeout'] == (5, 30)
+            for call in mock_post.call_args_list
+        ))
+
+    @patch(
+        'submissions.judge0.get_judge0_config',
+        return_value={'api_key': 'test-key', 'base_url': 'https://judge.example/api'},
+    )
+    @patch('submissions.judge0.requests.post')
+    def test_transient_timeout_is_retried_once(self, mock_post, mock_config):
+        from submissions.judge0 import run_judge0_check
+
+        accepted = Mock(ok=True, status_code=201)
+        accepted.json.return_value = {'status': {'id': 3, 'description': 'Accepted'}}
+        mock_post.side_effect = [Timeout(), accepted, accepted]
+
+        passed, output = run_judge0_check(self.submission)
+
+        self.assertTrue(passed)
+        self.assertEqual(mock_post.call_count, 3)
+        self.assertTrue(all(
+            call.kwargs['timeout'] == (5, 30)
+            for call in mock_post.call_args_list
+        ))
+
+    @patch(
+        'submissions.judge0.get_judge0_config',
+        return_value={'api_key': 'test-key', 'base_url': 'https://judge.example/api'},
+    )
+    @patch('submissions.judge0.requests.post', side_effect=Timeout('private transport details'))
+    def test_final_timeout_raises_a_clean_error(self, mock_post, mock_config):
+        from submissions.judge0 import run_judge0_check
+
+        with self.assertRaisesRegex(
+            RuntimeError,
+            '^Judge0 is temporarily unavailable\\. Please retry your submission in a moment\\.$',
+        ):
+            run_judge0_check(self.submission)
+
+        self.assertEqual(mock_post.call_count, 2)
 
     @patch(
         'submissions.judge0.get_judge0_config',

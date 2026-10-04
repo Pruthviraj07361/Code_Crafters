@@ -1,4 +1,7 @@
 Django==6.1.1
+channels>=4.2,<5
+daphne>=4.2,<5
+whitenoise>=6.8,<7
 python-dotenv==1.1.1
 django-allauth==65.11.2
 requests==2.32.5

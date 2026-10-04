@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Accounts{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+    {% block background %}{% endblock %}
     <nav>
         {% if user.is_authenticated %}
             <a href="{% url 'accounts:profile' %}">Profile</a>
@@ -24,5 +26,6 @@
     {% endfor %}
 
     {% block content %}{% endblock %}
+    {% block scripts %}{% endblock %}
 </body>
 </html>
