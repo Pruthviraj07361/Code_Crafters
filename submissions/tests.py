@@ -408,6 +408,27 @@ class SupervisorStudentProgressEndpointTests(SubmissionsTestBase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_progress_supports_server_side_filters(self):
+        supervisor = self._make_supervisor()
+        first = self._make_student('first@example.com', 'ENR201')
+        second = self._make_student('second@example.com', 'ENR202')
+        first.student_profile.division = 'A'
+        first.student_profile.branch = 'CS'
+        first.student_profile.semester = 3
+        first.student_profile.save()
+        second.student_profile.division = 'B'
+        second.student_profile.branch = 'IT'
+        second.student_profile.semester = 4
+        second.student_profile.save()
+
+        response = self.client.get(
+            '/api/supervisor/student-progress?division=A&branch=CS&semester=3',
+            **self._token_header(supervisor),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([student['id'] for student in response.json()['students']], [first.student_profile.id])
+
     def test_faculty_can_view_student_progress(self):
         faculty = self._make_faculty()
 
@@ -495,6 +516,28 @@ class SupervisorSubmissionReviewEndpointTests(SubmissionsTestBase):
 
 
 class SubmissionCheckCommandTests(SubmissionsTestBase):
+    def test_worker_error_is_bounded_after_max_attempts(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+        submission = Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=problem,
+            language='c',
+            code='int main(){return 0;}',
+            status=Submission.STATUS_PENDING,
+            attempt_count=2,
+        )
+
+        with patch(
+            'submissions.management.commands.check_submissions.run_judge0_check',
+            side_effect=RuntimeError('Judge0 unavailable'),
+        ):
+            call_command('check_submissions', max_attempts=3)
+
+        submission.refresh_from_db()
+        self.assertEqual(submission.status, Submission.STATUS_FAILED)
+        self.assertEqual(submission.attempt_count, 3)
     def test_check_submissions_marks_c_code_as_passed(self):
         supervisor = self._make_supervisor()
         student = self._make_student()

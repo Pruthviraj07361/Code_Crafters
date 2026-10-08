@@ -28,12 +28,13 @@ class ProblemStatement(models.Model):
 
 
 class Meeting(models.Model):
-    """The club's next meeting. Only one row is ever kept: the supervisor
-    endpoint updates it in place instead of adding a new row each time."""
+    """An offline club meeting. Slot 1 and slot 2 support the PRD's two
+    offline meetings while the legacy endpoint continues updating slot 1."""
 
     title = models.CharField(max_length=200)
     notes = models.TextField(blank=True)
     scheduled_for = models.DateTimeField()
+    slot = models.PositiveSmallIntegerField(default=1)
     updated_by = models.ForeignKey(
         'accounts.AdminProfile',
         on_delete=models.SET_NULL,
@@ -41,6 +42,25 @@ class Meeting(models.Model):
         related_name='meetings_updated',
     )
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=200)
+    message = models.TextField()
+    created_by = models.ForeignKey(
+        'accounts.AdminProfile',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='announcements',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
 
     def __str__(self):
         return self.title

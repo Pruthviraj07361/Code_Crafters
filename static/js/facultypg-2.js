@@ -255,8 +255,11 @@ document.getElementById("rejected-footer-count").textContent =
 );
 
 const activityList = document.getElementById("activity-items-list");
+let activityEntries = [];
+let activeActivityCategory = "all";
 
 function renderActivityLog(entries) {
+  activityEntries = entries;
   activityList.replaceChildren();
   if (!entries.length) {
     const emptyState = document.createElement("p");
@@ -285,9 +288,21 @@ async function loadActivityLog() {
   const token = sessionStorage.getItem("authToken");
   if (!token) return renderActivityLog([]);
   try {
-    const response = await fetch("/api/faculty/activity", {
+    const params = new URLSearchParams();
+    if (activeActivityCategory !== "all") {
+      params.set("category", activeActivityCategory);
+    }
+    const since = document.getElementById("activity-since")?.value;
+    const until = document.getElementById("activity-until")?.value;
+    if (since) params.set("since", since);
+    if (until) params.set("until", until);
+    const query = params.toString();
+    const response = await fetch(
+      query ? `/api/faculty/activity?${query}` : "/api/faculty/activity",
+      {
       headers: { Authorization: `Bearer ${token}` },
-    });
+      },
+    );
     const entries = await response.json();
     if (!response.ok) throw new Error(entries.detail || "Unable to load activity.");
     renderActivityLog(entries);
@@ -311,15 +326,34 @@ activityChips.forEach((chip) => {
     chip.classList.add("bg-white/15", "text-white");
     chip.classList.remove("bg-white/5", "text-slate-300");
 
-    const category = chip.dataset.category;
-    activityList.querySelectorAll(".activity-item").forEach((item) => {
-      if (category === "all" || item.dataset.category === category) {
-        item.classList.remove("hidden");
-      } else {
-        item.classList.add("hidden");
-      }
-    });
+    activeActivityCategory = chip.dataset.category;
+    loadActivityLog();
   });
+});
+
+["activity-since", "activity-until"].forEach((id) => {
+  document.getElementById(id)?.addEventListener("change", loadActivityLog);
+});
+
+document.getElementById("export-activity-btn")?.addEventListener("click", () => {
+  const escapeCsv = (value) => `"${String(value ?? "").replaceAll('"', '""')}"`;
+  const rows = [
+    ["Timestamp", "Category", "Action", "Actor", "Description"],
+    ...activityEntries.map((entry) => [
+      entry.created_at,
+      entry.category,
+      entry.action,
+      entry.actor_name,
+      entry.description,
+    ]),
+  ];
+  const csv = rows.map((row) => row.map(escapeCsv).join(",")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "activity-log.csv";
+  link.click();
+  URL.revokeObjectURL(url);
 });
 
 // Pending Approvals State and Interactivity

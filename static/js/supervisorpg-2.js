@@ -652,6 +652,8 @@
   // 3. Student Progress View Filtering
   const studentSearch = document.getElementById("student-search");
   const studentCohortFilter = document.getElementById("student-cohort-filter");
+  const studentBranchFilter = document.getElementById("student-branch-filter");
+  const studentSemesterFilter = document.getElementById("student-semester-filter");
   const studentStatusTabs = document.querySelectorAll(".student-status-tab");
   const studentTableBody = document.getElementById("students-tbody");
   let studentRows = [];
@@ -829,13 +831,36 @@
 
     studentTableBody.textContent = "Loading student records...";
     try {
-      const response = await fetch("/api/supervisor/student-progress", {
+      const progressUrl = new URL(
+        "/api/supervisor/student-progress",
+        window.location.origin,
+      );
+      if (studentCohortFilter.value !== "all") {
+        progressUrl.searchParams.set("division", studentCohortFilter.value);
+      }
+      if (studentBranchFilter?.value !== "all") {
+        progressUrl.searchParams.set("branch", studentBranchFilter.value);
+      }
+      if (studentSemesterFilter?.value !== "all") {
+        progressUrl.searchParams.set("semester", studentSemesterFilter.value);
+      }
+      const response = await fetch(progressUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.detail || "Unable to load student records.");
       renderStudentProgress(data.students);
+      const branches = [...new Set(data.students.map((student) => student.branch))].sort();
+      const semesters = [...new Set(data.students.map((student) => student.semester).filter(Boolean))].sort((a, b) => a - b);
+      if (studentBranchFilter) {
+        studentBranchFilter.replaceChildren(new Option("All Branches", "all"));
+        branches.forEach((branch) => studentBranchFilter.add(new Option(branch, branch)));
+      }
+      if (studentSemesterFilter) {
+        studentSemesterFilter.replaceChildren(new Option("All Semesters", "all"));
+        semesters.forEach((semester) => studentSemesterFilter.add(new Option(`Semester ${semester}`, semester)));
+      }
       document.getElementById("progress-total-students").textContent =
         data.summary.active_student_count;
       document.getElementById("progress-average-solved").textContent = Number(
@@ -886,8 +911,52 @@
 
   if (studentSearch) studentSearch.addEventListener("input", filterStudents);
   if (studentCohortFilter)
-    studentCohortFilter.addEventListener("change", filterStudents);
+    studentCohortFilter.addEventListener("change", loadStudentProgress);
+  if (studentBranchFilter)
+    studentBranchFilter.addEventListener("change", loadStudentProgress);
+  if (studentSemesterFilter)
+    studentSemesterFilter.addEventListener("change", loadStudentProgress);
   loadStudentProgress();
+
+  const publishAnnouncement = document.getElementById("publish-announcement");
+  if (publishAnnouncement) {
+    publishAnnouncement.addEventListener("click", async () => {
+      const titleInput = document.getElementById("announcement-title");
+      const messageInput = document.getElementById("announcement-message");
+      const formMessage = document.getElementById("announcement-form-message");
+      const title = titleInput.value.trim();
+      const message = messageInput.value.trim();
+      formMessage.classList.add("hidden");
+      if (!title || !message) {
+        formMessage.textContent = "Enter both a title and message.";
+        formMessage.classList.remove("hidden");
+        return;
+      }
+      publishAnnouncement.disabled = true;
+      try {
+        const response = await fetch("/api/supervisor/announcements", {
+          method: "POST",
+          headers: {
+            Authorization: `******"authToken")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, message }),
+        });
+        const data = await response.json();
+        if (!response.ok)
+          throw new Error(data.detail || "Unable to publish announcement.");
+        titleInput.value = "";
+        messageInput.value = "";
+        formMessage.textContent = "Announcement published.";
+        formMessage.classList.remove("hidden");
+      } catch (error) {
+        formMessage.textContent = error.message;
+        formMessage.classList.remove("hidden");
+      } finally {
+        publishAnnouncement.disabled = false;
+      }
+    });
+  }
 
   studentStatusTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -1084,6 +1153,7 @@
     meetingFormMessage.classList.add("hidden");
     if (currentMeeting) {
       document.getElementById("meeting-title").value = currentMeeting.title;
+      document.getElementById("meeting-slot").value = currentMeeting.slot || 1;
       document.getElementById("meeting-notes").value =
         currentMeeting.notes || "";
       const date = new Date(currentMeeting.scheduled_for);
@@ -1093,6 +1163,7 @@
         .slice(0, 16);
     } else {
       document.getElementById("meeting-title").value = "";
+      document.getElementById("meeting-slot").value = 1;
       document.getElementById("meeting-notes").value = "";
       document.getElementById("meeting-scheduled-for").value = "";
     }
@@ -1121,6 +1192,7 @@
         },
         body: JSON.stringify({
           title: document.getElementById("meeting-title").value.trim(),
+          slot: Number(document.getElementById("meeting-slot").value),
           notes: document.getElementById("meeting-notes").value,
           scheduled_for: scheduledFor.toISOString(),
         }),

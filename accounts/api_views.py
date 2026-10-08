@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import authenticate, get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -187,7 +189,36 @@ def update_student_profile(request):
 @api_view(['GET'])
 @permission_classes([IsFacultyOrSuperuser])
 def activity_log(request):
-    queryset = ActivityLog.objects.select_related('actor', 'actor__admin_profile')[:100]
+    queryset = ActivityLog.objects.select_related('actor', 'actor__admin_profile')
+    category = request.query_params.get('category')
+    since = request.query_params.get('since')
+    until = request.query_params.get('until')
+    try:
+        since_date = date.fromisoformat(since) if since else None
+        until_date = date.fromisoformat(until) if until else None
+    except ValueError:
+        return Response(
+            {'detail': 'Dates must use YYYY-MM-DD format.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if since_date and until_date and since_date > until_date:
+        return Response(
+            {'detail': 'The start date cannot be after the end date.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if category and category != 'all':
+        valid_categories = {choice[0] for choice in ActivityLog.CATEGORY_CHOICES}
+        if category not in valid_categories:
+            return Response(
+                {'detail': 'Unknown activity category.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        queryset = queryset.filter(category=category)
+    if since:
+        queryset = queryset.filter(created_at__date__gte=since_date)
+    if until:
+        queryset = queryset.filter(created_at__date__lte=until_date)
+    queryset = queryset[:100]
     return Response(ActivityLogSerializer(queryset, many=True).data)
 
 

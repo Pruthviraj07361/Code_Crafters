@@ -2630,6 +2630,18 @@
                 >expand_more</span
               >
             </div>
+            <select
+              class="w-full sm:w-44 h-10 px-3 bg-slate-800/40 border border-white/5 rounded font-body-sm text-body-sm text-white [&>option]:bg-slate-900"
+              id="student-branch-filter"
+            >
+              <option value="all">All Branches</option>
+            </select>
+            <select
+              class="w-full sm:w-44 h-10 px-3 bg-slate-800/40 border border-white/5 rounded font-body-sm text-body-sm text-white [&>option]:bg-slate-900"
+              id="student-semester-filter"
+            >
+              <option value="all">All Semesters</option>
+            </select>
           </div>
           <div
             class="flex items-center gap-space-xs bg-slate-800/40 border border-white/5 p-1 rounded-full self-start sm:self-auto"
@@ -2880,6 +2892,20 @@
               <div class="flex flex-col gap-space-2xs">
                 <label
                   class="font-label-sm text-label-sm text-slate-400 font-medium"
+                  for="meeting-slot"
+                  >Meeting Slot</label
+                >
+                <select
+                  class="h-10 px-3 bg-white/5 border border-white/10 rounded font-body-sm text-body-sm"
+                  id="meeting-slot"
+                >
+                  <option value="1">Offline Meeting 1</option>
+                  <option value="2">Offline Meeting 2</option>
+                </select>
+              </div>
+              <div class="flex flex-col gap-space-2xs">
+                <label
+                  class="font-label-sm text-label-sm text-slate-400 font-medium"
                   for="meeting-scheduled-for"
                   >Date and Time</label
                 >
@@ -2963,6 +2989,14 @@
             </button>
           </div>
         </div>
+        <section class="bg-slate-900/60 border border-white/10 rounded-xl p-space-md mb-space-xl">
+          <div class="flex flex-col sm:flex-row gap-space-sm">
+            <input class="flex-1 h-10 px-3 bg-slate-800/40 border border-white/5 rounded text-white" id="announcement-title" maxlength="200" placeholder="Announcement title" type="text" />
+            <input class="flex-[2] h-10 px-3 bg-slate-800/40 border border-white/5 rounded text-white" id="announcement-message" placeholder="Announcement message" type="text" />
+            <button class="h-10 px-space-md rounded bg-white/15 text-white border border-white/20 hover:bg-white/25" id="publish-announcement" type="button">Publish</button>
+          </div>
+          <p class="hidden text-sm text-rose-300 mt-2" id="announcement-form-message"></p>
+        </section>
         <!-- Controls Bar: Filter, Search -->
         <div
           class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-xl p-space-md flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md mb-space-xl"

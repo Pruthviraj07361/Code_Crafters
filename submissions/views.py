@@ -57,7 +57,17 @@ def _grade_submission(submission_id):
 @permission_classes([CanViewStudentProgress])
 def supervisor_student_progress(request):
     total_problems = ProblemStatement.objects.count()
-    students = StudentProfile.objects.filter(is_approved=True).select_related(
+    students = StudentProfile.objects.filter(is_approved=True)
+    division = request.query_params.get('division')
+    branch = request.query_params.get('branch')
+    semester = request.query_params.get('semester')
+    if division and division != 'all':
+        students = students.filter(division=division)
+    if branch and branch != 'all':
+        students = students.filter(branch=branch)
+    if semester and semester != 'all':
+        students = students.filter(semester=semester)
+    students = students.select_related(
         'user',
     ).prefetch_related(
         Prefetch(

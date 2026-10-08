@@ -534,3 +534,32 @@ class ApprovalAPITests(TestCase):
         )
 
         self.assertEqual(response.status_code, 403)
+
+    def test_activity_log_supports_category_and_date_filters(self):
+        faculty = self._make_faculty()
+        pending = self._make_pending_student()
+        self.client.post(
+            f'/api/faculty/students/{pending.pk}/approve',
+            data=json.dumps({'approved': True}),
+            content_type='application/json',
+            **self._token_header(faculty),
+        )
+
+        response = self.client.get(
+            '/api/faculty/activity?category=decision&since=2000-01-01&until=2100-01-01',
+            **self._token_header(faculty),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json())
+        self.assertTrue(all(item['category'] == 'decision' for item in response.json()))
+
+    def test_activity_log_rejects_invalid_dates(self):
+        faculty = self._make_faculty()
+
+        response = self.client.get(
+            '/api/faculty/activity?since=not-a-date',
+            **self._token_header(faculty),
+        )
+
+        self.assertEqual(response.status_code, 400)

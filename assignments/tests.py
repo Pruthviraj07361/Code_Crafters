@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 
 from accounts.models import AdminProfile, StudentProfile
 
-from .models import Meeting, ProblemStatement
+from .models import Announcement, Meeting, ProblemStatement
 
 
 class AssignmentsTestBase(TestCase):
@@ -181,6 +181,33 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         self.assertIn('sample_input', response.json()[0])
         self.assertIn('test_cases', response.json()[0])
 
+    def test_supervisor_can_update_problem_statement(self):
+        supervisor = self._make_supervisor()
+        problem = self._make_problem(supervisor)
+
+        response = self.client.patch(
+            f'/api/supervisor/problem-statements/{problem.pk}',
+            data=json.dumps({'title': 'Updated title'}),
+            content_type='application/json',
+            **self._token_header(supervisor),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        problem.refresh_from_db()
+        self.assertEqual(problem.title, 'Updated title')
+
+    def test_supervisor_can_delete_problem_statement(self):
+        supervisor = self._make_supervisor()
+        problem = self._make_problem(supervisor)
+
+        response = self.client.delete(
+            f'/api/supervisor/problem-statements/{problem.pk}',
+            **self._token_header(supervisor),
+        )
+
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(ProblemStatement.objects.filter(pk=problem.pk).exists())
+
     def test_student_cannot_use_supervisor_list(self):
         student = self._make_student()
 
@@ -352,6 +379,41 @@ class MeetingTests(AssignmentsTestBase):
         body = response.json()
         self.assertEqual(body['title'], 'Weekly meetup')
         self.assertEqual(body['notes'], 'Bring your laptop.')
+
+    def test_supervisor_can_manage_two_meeting_slots(self):
+        supervisor = self._make_supervisor()
+        first = self._post_json('/api/supervisor/meeting', self._payload(slot=1), supervisor)
+        second = self._post_json(
+            '/api/supervisor/meeting',
+            self._payload(title='Second workshop', slot=2),
+            supervisor,
+        )
+
+        self.assertEqual(first.status_code, 201)
+        self.assertEqual(second.status_code, 201)
+        self.assertEqual(Meeting.objects.count(), 2)
+
+        student = self._make_student()
+        response = self._get('/api/student/updates', student)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()['meetings']), 2)
+
+    def test_supervisor_can_publish_announcement_in_updates_feed(self):
+        supervisor = self._make_supervisor()
+        response = self._post_json(
+            '/api/supervisor/announcements',
+            {'title': 'Bring your laptop', 'message': 'The next workshop is in Lab 2.'},
+            supervisor,
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Announcement.objects.count(), 1)
+
+        student = self._make_student()
+        updates = self._get('/api/student/updates', student)
+        self.assertEqual(updates.status_code, 200)
+        self.assertEqual(updates.json()['announcements'][0]['title'], 'Bring your laptop')
 
     def test_student_gets_404_when_no_meeting_scheduled(self):
         student = self._make_student()

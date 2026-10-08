@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Meeting, ProblemStatement
+from .models import Announcement, Meeting, ProblemStatement
 
 
 # --- Input serializers (plain, used by supervisor POST endpoints) ---
@@ -34,10 +34,34 @@ class ProblemStatementCreateSerializer(serializers.Serializer):
         return value
 
 
+class ProblemStatementUpdateSerializer(ProblemStatementCreateSerializer):
+    title = serializers.CharField(max_length=200, required=False)
+    description = serializers.CharField(required=False)
+    test_cases = serializers.JSONField(required=False)
+
+    def update(self, instance, validated_data):
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+        instance.save(update_fields=list(validated_data))
+        return instance
+
+
 class MeetingUpdateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     notes = serializers.CharField(required=False, allow_blank=True)
     scheduled_for = serializers.DateTimeField()
+    slot = serializers.IntegerField(required=False, min_value=1, max_value=2, default=1)
+
+
+class AnnouncementCreateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=200)
+    message = serializers.CharField()
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = ['id', 'title', 'message', 'created_at']
 
 
 # --- Read-only serializers ---
@@ -85,4 +109,4 @@ class SupervisorMeetingSerializer(serializers.ModelSerializer):
 class StudentMeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meeting
-        fields = ['title', 'notes', 'scheduled_for', 'updated_at']
+        fields = ['id', 'title', 'notes', 'scheduled_for', 'slot', 'updated_at']

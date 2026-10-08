@@ -698,7 +698,7 @@
               <div class="flex items-center gap-3">
                 <button
                   class="h-9 px-4 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white hover:bg-white/10 transition-colors flex items-center gap-2 font-label-md text-label-md font-medium"
-                  onclick="showToast('Exporting Interaction Audit Log (.csv)', false, 'download')"
+                  id="export-activity-btn"
                   type="button"
                 >
                   <span
@@ -749,7 +749,10 @@
                 </button>
               </div>
               <div class="text-xs font-code-inline text-slate-300">
-                No live activity entries are available
+                <label class="mr-2" for="activity-since">From</label>
+                <input class="bg-white/5 border border-white/10 rounded px-2 py-1" id="activity-since" type="date" />
+                <label class="mx-2" for="activity-until">To</label>
+                <input class="bg-white/5 border border-white/10 rounded px-2 py-1" id="activity-until" type="date" />
               </div>
             </div>
           </div>
