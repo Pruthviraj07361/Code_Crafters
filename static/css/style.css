@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   overscroll-behavior: none;
+  min-height: 100%;
 }
 
 html {
@@ -24,6 +25,14 @@ body {
   font-family: "Crimson Text", Georgia, serif;
   background-color: #0f172a; /* fallback dark background while Vanta loads */
   color: #fff;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Keep the animated backdrop aligned when browser chrome changes the viewport. */
+#vanta-canvas {
+  height: 100dvh !important;
+  min-height: 100dvh;
 }
 
 /* Material Icons Font Fix */

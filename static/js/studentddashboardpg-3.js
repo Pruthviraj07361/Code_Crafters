@@ -123,6 +123,35 @@ async function loadCurrentUser() {
 
 loadCurrentUser();
 
+const projectView = document.getElementById("view-projects");
+if (projectView) {
+  projectView.innerHTML = `
+    <section class="mb-space-lg">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10">
+        <div>
+          <div class="flex items-center gap-space-xs mb-space-2xs">
+            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+            <span class="font-code-inline text-code-inline text-white">Projects</span>
+          </div>
+          <h1 class="font-headline-lg text-headline-lg text-white tracking-tight">Projects &amp; Repositories</h1>
+          <p class="font-body-md text-body-md text-slate-300 mt-1">Project assignments will appear here when they are published by the club.</p>
+        </div>
+      </div>
+    </section>
+    <section class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-xl text-center">
+      <span class="material-symbols-outlined text-4xl text-slate-400">folder_open</span>
+      <h2 class="font-headline-sm text-headline-sm text-white mt-3">No project assignments yet</h2>
+      <p class="font-body-sm text-body-sm text-slate-400 mt-1">There are no live project records for your account.</p>
+    </section>`;
+}
+
+const clubStatus = document.getElementById("profile-club-status");
+if (clubStatus) {
+  clubStatus.querySelectorAll("span.font-medium, span.font-code-inline").forEach((field) => {
+    field.textContent = "Not configured";
+  });
+}
+
 window.cohortState = {
   year: "Not configured",
   sem: "Not configured",

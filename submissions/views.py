@@ -196,27 +196,6 @@ def student_submit_problem(request, pk):
         f'{student.name} submitted code for {problem.title}.',
         target=submission,
     )
-<<<<<<< HEAD
-    try:
-        passed, judge0_output = run_judge0_check(submission)
-    except Exception as exc:
-        submission.status = Submission.STATUS_PENDING
-        submission.judge0_output = str(exc)
-        submission.save(update_fields=['status', 'judge0_output'])
-        _broadcast_submission_status(submission)
-        return Response(
-            {'detail': 'Your code was saved, but automatic grading is unavailable. Try again later.'},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
-
-    submission.status = Submission.STATUS_PASSED if passed else Submission.STATUS_FAILED
-    submission.judge0_output = judge0_output
-    submission.checked_at = timezone.now()
-    submission.save(update_fields=['status', 'judge0_output', 'checked_at'])
-    _broadcast_submission_status(submission)
-=======
->>>>>>> 1c30e87 (..)
-
     return Response(
         SubmissionDetailSerializer(submission).data,
         status=status.HTTP_202_ACCEPTED,

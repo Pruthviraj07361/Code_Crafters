@@ -206,11 +206,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = '/static/'
-<<<<<<< HEAD
-STATICFILES_DIRS = [BASE_DIR / 'templates' / 'frontend']
-=======
 STATICFILES_DIRS = [BASE_DIR / 'static']
->>>>>>> 1c30e87 (..)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 LOGIN_URL = 'frontend-preview-login'
