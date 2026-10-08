@@ -1,1113 +1,732 @@
-<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><link class="" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link rel="stylesheet" href="style.css">
-<script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-          "surface-container": "#edeeef",
-          "on-tertiary-fixed": "#151c25",
-          "tertiary-fixed-dim": "#c0c7d3",
-          "on-primary": "#ffffff",
-          "on-secondary-fixed-variant": "#3e4755",
-          "on-surface-variant": "#45464c",
-          "surface-container-highest": "#e1e3e4",
-          "secondary-container": "#d6e0f1",
-          "surface-container-low": "#f3f4f5",
-          "primary-fixed": "#dce2f7",
-          "primary-fixed-dim": "#c0c6db",
-          "surface-dim": "#d9dadb",
-          "error-container": "#ffdad6",
-          "surface-tint": "#575e70",
-          "outline-variant": "#c6c6cd",
-          "on-secondary-container": "#596372",
-          "on-secondary": "#ffffff",
-          "secondary-fixed-dim": "#bdc7d8",
-          "surface-container-lowest": "#ffffff",
-          "tertiary-fixed": "#dce3f0",
-          "surface-bright": "#f8f9fa",
-          "outline": "#76777d",
-          "on-background": "#191c1d",
-          "tertiary-container": "#151c25",
-          "on-primary-fixed": "#141b2b",
-          "on-surface": "#191c1d",
-          "primary-container": "#141b2b",
-          "secondary": "#555f6d",
-          "on-secondary-fixed": "#121c28",
-          "on-primary-container": "#7d8497",
-          "on-tertiary-container": "#7d8490",
-          "surface-variant": "#e1e3e4",
-          "on-primary-fixed-variant": "#404758",
-          "on-tertiary": "#ffffff",
-          "on-tertiary-fixed-variant": "#404752",
-          "secondary-fixed": "#d9e3f4",
-          "background": "#f8f9fa",
-          "surface": "#f8f9fa",
-          "inverse-primary": "#c0c6db",
-          "primary": "#000000",
-          "on-error-container": "#93000a",
-          "surface-container-high": "#e7e8e9",
-          "on-error": "#ffffff",
-          "tertiary": "#000000",
-          "inverse-on-surface": "#f0f1f2",
-          "inverse-surface": "#2e3132",
-          "error": "#ba1a1a"
-        },
-        "borderRadius": {
-          "DEFAULT": "0.125rem",
-          "lg": "0.25rem",
-          "xl": "0.5rem",
-          "full": "0.75rem"
-        },
-        "spacing": {
-          "gutter": "1.5rem",
-          "space-xl": "2.5rem",
-          "space-2xl": "4rem",
-          "space-2xs": "0.25rem",
-          "margin": "2rem",
-          "gutter-lg": "2rem",
-          "space-xs": "0.5rem",
-          "space-sm": "0.75rem",
-          "space-md": "1rem",
-          "gutter-sm": "1rem",
-          "margin-desktop": "3rem",
-          "space-lg": "1.5rem",
-          "margin-mobile": "1rem"
-        },
-        "fontFamily": {
-          "headline-sm": [
-            "Space Grotesk"
-          ],
-          "headline-md": [
-            "Space Grotesk"
-          ],
-          "body-lg": [
-            "Inter"
-          ],
-          "headline-lg": [
-            "Space Grotesk"
-          ],
-          "headline-xl-mobile": [
-            "Space Grotesk"
-          ],
-          "code-inline": [
-            "Space Grotesk"
-          ],
-          "body-md": [
-            "Inter"
-          ],
-          "label-sm": [
-            "Inter"
-          ],
-          "body-sm": [
-            "Inter"
-          ],
-          "headline-xl": [
-            "Space Grotesk"
-          ],
-          "headline-lg-mobile": [
-            "Space Grotesk"
-          ],
-          "label-md": [
-            "Inter"
-          ]
-        },
-        "fontSize": {
-          "headline-sm": [
-            "1.25rem",
-            {
-              "lineHeight": "1.75rem",
-              "letterSpacing": "-0.015em",
-              "fontWeight": "500"
-            }
-          ],
-          "headline-md": [
-            "1.5rem",
-            {
-              "lineHeight": "2rem",
-              "letterSpacing": "-0.02em",
-              "fontWeight": "500"
-            }
-          ],
-          "body-lg": [
-            "1.125rem",
-            {
-              "lineHeight": "1.75rem",
-              "letterSpacing": "-0.01em",
-              "fontWeight": "400"
-            }
-          ],
-          "headline-lg": [
-            "2rem",
-            {
-              "lineHeight": "2.5rem",
-              "letterSpacing": "-0.025em",
-              "fontWeight": "600"
-            }
-          ],
-          "headline-xl-mobile": [
-            "1.875rem",
-            {
-              "lineHeight": "2.25rem",
-              "letterSpacing": "-0.02em",
-              "fontWeight": "600"
-            }
-          ],
-          "code-inline": [
-            "0.8125rem",
-            {
-              "lineHeight": "1.25rem",
-              "letterSpacing": "-0.01em",
-              "fontWeight": "500"
-            }
-          ],
-          "body-md": [
-            "0.9375rem",
-            {
-              "lineHeight": "1.5rem",
-              "letterSpacing": "-0.005em",
-              "fontWeight": "400"
-            }
-          ],
-          "label-sm": [
-            "0.75rem",
-            {
-              "lineHeight": "1rem",
-              "letterSpacing": "0.015em",
-              "fontWeight": "500"
-            }
-          ],
-          "body-sm": [
-            "0.8125rem",
-            {
-              "lineHeight": "1.25rem",
-              "letterSpacing": "0em",
-              "fontWeight": "400"
-            }
-          ],
-          "headline-xl": [
-            "2.5rem",
-            {
-              "lineHeight": "3rem",
-              "letterSpacing": "-0.03em",
-              "fontWeight": "600"
-            }
-          ],
-          "headline-lg-mobile": [
-            "1.5rem",
-            {
-              "lineHeight": "2rem",
-              "letterSpacing": "-0.02em",
-              "fontWeight": "600"
-            }
-          ],
-          "label-md": [
-            "0.875rem",
-            {
-              "lineHeight": "1.25rem",
-              "letterSpacing": "0.005em",
-              "fontWeight": "500"
-            }
-          ]
-        }
-      }
-    }
-  };</script><style id="crimson-text-global-override">*, *::before, *::after, html, body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea, label, div, nav, header, footer, code, pre, kbd, samp, small, strong, b, i, em { font-family: 'Crimson Text', Georgia, serif !important; }</style></head><body class="bg-transparent font-body-md text-white antialiased selection:bg-white/30 selection:text-white min-h-screen flex flex-col justify-between" style="font-family: &quot;Crimson Text&quot;, Georgia, serif !important;">
-<div id="vanta-canvas" class="fixed inset-0 -z-10 h-screen w-full"></div>
-<div class="grain-overlay"></div><header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-b"><div class="h-14 max-w-6xl mx-auto px-gutter flex items-center justify-between"><div class="flex items-center gap-space-xs"><a class="font-headline-sm text-headline-sm text-white flex items-center gap-space-2xs tracking-tight" data-path="challenges" href="javascript:void(0)" onclick="switchView('challenges')"><span class="">Coding Club</span><span class="inline-block w-1.5 h-1.5 rounded-full bg-white mb-2"></span></a></div><nav class="flex items-center gap-space-sm" id="main-nav"><a class="nav-tab px-space-xs py-1 transition-colors border-b-2 cursor-pointer text-white border-white/40 font-medium" data-path="challenges" href="javascript:void(0)" id="nav-challenges" onclick="switchView('challenges')" aria-current="page">Challenges</a><a class="nav-tab font-label-md text-label-md hover:text-white px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-slate-300 border-transparent" data-path="projects" href="javascript:void(0)" id="nav-projects" onclick="switchView('projects')">Projects</a><div class="h-4 w-px bg-white/15 mx-space-2xs"></div><a class="nav-tab font-label-md text-label-md hover:text-white px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-slate-300 border-transparent" data-path="profile" href="javascript:void(0)" id="nav-profile" onclick="switchView('profile')">Profile</a><a class="font-label-md text-label-md text-slate-300 hover:text-white px-space-xs py-1 transition-colors border border-white/10 rounded hover:border-white/30" data-path="login" href="javascript:void(0)">Logout</a></nav></div></header><main class="w-full max-w-6xl mx-auto px-gutter pt-14 pb-space-2xl flex-1 bg-transparent">
-<!-- VIEW 1: CHALLENGES (DEFAULT) -->
-<div class="flex-col w-full flex" id="view-challenges">
-<!-- Minimalist Page Context & Header -->
-<section class="mb-space-lg">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10">
-<div>
-<div class="flex items-center gap-space-xs mb-space-2xs">
-<span class="w-1 h-1 rounded-full bg-slate-600"></span>
-<span class="font-code-inline text-code-inline text-white">C Programming Track&nbsp;</span>
-</div>
-<h1 class="font-headline-lg text-headline-lg text-white tracking-tight" style="font-family: &quot;Crimson Text&quot;, Georgia, serif !important;">Student Dashboard</h1>
-<p class="font-body-md text-body-md text-slate-300 mt-1">
-          Overview of your pending lab assignments, completed problem sets, and upcoming club meetups.
-        </p>
-</div>
-<!-- Quick Metrics Stream -->
-<div class="flex flex-wrap items-center gap-space-xs text-slate-300 font-label-sm text-label-sm">
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">1 Assigned</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">1 Pending</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">0 Completed</span>
-<span class="hidden sm:inline text-slate-500">•</span>
-<span class="px-2.5 py-1 rounded bg-white/15 text-slate-300 font-medium">Next: Thursday 17:30</span>
-</div>
-</div>
-</section>
-<!-- Main Content Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
-<!-- Left Column: Problem Statements (70%) -->
-<div class="lg:col-span-7 flex flex-col space-y-space-md">
-<!-- Section Action Bar -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-xs">
-<div>
-<h2 class="font-headline-sm text-headline-sm text-white tracking-tight">Problem Statements</h2>
-<p class="font-body-sm text-body-sm text-slate-400">String Processing</p>
-</div>
-<!-- Filter Tabs -->
-<div class="inline-flex p-0.5 rounded bg-white/15 self-start sm:self-auto border border-white/10" id="filter-controls">
-<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium transition-all" data-filter="all" type="button">
-            All
-          </button>
-<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-slate-400 hover:text-white transition-all" data-filter="pending" type="button">
-            Pending
-          </button>
-<button class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-slate-400 hover:text-white transition-all" data-filter="done" type="button">
-            Done
-          </button>
-</div>
-</div>
-<!-- Problem Statement Cards Feed -->
-<div class="space-y-space-sm" id="cards-container">
-<!-- Card 1 (Pending) -->
-<article class="problem-card group bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors" data-status="pending">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PS-01</span>
-<h3 class="font-headline-sm text-headline-sm text-white group-hover:text-slate-300">Reverse a String</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Pending
-            </span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Read a line of text and print its characters in reverse order.
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="">Sample input: hello</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white">Sample output: olleh</span>
-<span class="text-slate-500">•</span>
-<span class="">100 pts</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-white font-medium hover:underline" href="/preview/submission/?problem=1">
-<span class="">View Statement</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-<!-- Card 2 (Pending) -->
-<article class="problem-card group bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors" data-status="pending">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PS-02</span>
-<h3 class="font-headline-sm text-headline-sm text-white group-hover:text-slate-300">Pointer Arithmetic &amp; 2D Matrix Manipulation</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Pending
-            </span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Perform matrix transposition and dynamic memory flattening using double pointers without VLA syntax.
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="">Due: Oct 28, 23:59</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white">git push origin/lab-02</span>
-<span class="text-slate-500">•</span>
-<span class="">100 pts</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-white font-medium hover:underline" href="/preview/submission/?problem=2">
-<span class="">View Statement</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-<!-- Card 3 (Done) -->
-<article class="problem-card group bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors" data-status="pending">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PS-03</span>
-<h3 class="font-headline-sm text-headline-sm text-white group-hover:text-slate-300">Bitwise Operators &amp; Bitmask Flags</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Pending
-            </span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Construct bitmask configurations for 8-bit virtual hardware registers with bit toggling utilities.
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="">Not submitted</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">100 pts</span>
-<span class="text-slate-500">•</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-slate-400 hover:text-white font-medium" href="#">
-<span class="">Review Submission</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-<!-- Card 4 (Done) -->
-<article class="problem-card group bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors" data-status="pending">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PS-04</span>
-<h3 class="font-headline-sm text-headline-sm text-white group-hover:text-slate-300">UNIX File Descriptors &amp; Custom Buffer I/O</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Pending
-            </span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Simulate a buffered file reading pipeline utilizing POSIX read(), write(), and open() syscalls.
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="">Not submitted</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">100 pts</span>
-<span class="text-slate-500">•</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-slate-400 hover:text-white font-medium" href="#">
-<span class="">Review Submission</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-</div>
-</div>
-<!-- Right Column: Updates & Offline Meetings (30%) -->
-<div class="lg:col-span-3 flex flex-col space-y-space-md">
-<!-- Section Header -->
-<div class="pb-space-xs">
-<h2 class="font-headline-sm text-headline-sm text-white tracking-tight">Offline Meetings</h2>
-<p class="font-body-sm text-body-sm text-slate-400">Campus workshops &amp; syncs</p>
-</div>
-<!-- Feed Container -->
-<div class="space-y-space-sm" aria-live="polite" id="student-meeting-feed">
-<!-- Meeting Block 1: Mandatory Workshop -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-white font-semibold">Mandatory Workshop</span>
-<span class="w-2 h-2 rounded-full bg-white"></span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-white">C Debugging with GDB &amp; Valgrind</h3>
-<div class="space-y-1 py-1 font-body-sm text-body-sm text-slate-300">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">event</span>
-<span class="">Thursday, Oct 24, 2025</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">schedule</span>
-<span class="">5:30 PM – 7:00 PM IST</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">location_on</span>
-<span class="text-white font-medium">Turing Lab, CS Block (302)</span>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-slate-300 pt-1 border-t border-white/10">
-            Hands-on debugging session tracking segmentation faults, memory leaks, and core dumps with club mentors.
-          </p>
-<div class="pt-1">
-<span class="font-code-inline text-code-inline text-slate-400 block bg-slate-800/40 border p-2 rounded border-white/10">
-              Prereq: Laptop with gcc and gdb pre-installed.
-            </span>
-</div>
-</div>
-<!-- Meeting Block 2: Weekly Code Jam -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-slate-400 font-medium">Weekly Code Jam</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-white">Algorithm Sprint &amp; Peer Review</h3>
-<div class="space-y-1 py-1 font-body-sm text-body-sm text-slate-300">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">event</span>
-<span class="">Saturday, Oct 26, 2025</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">schedule</span>
-<span class="">2:00 PM – 4:30 PM IST</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">location_on</span>
-<span class="text-white font-medium">Innovation Center, Open Lounge B</span>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-slate-300 pt-1 border-t border-white/10">
-            Collaborative peer code reviews for PS-01/02 and speed-solving pointer challenges in pairs.
-          </p>
-</div>
-<!-- Notice Box / Mentorship Office Hours -->
-<div class="bg-slate-800/40 border rounded-lg border-white/10 p-space-md">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-[18px] text-white">support</span>
-<span class="font-headline-sm text-headline-sm text-white text-[1.1rem]">Lab Office Hours</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-300 leading-normal">
-            Senior student mentors will be available in <strong class="text-white font-medium">Lab 304</strong> on Wednesday from <strong class="text-white font-medium">4:00 PM to 6:00 PM</strong> for pointer logic doubt clearing.
-          </p>
-</div>
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs relative z-10" id="cohort-settings-card"><div class="flex items-center justify-between pb-space-xs border-b border-white/10"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-white">school</span><h4 class="font-label-md text-label-md text-white font-medium">Student Cohort</h4></div><span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10"><span class="w-1.5 h-1.5 rounded-full bg-white"></span> Active</span></div><p class="font-body-sm text-body-sm text-slate-300 leading-relaxed pt-1">Configure your academic stream to filter track assignments and peer reviews.</p><div class="space-y-space-xs pt-1 relative" id="cohort-form"><div class="space-y-1 relative" id="dropdown-container-year"><label class="font-label-sm text-label-sm text-slate-400 block">Academic Year</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-year" onclick="toggleCohortDropdown('year')" type="button"><span class="" id="selected-cohort-year">Year 2</span><span class="material-symbols-outlined text-slate-400 text-[18px] transition-transform" id="icon-cohort-year">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden" id="menu-cohort-year"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 1')" type="button">Year 1</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('year', 'Year 2')" type="button">Year 2</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 3')" type="button">Year 3</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('year', 'Year 4')" type="button">Year 4</button></div></div></div><div class="space-y-1 relative" id="dropdown-container-sem"><label class="font-label-sm text-label-sm text-slate-400 block">Semester</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-sem" onclick="toggleCohortDropdown('sem')" type="button"><span class="" id="selected-cohort-sem">Odd Semester</span><span class="material-symbols-outlined text-slate-400 text-[18px] transition-transform" id="icon-cohort-sem">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 hidden" id="menu-cohort-sem"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('sem', 'Odd Semester')" type="button">Odd Semester</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('sem', 'Even Semester')" type="button">Even Semester</button></div></div></div><div class="space-y-1 relative" id="dropdown-container-div"><label class="font-label-sm text-label-sm text-slate-400 block">Division</label><div class="relative"><button class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer" id="btn-cohort-div" onclick="toggleCohortDropdown('div')" type="button"><span class="" id="selected-cohort-div">Division D3</span><span class="material-symbols-outlined text-slate-400 text-[18px] transition-transform" id="icon-cohort-div">expand_more</span></button><div class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden" id="menu-cohort-div"><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D1')" type="button">Division D1</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D2')" type="button">Division D2</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium" onclick="selectCohortOption('div', 'Division D3')" type="button">Division D3</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D4')" type="button">Division D4</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D5')" type="button">Division D5</button><button class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer" onclick="selectCohortOption('div', 'Division D6')" type="button">Division D6</button></div></div></div><div class="pt-1"><button class="w-full bg-white/15 text-white font-label-md text-label-md py-1.5 px-3 rounded hover:bg-white/25 transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer border border-white/20 hover:border-white/40" id="cohort-save-btn" onclick="saveCohortCustom()" type="button"><span class="material-symbols-outlined text-[16px]" id="cohort-save-icon">save</span><span class="" id="cohort-save-text">Update Cohort</span></button></div><div class="pt-1 border-t border-white/10 flex items-center justify-between text-slate-400 font-label-sm text-label-sm"><span class="text-slate-300">Current:</span><span class="font-code-inline text-code-inline text-white font-medium" id="cohort-status-display">Year 2 • Odd Sem • Div D3</span></div><div class="text-body-sm font-label-sm text-white hidden pt-0.5" id="cohort-toast-msg"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Cohort preference updated</span></div></div></div></div>
-</div>
-</div>
-</div>
-<!-- VIEW 2: PROJECTS -->
-<div class="flex-col w-full hidden" id="view-projects">
-<!-- Minimalist Page Context & Header -->
-<section class="mb-space-lg">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10">
-<div>
-<div class="flex items-center gap-space-xs mb-space-2xs">
-<span class="w-1 h-1 rounded-full bg-slate-600"></span>
-<span class="font-code-inline text-code-inline text-white">Development Repository &amp; Sprints</span>
-</div>
-<h1 class="font-headline-lg text-headline-lg text-white tracking-tight">Club Projects &amp; Repositories</h1>
-<p class="font-body-md text-body-md text-slate-300 mt-1">
-          Collaborative development builds, assigned team projects, and term submissions.
-        </p>
-</div>
-<!-- Quick Metrics Stream -->
-<div class="flex flex-wrap items-center gap-space-xs text-slate-300 font-label-sm text-label-sm">
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">Active Projects (2)</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">Completed (1)</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">Under Review (1)</span>
-<span class="hidden sm:inline text-slate-500">•</span>
+{% load static %} <!doctype html>
+<html lang="en" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      class=""
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/studentddashboardpg-1.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'js/studentddashboardpg-1.js' %}"></script>
+    <link
+      rel="stylesheet"
+      href="{% static 'css/studentddashboardpg-2.css' %}"
+    />
+  </head>
+  <body
+    class="bg-transparent font-body-md text-white antialiased selection:bg-white/30 selection:text-white min-h-screen flex flex-col justify-between"
+    style="font-family: &quot;Crimson Text&quot;, Georgia, serif !important"
+  >
+    <div id="vanta-canvas" class="fixed inset-0 -z-10 h-screen w-full"></div>
+    <div class="grain-overlay"></div>
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-b"
+    >
+      <div
+        class="h-14 max-w-6xl mx-auto px-gutter flex items-center justify-between"
+      >
+        <div class="flex items-center gap-space-xs">
+          <a
+            class="font-headline-sm text-headline-sm text-white flex items-center gap-space-2xs tracking-tight"
+            data-path="challenges"
+            href="javascript:void(0)"
+            onclick="switchView('challenges')"
+            ><span class="">Coding Club</span
+            ><span
+              class="inline-block w-1.5 h-1.5 rounded-full bg-white mb-2"
+            ></span
+          ></a>
+        </div>
+        <nav class="flex items-center gap-space-sm" id="main-nav">
+          <a
+            class="nav-tab px-space-xs py-1 transition-colors border-b-2 cursor-pointer text-white border-white/40 font-medium"
+            data-path="challenges"
+            href="javascript:void(0)"
+            id="nav-challenges"
+            onclick="switchView('challenges')"
+            aria-current="page"
+            >Challenges</a
+          ><a
+            class="nav-tab font-label-md text-label-md hover:text-white px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-slate-300 border-transparent"
+            data-path="projects"
+            href="javascript:void(0)"
+            id="nav-projects"
+            onclick="switchView('projects')"
+            >Projects</a
+          >
+          <div class="h-4 w-px bg-white/15 mx-space-2xs"></div>
+          <a
+            class="nav-tab font-label-md text-label-md hover:text-white px-space-xs py-1 transition-colors cursor-pointer border-b-2 text-slate-300 border-transparent"
+            data-path="profile"
+            href="javascript:void(0)"
+            id="nav-profile"
+            onclick="switchView('profile')"
+            >Profile</a
+          ><a
+            class="font-label-md text-label-md text-slate-300 hover:text-white px-space-xs py-1 transition-colors border border-white/10 rounded hover:border-white/30"
+            data-path="login"
+            href="javascript:void(0)"
+            >Logout</a
+          >
+        </nav>
+      </div>
+    </header>
+    <main
+      class="w-full max-w-6xl mx-auto px-gutter pt-14 pb-space-2xl flex-1 bg-transparent"
+    >
+      <!-- VIEW 1: CHALLENGES (DEFAULT) -->
+      <div class="flex-col w-full flex" id="view-challenges">
+        <!-- Minimalist Page Context & Header -->
+        <section class="mb-space-lg">
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10"
+          >
+            <div>
+              <div class="flex items-center gap-space-xs mb-space-2xs">
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                <span class="font-code-inline text-code-inline text-white"
+                  >C Programming Track&nbsp;</span
+                >
+              </div>
+              <h1
+                class="font-headline-lg text-headline-lg text-white tracking-tight"
+                style="
+                  font-family:
+                    &quot;Crimson Text&quot;, Georgia, serif !important;
+                "
+              >
+                Student Dashboard
+              </h1>
+              <p class="font-body-md text-body-md text-slate-300 mt-1">
+                Overview of your pending lab assignments, completed problem
+                sets, and upcoming club meetups.
+              </p>
+            </div>
+            <!-- Quick Metrics Stream -->
+            <div
+              class="flex flex-wrap items-center gap-space-xs text-slate-300 font-label-sm text-label-sm"
+            >
+              <span
+                class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium"
+                id="metric-assigned"
+                >Loading assignments...</span
+              >
+              <span
+                class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium"
+                id="metric-pending"
+                >Loading pending...</span
+              >
+              <span
+                class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium"
+                id="metric-completed"
+                >Loading completed...</span
+              >
+              <span class="hidden sm:inline text-slate-500">•</span>
+              <span
+                class="px-2.5 py-1 rounded bg-white/15 text-slate-300 font-medium"
+                id="metric-next-meeting"
+                >Loading next meeting...</span
+              >
+            </div>
+          </div>
+        </section>
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+          <!-- Left Column: Problem Statements (70%) -->
+          <div class="lg:col-span-7 flex flex-col space-y-space-md">
+            <!-- Section Action Bar -->
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-xs"
+            >
+              <div>
+                <h2
+                  class="font-headline-sm text-headline-sm text-white tracking-tight"
+                >
+                  Problem Statements
+                </h2>
+                <p class="font-body-sm text-body-sm text-slate-400">
+                  String Processing
+                </p>
+              </div>
+              <!-- Filter Tabs -->
+              <div
+                class="inline-flex p-0.5 rounded bg-white/15 self-start sm:self-auto border border-white/10"
+                id="filter-controls"
+              >
+                <button
+                  class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium transition-all"
+                  data-filter="all"
+                  type="button"
+                >
+                  All
+                </button>
+                <button
+                  class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-slate-400 hover:text-white transition-all"
+                  data-filter="pending"
+                  type="button"
+                >
+                  Pending
+                </button>
+                <button
+                  class="filter-btn font-label-sm text-label-sm px-3 py-1 rounded text-slate-400 hover:text-white transition-all"
+                  data-filter="done"
+                  type="button"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+            <!-- Problem Statement Cards Feed -->
+            <div class="space-y-space-sm" id="cards-container">
+              <p class="py-8 text-center text-slate-400">
+                Loading problem statements...
+              </p>
+            </div>
+          </div>
+          <!-- Right Column: Updates & Offline Meetings (30%) -->
+          <div class="lg:col-span-3 flex flex-col space-y-space-md">
+            <!-- Section Header -->
+            <div class="pb-space-xs">
+              <h2
+                class="font-headline-sm text-headline-sm text-white tracking-tight"
+              >
+                Offline Meetings
+              </h2>
+              <p class="font-body-sm text-body-sm text-slate-400">
+                Campus workshops &amp; syncs
+              </p>
+            </div>
+            <!-- Feed Container -->
+            <div
+              class="space-y-space-sm"
+              aria-live="polite"
+              id="student-meeting-feed"
+            >
+              <p class="text-slate-400">Loading meetings...</p>
+              <div
+                class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs relative z-10"
+                id="cohort-settings-card"
+              >
+                <div
+                  class="flex items-center justify-between pb-space-xs border-b border-white/10"
+                >
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="material-symbols-outlined text-[16px] text-white"
+                      >school</span
+                    >
+                    <h4
+                      class="font-label-md text-label-md text-white font-medium"
+                    >
+                      Student Cohort
+                    </h4>
+                  </div>
+                  <span
+                    class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10"
+                    ><span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    Active</span
+                  >
+                </div>
+                <p
+                  class="font-body-sm text-body-sm text-slate-300 leading-relaxed pt-1"
+                >
+                  Configure your academic stream to filter track assignments and
+                  peer reviews.
+                </p>
+                <div class="space-y-space-xs pt-1 relative" id="cohort-form">
+                  <div class="space-y-1 relative" id="dropdown-container-year">
+                    <label
+                      class="font-label-sm text-label-sm text-slate-400 block"
+                      >Academic Year</label
+                    >
+                    <div class="relative">
+                      <button
+                        class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer"
+                        id="btn-cohort-year"
+                        onclick="toggleCohortDropdown('year')"
+                        type="button"
+                      >
+                        <span class="" id="selected-cohort-year"
+                          >Not configured</span
+                        ><span
+                          class="material-symbols-outlined text-slate-400 text-[18px] transition-transform"
+                          id="icon-cohort-year"
+                          >expand_more</span
+                        >
+                      </button>
+                      <div
+                        class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden"
+                        id="menu-cohort-year"
+                      >
+                        <button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('year', 'Year 1')"
+                          type="button"
+                        >
+                          Year 1</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium"
+                          onclick="selectCohortOption('year', 'Year 2')"
+                          type="button"
+                        >
+                          Year 2</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('year', 'Year 3')"
+                          type="button"
+                        >
+                          Year 3</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('year', 'Year 4')"
+                          type="button"
+                        >
+                          Year 4
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="space-y-1 relative" id="dropdown-container-sem">
+                    <label
+                      class="font-label-sm text-label-sm text-slate-400 block"
+                      >Semester</label
+                    >
+                    <div class="relative">
+                      <button
+                        class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer"
+                        id="btn-cohort-sem"
+                        onclick="toggleCohortDropdown('sem')"
+                        type="button"
+                      >
+                        <span class="" id="selected-cohort-sem"
+                          >Not configured</span
+                        ><span
+                          class="material-symbols-outlined text-slate-400 text-[18px] transition-transform"
+                          id="icon-cohort-sem"
+                          >expand_more</span
+                        >
+                      </button>
+                      <div
+                        class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 hidden"
+                        id="menu-cohort-sem"
+                      >
+                        <button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium"
+                          onclick="selectCohortOption('sem', 'Odd Semester')"
+                          type="button"
+                        >
+                          Odd Semester</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('sem', 'Even Semester')"
+                          type="button"
+                        >
+                          Even Semester
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="space-y-1 relative" id="dropdown-container-div">
+                    <label
+                      class="font-label-sm text-label-sm text-slate-400 block"
+                      >Division</label
+                    >
+                    <div class="relative">
+                      <button
+                        class="w-full flex items-center justify-between font-body-sm text-body-sm text-white bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors text-left cursor-pointer"
+                        id="btn-cohort-div"
+                        onclick="toggleCohortDropdown('div')"
+                        type="button"
+                      >
+                        <span class="" id="selected-cohort-div"
+                          >Division D3</span
+                        ><span
+                          class="material-symbols-outlined text-slate-400 text-[18px] transition-transform"
+                          id="icon-cohort-div"
+                          >expand_more</span
+                        >
+                      </button>
+                      <div
+                        class="absolute left-0 right-0 top-full mt-1 z-50 bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded shadow-lg py-1 max-h-48 overflow-y-auto hidden"
+                        id="menu-cohort-div"
+                      >
+                        <button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('div', 'Division D1')"
+                          type="button"
+                        >
+                          Division D1</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('div', 'Division D2')"
+                          type="button"
+                        >
+                          Division D2</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer font-medium"
+                          onclick="selectCohortOption('div', 'Division D3')"
+                          type="button"
+                        >
+                          Division D3</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('div', 'Division D4')"
+                          type="button"
+                        >
+                          Division D4</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('div', 'Division D5')"
+                          type="button"
+                        >
+                          Division D5</button
+                        ><button
+                          class="w-full text-left px-3 py-1.5 font-body-sm text-body-sm text-white hover:bg-slate-800/40 transition-colors block cursor-pointer"
+                          onclick="selectCohortOption('div', 'Division D6')"
+                          type="button"
+                        >
+                          Division D6
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-1">
+                    <button
+                      class="w-full bg-white/15 text-white font-label-md text-label-md py-1.5 px-3 rounded hover:bg-white/25 transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer border border-white/20 hover:border-white/40"
+                      id="cohort-save-btn"
+                      onclick="saveCohortCustom()"
+                      type="button"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[16px]"
+                        id="cohort-save-icon"
+                        >save</span
+                      ><span class="" id="cohort-save-text">Update Cohort</span>
+                    </button>
+                  </div>
+                  <div
+                    class="pt-1 border-t border-white/10 flex items-center justify-between text-slate-400 font-label-sm text-label-sm"
+                  >
+                    <span class="text-slate-300">Current:</span
+                    ><span
+                      class="font-code-inline text-code-inline text-white font-medium"
+                      id="cohort-status-display"
+                      >Year 2 • Odd Sem • Div D3</span
+                    >
+                  </div>
+                  <div
+                    class="text-body-sm font-label-sm text-white hidden pt-0.5"
+                    id="cohort-toast-msg"
+                  >
+                    <span class="inline-flex items-center gap-1"
+                      ><span class="material-symbols-outlined text-[14px]"
+                        >check_circle</span
+                      >
+                      Cohort preference updated</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- VIEW 2: PROJECTS -->
+      <div class="flex-col w-full hidden" id="view-projects">
+        <section class="mb-space-lg">
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10"
+          >
+            <div>
+              <div class="flex items-center gap-space-xs mb-space-2xs">
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                <span class="font-code-inline text-code-inline text-white"
+                  >Collaborative Work</span
+                >
+              </div>
+              <h1
+                class="font-headline-lg text-headline-lg text-white tracking-tight"
+              >
+                Club Projects &amp; Repositories
+              </h1>
+              <p class="font-body-md text-body-md text-slate-300 mt-1">
+                Collaborative development builds and term submissions.
+              </p>
+            </div>
+            <span
+              class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-slate-300 font-medium"
+              id="project-count"
+              >Loading projects...</span
+            >
+          </div>
+        </section>
+        <div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+          <div class="lg:col-span-7 flex flex-col space-y-space-md">
+            <div
+              class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg"
+              id="projects-feed"
+              aria-live="polite"
+            >
+              <div
+                class="flex items-center justify-between pb-space-xs border-b border-white/10 mb-space-sm"
+              >
+                <div>
+                  <h2 class="font-headline-sm text-headline-sm text-white">
+                    Project Feed
+                  </h2>
+                  <p class="font-body-sm text-body-sm text-slate-400">
+                    Projects assigned to your account
+                  </p>
+                </div>
+              </div>
+              <p class="py-12 text-center text-slate-400">
+                No project data is available from the backend yet.
+              </p>
+            </div>
+          </div>
+          <aside class="lg:col-span-3 flex flex-col space-y-space-md">
+            <div class="pb-space-xs">
+              <h2
+                class="font-headline-sm text-headline-sm text-white tracking-tight"
+              >
+                Project Summary
+              </h2>
+              <p class="font-body-sm text-body-sm text-slate-400">
+                Live project information
+              </p>
+            </div>
+            <div
+              class="bg-slate-800/40 border rounded-lg border-white/10 p-space-md"
+            >
+              <p class="text-slate-400 text-center">
+                Project metrics will appear when project records are available.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <!-- VIEW 3: PROFILE -->
+      <div class="flex-col w-full hidden" id="view-profile">
+        <!-- Minimalist Page Context & Header -->
+        <section class="mb-space-lg">
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10"
+          >
+            <div class="flex items-start gap-space-md">
+              <div
+                class="w-14 h-14 rounded-full bg-white/15 border border-white/20 flex items-center justify-center font-headline-md text-headline-md text-white font-bold"
+              >
+                —
+              </div>
+              <div>
+                <div class="flex items-center gap-space-xs mb-space-2xs">
+                  <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                  <span
+                    class="font-code-inline text-code-inline text-white"
+                    id="profile-enrollment"
+                    >Enrollment: Loading...</span
+                  >
+                  <span class="text-slate-500">•</span>
+                  <span
+                    class="font-body-sm text-body-sm text-slate-400"
+                    id="profile-branch"
+                    >Loading profile...</span
+                  >
+                </div>
+                <h1
+                  class="font-headline-lg text-headline-lg text-white tracking-tight"
+                >
+                  Loading profile...
+                </h1>
+                <p
+                  class="font-body-md text-body-md text-slate-300 mt-1"
+                  id="profile-cohort-banner"
+                >
+                  Enrolled Cohort:
+                  <span class="font-medium text-white" id="profile-cohort-text"
+                    >Not configured</span
+                  >
+                </p>
+              </div>
+            </div>
+            <!-- Quick Profile Metrics Stream -->
+            <div
+              class="flex flex-wrap items-center gap-space-xs text-slate-300 font-label-sm text-label-sm"
+            >
+              <span class="text-slate-400"
+                >Live profile metrics will appear after activity is
+                recorded.</span
+              >
+            </div>
+          </div>
+        </section>
+        <!-- Profile Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
+          <!-- Left Column: Details, Badges & Activity (70%) -->
+          <div class="lg:col-span-7 flex flex-col space-y-space-md">
+            <!-- Club Badges & Achievements -->
 
-</div>
-</div>
-</section>
-<!-- Main Projects Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
-<!-- Left Column: Projects Feed (70%) -->
-<div class="lg:col-span-7 flex flex-col space-y-space-md">
-<div class="flex items-center justify-between pb-space-xs">
-<div>
-<h2 class="font-headline-sm text-headline-sm text-white tracking-tight">Assigned Team &amp; Solo Builds</h2>
-<p class="font-body-sm text-body-sm text-slate-400">Term projects monitored by technical club leads</p>
-</div>
-<span class="font-code-inline text-code-inline text-slate-400 bg-white/5 px-2 py-1 rounded border border-white/10">3 Repositories Total</span>
-</div>
-<div class="space-y-space-sm">
-<!-- Project 1 -->
-<article class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PRJ-01</span>
-<h3 class="font-headline-sm text-headline-sm text-white">Distributed Key-Value Store</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Active / In Progress
-</span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Scalable in-memory distributed store with master-worker replication, socket networking in C, and thread-pool concurrency handling.
-          </p>
-<!-- Progress Bar -->
-<div class="mt-space-sm pt-space-xs">
-<div class="flex items-center justify-between font-label-sm text-label-sm text-slate-400 mb-1">
-<span class="">Milestone Completion (Phase 2)</span>
-<span class="font-code-inline text-code-inline text-white font-medium">78%</span>
-</div>
-<div class="w-full bg-white/15 rounded-full h-1.5 overflow-hidden">
-<div class="bg-white h-1.5 rounded-full" style="width: 78%"></div>
-</div>
-</div>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="text-white font-medium">Team: Aarav Sharma (Lead), Priya Patel</span>
-<span class="text-slate-500">•</span>
-<span class="">Division D3 &amp; D4 Cohort</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white">Due: Nov 15</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-white font-medium hover:underline" href="https://github.com/campus-cc/distributed-kv" target="_blank">
-<span class="font-code-inline text-code-inline">github.com/campus-cc/distributed-kv</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-<!-- Project 2 -->
-<article class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PRJ-02</span>
-<h3 class="font-headline-sm text-headline-sm text-white">Custom Memory Allocator (malloc/free)</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/10 text-white border border-white/20 self-start sm:self-auto">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> Under Review
-</span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Constructed explicit free list memory manager using sbrk/mmap syscalls with 8-byte boundary alignment and boundary tag coalescing.
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="text-white font-medium">Single Contributor: Aarav Sharma</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">Passing 14/15 stress tests</span>
-<span class="text-slate-500">•</span>
-<span class="">Submitted Oct 18</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-slate-400 hover:text-white font-medium" href="#">
-<span class="">Review Automated Test</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-<!-- Project 3 -->
-<article class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors">
-<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10">PRJ-03</span>
-<h3 class="font-headline-sm text-headline-sm text-white">POSIX Shell Interpreter</h3>
-</div>
-<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/10 text-white border border-white/20 self-start sm:self-auto">
-<span class="material-symbols-outlined text-[14px]">check</span> Completed
-</span>
-</div>
-<p class="font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed">
-            Minimal unix-like terminal prompt parsing, multi-level piping (|), background job execution (&amp;), and standard redirection (&lt;, &gt;, &gt;&gt;).
-          </p>
-<div class="mt-space-md pt-space-xs border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<div class="flex flex-wrap items-center gap-x-space-xs gap-y-1">
-<span class="text-white font-medium">Grade Finalized: Oct 02</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">98/100 pts</span>
-<span class="text-slate-500">•</span>
-<span class="">OS &amp; Systems Track</span>
-</div>
-<a class="inline-flex items-center gap-1 font-label-md text-label-md text-slate-400 hover:text-white font-medium" href="#">
-<span class="">View Evaluation&nbsp;</span>
-<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
-</article>
-</div>
-</div>
-<!-- Right Column: Projects Sidebar (30%) -->
-<div class="lg:col-span-3 flex flex-col space-y-space-md">
-<div class="pb-space-xs">
-<h2 class="font-headline-sm text-headline-sm text-white tracking-tight">Milestones &amp; Syncs</h2>
-<p class="font-body-sm text-body-sm text-slate-400">Upcoming deliverables &amp; reviews</p>
-</div>
-<div class="space-y-space-sm">
-<!-- Milestone Sync Card -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-white font-semibold">Review</span>
-<span class="w-2 h-2 rounded-full bg-white"></span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-white">KV Store Architecture Check</h3>
-<div class="space-y-1 py-1 font-body-sm text-body-sm text-slate-300">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">event</span>
-<span class="">Monday, Nov 03, 2025</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">schedule</span>
-<span class="">4:30 PM – 5:30 PM IST</span>
-</div>
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] text-slate-400 mt-0.5">location_on</span>
-<span class="text-white font-medium">Systems Lab (401), CSE Block</span>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-slate-300 pt-1 border-t border-white/10">
-            Live demo of RPC packet serializer and client concurrency stress tests with club technical advisors.
-          </p>
-</div>
-<!-- Project Guidelines Card -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs">
-<div class="flex items-center gap-2 pb-space-xs border-b border-white/10">
-<span class="material-symbols-outlined text-[18px] text-white">rule</span>
-<h4 class="font-label-md text-label-md text-white font-medium">Submission Guidelines</h4>
-</div>
-<ul class="font-body-sm text-body-sm text-slate-300 space-y-2 pt-1 list-disc list-inside">
-<li class="">Always include a reproducible <code class="font-code-inline text-code-inline text-white bg-white/5 px-1 py-0.5 rounded">Makefile</code> targeting standard C99/C11 flags.</li>
-<li class="">Ensure zero memory errors under&nbsp;</li>
-<li class="">Team branches must be pushed with conventional commits and signed commits before tagging release builds.</li>
-</ul>
-<div class="pt-2 border-t border-white/10">
-<a class="font-label-md text-label-md text-white font-medium hover:underline inline-flex items-center gap-1" href="#">
-<span class="">Read Club Engineering Standards</span>
-<span class="material-symbols-outlined text-[15px]">open_in_new</span>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- VIEW 3: PROFILE -->
-<div class="flex-col w-full hidden" id="view-profile">
-<!-- Minimalist Page Context & Header -->
-<section class="mb-space-lg">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-md border-b border-white/10">
-<div class="flex items-start gap-space-md">
-<div class="w-14 h-14 rounded-full bg-white/15 border border-white/20 flex items-center justify-center font-headline-md text-headline-md text-white font-bold">
-AS
-</div>
-<div>
-<div class="flex items-center gap-space-xs mb-space-2xs">
-<span class="w-1 h-1 rounded-full bg-slate-600"></span>
-<span class="font-code-inline text-code-inline text-white">Enrollment: 21BECE30041</span>
-<span class="text-slate-500">•</span>
-<span class="font-body-sm text-body-sm text-slate-400">Computer Science &amp; Engineering</span>
-</div>
-<h1 class="font-headline-lg text-headline-lg text-white tracking-tight">Aarav Sharma</h1>
-<p class="font-body-md text-body-md text-slate-300 mt-1" id="profile-cohort-banner">
-          Enrolled Cohort: <span class="font-medium text-white" id="profile-cohort-text">Year 2 • Odd Sem • Division D3</span>
-</p>
-</div>
-</div>
-<!-- Quick Profile Metrics Stream -->
-<div class="flex flex-wrap items-center gap-space-xs text-slate-300 font-label-sm text-label-sm">
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">18 Solved Problems</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">Current Rank #14</span>
-<span class="px-2.5 py-1 rounded bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl text-white font-medium">1,450 pts</span>
-<span class="hidden sm:inline text-slate-500">•</span>
-<span class="px-2.5 py-1 rounded bg-white/15 text-white font-medium">94% Attendance</span>
-</div>
-</div>
-</section>
-<!-- Profile Content Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-10 gap-space-lg items-start">
-<!-- Left Column: Details, Badges & Activity (70%) -->
-<div class="lg:col-span-7 flex flex-col space-y-space-md">
-<!-- Club Badges & Achievements -->
+            <!-- Activity Timeline & Submissions -->
+            <div
+              class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg"
+            >
+              <div
+                class="flex items-center justify-between pb-space-xs border-b border-white/10 mb-space-sm"
+              >
+                <div>
+                  <h3 class="font-headline-sm text-headline-sm text-white">
+                    Recent Submissions &amp; Activity Log
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-slate-400">
+                    Authenticated autograder results and workshop attendances
+                  </p>
+                </div>
+              </div>
+              <div class="space-y-space-xs font-body-sm text-body-sm">
+                <p class="py-8 text-center text-sm text-slate-400">
+                  No submission activity is available yet.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column: Profile Settings & Info (30%) -->
+          <div class="lg:col-span-3 flex flex-col space-y-space-md">
+            <div class="pb-space-xs">
+              <h2
+                class="font-headline-sm text-headline-sm text-white tracking-tight"
+              >
+                Profile Details
+              </h2>
+              <p class="font-body-sm text-body-sm text-slate-400">
+                Student credentials &amp; contacts
+              </p>
+            </div>
+            <!-- Info & Settings Card -->
+            <div
+              class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-sm"
+            >
+              <div class="space-y-space-xs">
+                <div>
+                  <label
+                    class="font-label-sm text-label-sm text-slate-400 block mb-0.5"
+                    >Campus Email</label
+                  >
+                  <input
+                    class="w-full font-body-sm text-body-sm text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors"
+                    id="prof-email"
+                    type="text"
+                    readonly
+                  />
+                </div>
+                <div>
+                  <label
+                    class="font-label-sm text-label-sm text-slate-400 block mb-0.5"
+                    >Division</label
+                  >
+                  <div class="relative">
+                    <input
+                      class="w-full font-code-inline text-code-inline text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors"
+                      id="prof-division"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="font-label-sm text-label-sm text-slate-400 block mb-0.5"
+                    >Division Roll Number</label
+                  >
+                  <input
+                    class="w-full font-body-sm text-body-sm text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors"
+                    id="prof-division-roll-number"
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="font-label-sm text-label-sm text-slate-400 block mb-0.5"
+                    >Semester</label
+                  >
+                  <input
+                    class="w-full font-body-sm text-body-sm text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors"
+                    id="prof-semester"
+                    min="1"
+                    type="number"
+                  />
+                </div>
+              </div>
+              <div class="pt-2 border-t border-white/10">
+                <button
+                  class="w-full bg-white/15 text-white font-label-md text-label-md py-1.5 px-3 rounded hover:bg-white/25 transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer border border-white/20 hover:border-white/40"
+                  id="prof-save-btn"
+                  onclick="saveProfileSettings()"
+                  type="button"
+                >
+                  <span
+                    class="material-symbols-outlined text-[16px]"
+                    id="prof-save-icon"
+                    >save</span
+                  >
+                  <span id="prof-save-text" class=""
+                    >Save Profile Settings</span
+                  >
+                </button>
+                <div
+                  class="text-body-sm font-label-sm text-white hidden pt-1 text-center"
+                  id="prof-toast-msg"
+                >
+                  <span class="inline-flex items-center gap-1"
+                    ><span class="material-symbols-outlined text-[14px]"
+                      >check_circle</span
+                    >
+                    Profile updated successfully</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Academic Enrolment Summary Card -->
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-t py-space-md"
+    >
+      <div
+        class="max-w-6xl mx-auto px-gutter h-14 flex items-center justify-between text-slate-300 font-label-sm text-label-sm"
+      >
+        <div class="flex items-center">
+          <span class="">Coding Club Portal</span>
+        </div>
+        <div></div>
+      </div>
+    </footer>
+    <!-- Micro-interactions Script for Filter Tabs -->
+    <script src="{% static 'js/studentddashboardpg-2.js' %}"></script>
+    <script src="{% static 'js/studentddashboardpg-3.js' %}"></script>
 
-<!-- Activity Timeline & Submissions -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg">
-<div class="flex items-center justify-between pb-space-xs border-b border-white/10 mb-space-sm">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-white">Recent Submissions &amp; Activity Log</h3>
-<p class="font-body-sm text-body-sm text-slate-400">Authenticated autograder results and workshop attendances</p>
-</div>
-</div>
-<div class="space-y-space-xs font-body-sm text-body-sm">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-white/10 gap-1">
-<div class="flex items-center gap-2">
-<span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-<span class="font-medium text-white">Submitted PS-03 (Bitwise Operators &amp; Bitmask Flags)</span>
-</div>
-<div class="flex items-center gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<span class="">Oct 14, 2025</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">98/100 pts</span>
-</div>
-</div>
-<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-white/10 gap-1">
-<div class="flex items-center gap-2">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-<span class="font-medium text-white">Submitted PS-04 (UNIX File Descriptors &amp; Custom Buffer I/O)</span>
-</div>
-<div class="flex items-center gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<span class="">Oct 08, 2025</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">100/100 pts</span>
-</div>
-</div>
-<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-white/10 gap-1">
-<div class="flex items-center gap-2">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-<span class="font-medium text-white">Attended Offline Meetup: Systems Concurrency &amp; Pthreads</span>
-</div>
-<div class="flex items-center gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<span class="">Oct 05, 2025</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white">Turing Lab 302</span>
-</div>
-</div>
-<div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-1">
-<div class="flex items-center gap-2">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-<span class="font-medium text-white">Finalized POSIX Shell Interpreter Capstone</span>
-</div>
-<div class="flex items-center gap-space-xs text-slate-400 font-label-sm text-label-sm">
-<span class="">Oct 02, 2025</span>
-<span class="text-slate-500">•</span>
-<span class="font-code-inline text-code-inline text-white font-medium">98/100 pts</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Right Column: Profile Settings & Info (30%) -->
-<div class="lg:col-span-3 flex flex-col space-y-space-md">
-<div class="pb-space-xs">
-<h2 class="font-headline-sm text-headline-sm text-white tracking-tight">Profile Details</h2>
-<p class="font-body-sm text-body-sm text-slate-400">Student credentials &amp; contacts</p>
-</div>
-<!-- Info & Settings Card -->
-<div class="bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-sm">
-<div class="space-y-space-xs">
-<div>
-<label class="font-label-sm text-label-sm text-slate-400 block mb-0.5">Campus Email</label>
-<input class="w-full font-body-sm text-body-sm text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors" id="prof-email" type="text" value="aarav.s@college.edu">
-</div>
-<div>
-<label class="font-label-sm text-label-sm text-slate-400 block mb-0.5">GitHub Handle</label>
-<div class="relative">
-<span class="absolute left-2.5 top-1.5 text-slate-400 font-code-inline text-code-inline">@</span>
-<input class="w-full font-code-inline text-code-inline text-white bg-white/5 border border-white/10 rounded pl-6 pr-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors" id="prof-github" type="text" value="aarav-codes">
-</div>
-</div>
-<div>
-<label class="font-label-sm text-label-sm text-slate-400 block mb-0.5">Enrolled Track</label>
-<input class="w-full font-body-sm text-body-sm text-white bg-white/5 border border-white/10 rounded px-2.5 py-1.5 focus:border-white/50 focus:outline-none transition-colors" id="prof-track" type="text" value="C Programming &amp; Systems Core">
-</div>
-<div>
-
-
-</div>
-</div>
-<div class="pt-2 border-t border-white/10">
-<button class="w-full bg-white/15 text-white font-label-md text-label-md py-1.5 px-3 rounded hover:bg-white/25 transition-colors font-medium flex items-center justify-center gap-1.5 cursor-pointer border border-white/20 hover:border-white/40" id="prof-save-btn" onclick="saveProfileSettings()" type="button">
-<span class="material-symbols-outlined text-[16px]" id="prof-save-icon">save</span>
-<span id="prof-save-text" class="">Save Profile Settings</span>
-</button>
-<div class="text-body-sm font-label-sm text-white hidden pt-1 text-center" id="prof-toast-msg">
-<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Profile updated successfully</span>
-</div>
-</div>
-</div>
-<!-- Academic Enrolment Summary Card -->
-<div class="bg-slate-800/40 border rounded-lg border-white/10 p-space-md">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-[18px] text-white">badge</span>
-<span class="font-headline-sm text-headline-sm text-white text-[1.1rem]">Club Status</span>
-</div>
-<div class="space-y-1 font-body-sm text-body-sm text-slate-300">
-<div class="flex justify-between">
-<span class="text-slate-400">Club Role:</span>
-<span class="font-medium text-white">Junior Track Member</span>
-</div>
-<div class="flex justify-between">
-<span class="text-slate-400">Active Since:</span>
-<span class="font-code-inline text-code-inline text-white">Aug 2024</span>
-</div>
-<div class="flex justify-between">
-<span class="text-slate-400">Mentor:</span>
-<span class="font-medium text-white">Devansh Mehta (Lead)</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main><footer class="w-full bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl border-t py-space-md"><div class="max-w-6xl mx-auto px-gutter h-14 flex items-center justify-between text-slate-300 font-label-sm text-label-sm"><div class="flex items-center"><span class="">Coding Club Portal</span></div><div></div></div></footer>
-<!-- Micro-interactions Script for Filter Tabs -->
-<script>
-    (function() {
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      const cardsContainer = document.getElementById('cards-container');
-      let activeFilter = 'all';
-
-      function applyFilter() {
-        cardsContainer.querySelectorAll('.problem-card').forEach(card => {
-          card.style.display = activeFilter === 'all' || card.dataset.status === activeFilter ? 'block' : 'none';
-        });
-      }
-
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeFilter = btn.getAttribute('data-filter');
-
-          // Style tabs
-          filterBtns.forEach(b => {
-            b.classList.remove('bg-slate-900/60', 'border', 'border-white/10', 'backdrop-blur-xl', 'shadow-2xl', 'text-white', 'font-medium');
-            b.classList.add('text-slate-400');
-          });
-          btn.classList.add('bg-slate-900/60', 'border', 'border-white/10', 'backdrop-blur-xl', 'shadow-2xl', 'text-white', 'font-medium');
-          btn.classList.remove('text-slate-400');
-
-          applyFilter();
-        });
-      });
-
-      async function loadProblems() {
-        const token = sessionStorage.getItem('authToken');
-        if (!token) {
-          cardsContainer.querySelectorAll('.problem-card').forEach((card, index) => {
-            if (index > 0) card.remove();
-          });
-          return;
-        }
-
-        cardsContainer.textContent = 'Loading problem statements...';
-        try {
-          const headers = { Authorization: `Bearer ${token}` };
-          const [problemsResponse, submissionsResponse] = await Promise.all([
-            fetch('/api/student/problem-statements', { headers }),
-            fetch('/api/student/submissions', { headers }),
-          ]);
-          const problems = await problemsResponse.json();
-          const submissions = await submissionsResponse.json();
-          if (!problemsResponse.ok) throw new Error(problems.detail || 'Unable to load problem statements.');
-          if (!submissionsResponse.ok) throw new Error(submissions.detail || 'Unable to load submissions.');
-
-          cardsContainer.replaceChildren();
-          if (!problems.length) {
-            cardsContainer.textContent = 'No problem statements are available yet.';
-            return;
-          }
-
-          problems.forEach(problem => {
-            const latestSubmission = submissions.find(submission => submission.problem_statement === problem.id);
-            const isDone = latestSubmission && latestSubmission.status === 'passed';
-            const card = document.createElement('article');
-            card.className = 'problem-card group bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-lg hover:border-white/30 transition-colors';
-            card.dataset.status = isDone ? 'done' : 'pending';
-
-            const header = document.createElement('div');
-            header.className = 'flex flex-col sm:flex-row sm:items-baseline justify-between gap-space-xs';
-            const identity = document.createElement('div');
-            identity.className = 'flex items-center gap-space-xs';
-            const problemCode = document.createElement('span');
-            problemCode.className = 'font-code-inline text-code-inline px-2 py-0.5 rounded bg-white/5 text-white border border-white/10';
-            problemCode.textContent = `PS-${String(problem.id).padStart(2, '0')}`;
-            const title = document.createElement('h3');
-            title.className = 'font-headline-sm text-headline-sm text-white group-hover:text-slate-300';
-            const titleLink = document.createElement('a');
-            titleLink.href = `/preview/submission/?problem=${problem.id}`;
-            titleLink.className = 'hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2';
-            titleLink.textContent = problem.title;
-            title.append(titleLink);
-            identity.append(problemCode, title);
-
-            const status = document.createElement('span');
-            status.className = 'inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded bg-white/5 text-white border border-white/10 self-start sm:self-auto';
-            if (isDone) {
-              const passedIcon = document.createElement('span');
-              passedIcon.className = 'material-symbols-outlined text-[14px]';
-              passedIcon.textContent = 'check';
-              status.append(passedIcon, document.createTextNode('Passed'));
-            } else {
-              status.textContent = latestSubmission?.status === 'failed' ? 'Failed' : latestSubmission?.status === 'checking' ? 'Checking' : 'Pending';
-            }
-            header.append(identity, status);
-
-            const description = document.createElement('p');
-            description.className = 'font-body-md text-body-md text-slate-300 mt-space-xs leading-relaxed';
-            description.textContent = problem.week_number ? `Week ${problem.week_number} problem statement` : 'Open the problem statement to write and submit your code.';
-
-            const footer = document.createElement('div');
-            footer.className = 'mt-space-md pt-space-xs border-t border-white/10 flex items-center justify-between gap-space-xs text-slate-400 font-label-sm text-label-sm';
-            const week = document.createElement('span');
-            week.textContent = problem.week_number ? `Week ${problem.week_number}` : 'Coding assignment';
-            const link = document.createElement('a');
-            link.className = 'inline-flex items-center gap-1 font-label-md text-label-md text-white font-medium hover:underline';
-            link.href = `/preview/submission/?problem=${problem.id}`;
-            link.textContent = isDone ? 'View Submission' : 'View Statement';
-            footer.append(week, link);
-            card.append(header, description, footer);
-            cardsContainer.append(card);
-          });
-          applyFilter();
-        } catch (error) {
-          cardsContainer.textContent = error.message || 'Unable to load problem statements.';
-        }
-      }
-
-      loadProblems();
-    })();
-</script>
-<script>
-async function loadStudentMeeting() {
-  const feed = document.getElementById('student-meeting-feed');
-  const token = sessionStorage.getItem('authToken');
-  if (!token) {
-    feed.textContent = 'No meetings scheduled.';
-    return;
-  }
-
-  try {
-    const response = await fetch('/api/student/meeting', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const meeting = await response.json();
-    if (response.status === 404) {
-      feed.textContent = 'No meetings scheduled.';
-      return;
-    }
-    if (!response.ok) throw new Error(meeting.detail || 'Unable to load meetings.');
-
-    const card = document.createElement('article');
-    card.className = 'bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl rounded-lg p-space-md flex flex-col space-y-space-xs';
-    const title = document.createElement('h3');
-    title.className = 'font-headline-sm text-headline-sm text-white';
-    title.textContent = meeting.title;
-    const scheduledFor = document.createElement('p');
-    scheduledFor.className = 'font-body-sm text-body-sm text-slate-300';
-    scheduledFor.textContent = new Date(meeting.scheduled_for).toLocaleString();
-    card.append(title, scheduledFor);
-    if (meeting.notes) {
-      const notes = document.createElement('p');
-      notes.className = 'font-body-sm text-body-sm text-slate-300 pt-1 border-t border-white/10';
-      notes.textContent = meeting.notes;
-      card.append(notes);
-    }
-    feed.replaceChildren(card);
-  } catch (error) {
-    feed.textContent = error.message || 'Unable to load meetings.';
-  }
-}
-
-loadStudentMeeting();
-
-window.cohortState = { year: 'Year 2', sem: 'Odd Semester', div: 'Division D3' };
-
-function toggleCohortDropdown(type) {
-  var types = ['year', 'sem', 'div'];
-  var targetMenu = document.getElementById('menu-cohort-' + type);
-  var targetIcon = document.getElementById('icon-cohort-' + type);
-  var willOpen = targetMenu && targetMenu.classList.contains('hidden');
-  
-  types.forEach(function(t) {
-    var m = document.getElementById('menu-cohort-' + t);
-    var icon = document.getElementById('icon-cohort-' + t);
-    if (m) m.classList.add('hidden');
-    if (icon) icon.textContent = 'expand_more';
-  });
-  
-  if (willOpen && targetMenu) {
-    targetMenu.classList.remove('hidden');
-    if (targetIcon) targetIcon.textContent = 'expand_less';
-  }
-}
-
-function selectCohortOption(type, value) {
-  window.cohortState[type] = value;
-  var label = document.getElementById('selected-cohort-' + type);
-  if (label) label.textContent = value;
-  var menu = document.getElementById('menu-cohort-' + type);
-  if (menu) menu.classList.add('hidden');
-  var icon = document.getElementById('icon-cohort-' + type);
-  if (icon) icon.textContent = 'expand_more';
-  
-  updateCohortSummary();
-}
-
-function getCohortPreviewText() {
-  var y = window.cohortState.year;
-  var s = window.cohortState.sem === 'Odd Semester' ? 'Odd Sem' : 'Even Sem';
-  var d = window.cohortState.div.replace('Division ', 'Div ');
-  return y + ' • ' + s + ' • ' + d;
-}
-
-function updateCohortSummary() {
-  var display = document.getElementById('cohort-status-display');
-  if (display) display.textContent = getCohortPreviewText();
-  
-  var profCohort = document.getElementById('profile-cohort-text');
-  if (profCohort) profCohort.textContent = window.cohortState.year + ' • ' + window.cohortState.sem + ' • ' + window.cohortState.div;
-}
-
-function saveCohortCustom() {
-  updateCohortSummary();
-  var toast = document.getElementById('cohort-toast-msg');
-  var saveBtn = document.getElementById('cohort-save-btn');
-  var saveText = document.getElementById('cohort-save-text');
-  var saveIcon = document.getElementById('cohort-save-icon');
-  
-  if (saveText) saveText.textContent = 'Updated!';
-  if (saveIcon) saveIcon.textContent = 'done';
-  if (saveBtn) {
-    saveBtn.classList.remove('bg-white');
-    saveBtn.classList.add('bg-slate-400');
-  }
-  if (toast) toast.classList.remove('hidden');
-  
-  setTimeout(function() {
-    if (saveText) saveText.textContent = 'Update Cohort';
-    if (saveIcon) saveIcon.textContent = 'save';
-    if (saveBtn) {
-      saveBtn.classList.add('bg-white');
-      saveBtn.classList.remove('bg-slate-400');
-    }
-    if (toast) toast.classList.add('hidden');
-  }, 2000);
-}
-
-document.addEventListener('click', function(e) {
-  var form = document.getElementById('cohort-form');
-  if (form && !form.contains(e.target)) {
-    ['year', 'sem', 'div'].forEach(function(t) {
-      var m = document.getElementById('menu-cohort-' + t);
-      var icon = document.getElementById('icon-cohort-' + t);
-      if (m) m.classList.add('hidden');
-      if (icon) icon.textContent = 'expand_more';
-    });
-  }
-});
-
-// View switching logic
-function switchView(viewName) {
-  const views = ['challenges', 'projects', 'profile'];
-  
-  views.forEach(v => {
-    const el = document.getElementById('view-' + v);
-    const navEl = document.getElementById('nav-' + v);
-    
-    if (el) {
-      if (v === viewName) {
-        el.classList.remove('hidden');
-        el.classList.add('flex');
-      } else {
-        el.classList.add('hidden');
-        el.classList.remove('flex');
-      }
-    }
-    
-    if (navEl) {
-      if (v === viewName) {
-        navEl.setAttribute('aria-current', 'page');
-        navEl.classList.remove('text-slate-300', 'border-transparent');
-        navEl.classList.add('text-white', 'border-white/40', 'font-medium');
-      } else {
-        navEl.removeAttribute('aria-current');
-        navEl.classList.add('text-slate-300', 'border-transparent');
-        navEl.classList.remove('text-white', 'border-white/40', 'font-medium');
-      }
-    }
-  });
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Profile settings save toast
-function saveProfileSettings() {
-  const toast = document.getElementById('prof-toast-msg');
-  const btn = document.getElementById('prof-save-btn');
-  const text = document.getElementById('prof-save-text');
-  const icon = document.getElementById('prof-save-icon');
-  
-  if (text) text.textContent = 'Saved!';
-  if (icon) icon.textContent = 'done';
-  if (btn) {
-    btn.classList.remove('bg-white');
-    btn.classList.add('bg-slate-400');
-  }
-  if (toast) toast.classList.remove('hidden');
-
-  setTimeout(function() {
-    if (text) text.textContent = 'Save Profile Settings';
-    if (icon) icon.textContent = 'save';
-    if (btn) {
-      btn.classList.add('bg-white');
-      btn.classList.remove('bg-slate-400');
-    }
-    if (toast) toast.classList.add('hidden');
-  }, 2200);
-}
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-{% load static %}
-<script src="{% static 'background.js' %}"></script>
-</body></html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script src="{% static 'js/background.js' %}"></script>
+  </body>
+</html>

@@ -5,7 +5,6 @@ from channels.layers import get_channel_layer
 from django.db import close_old_connections
 from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
-from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -14,8 +13,8 @@ from accounts.models import StudentProfile
 from accounts.permissions import CanViewStudentProgress, IsApprovedStudent
 from assignments.models import ProblemStatement
 
-from .judge0 import run_judge0_check
 from .models import Submission
+from accounts.models import ActivityLog, record_activity
 from .serializers import SubmissionCreateSerializer, SubmissionDetailSerializer, SubmissionListSerializer
 
 _grading_executor = ThreadPoolExecutor(max_workers=4)
@@ -178,8 +177,16 @@ def student_submit_problem(request, pk):
         problem_statement=problem,
         language=serializer.validated_data['language'],
         code=serializer.validated_data['code'],
-        status=Submission.STATUS_CHECKING,
+        status=Submission.STATUS_PENDING,
     )
+    record_activity(
+        request.user,
+        ActivityLog.CATEGORY_REVIEW,
+        'submission_created',
+        f'{student.name} submitted code for {problem.title}.',
+        target=submission,
+    )
+<<<<<<< HEAD
     try:
         passed, judge0_output = run_judge0_check(submission)
     except Exception as exc:
@@ -197,10 +204,12 @@ def student_submit_problem(request, pk):
     submission.checked_at = timezone.now()
     submission.save(update_fields=['status', 'judge0_output', 'checked_at'])
     _broadcast_submission_status(submission)
+=======
+>>>>>>> 1c30e87 (..)
 
     return Response(
         SubmissionDetailSerializer(submission).data,
-        status=status.HTTP_201_CREATED,
+        status=status.HTTP_202_ACCEPTED,
     )
 
 

@@ -1,0 +1,44 @@
+*,
+*::before,
+*::after,
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+button,
+input,
+select,
+textarea,
+label,
+div,
+nav,
+header,
+footer,
+code,
+pre,
+kbd,
+samp,
+small,
+strong,
+b,
+i,
+em,
+th,
+td,
+tr,
+table {
+  font-family: "Crimson Text", Georgia, serif !important;
+}
+.material-symbols-outlined,
+[class*="material-symbols"] {
+  font-family: "Material Symbols Outlined" !important;
+  font-weight: normal;
+  font-style: normal;
+}

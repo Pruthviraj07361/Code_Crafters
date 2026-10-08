@@ -52,6 +52,8 @@ class Submission(models.Model):
         default=STATUS_PENDING,
     )
     judge0_output = models.TextField(blank=True, default='')
+    attempt_count = models.PositiveSmallIntegerField(default=0)
+    last_error = models.TextField(blank=True, default='')
     submitted_at = models.DateTimeField(auto_now_add=True)
     checked_at = models.DateTimeField(null=True, blank=True)
 

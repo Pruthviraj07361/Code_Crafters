@@ -1,7 +1,8 @@
+from django.db import transaction
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import AdminProfile, StudentProfile
+from .models import ActivityLog, AdminProfile, StudentProfile
 
 User = get_user_model()
 
@@ -19,18 +20,22 @@ class StudentRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     phone = serializers.CharField(max_length=20)
     enrollment_number = serializers.CharField(max_length=50)
+    semester = serializers.IntegerField(required=False, allow_null=True, min_value=1)
     password = serializers.CharField(write_only=True, min_length=8)
 
     def validate_email(self, value):
+        value = value.strip().lower()
         if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError('An account with this email already exists.')
         return value
 
     def validate_enrollment_number(self, value):
+        value = value.strip()
         if StudentProfile.objects.filter(enrollment_number=value).exists():
             raise serializers.ValidationError('This enrollment number is already registered.')
         return value
 
+    @transaction.atomic
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['email'],
@@ -45,6 +50,7 @@ class StudentRegisterSerializer(serializers.Serializer):
             branch=validated_data['branch'],
             phone=validated_data['phone'],
             enrollment_number=validated_data['enrollment_number'],
+            semester=validated_data.get('semester'),
         )
         return user
 
@@ -65,10 +71,12 @@ class AdminRegisterSerializer(serializers.Serializer):
     )
 
     def validate_email(self, value):
+        value = value.strip().lower()
         if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError('An account with this email already exists.')
         return value
 
+    @transaction.atomic
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['email'],
@@ -112,3 +120,31 @@ class StaffRoleAssignSerializer(serializers.Serializer):
     staff_type = serializers.ChoiceField(choices=AdminProfile.STAFF_TYPE_CHOICES)
     # False rejects the registration instead of approving it.
     approved = serializers.BooleanField(default=True)
+
+
+class StudentProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentProfile
+        fields = ['division', 'division_roll_number', 'semester']
+        extra_kwargs = {
+            'semester': {'required': False, 'allow_null': True},
+        }
+
+    def validate_semester(self, value):
+        if value is not None and value < 1:
+            raise serializers.ValidationError('Semester must be at least 1.')
+        return value
+
+
+class ActivityLogSerializer(serializers.ModelSerializer):
+    actor_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ActivityLog
+        fields = ['id', 'category', 'action', 'description', 'actor_name', 'created_at']
+
+    def get_actor_name(self, obj):
+        if obj.actor is None:
+            return 'System'
+        profile = getattr(obj.actor, 'admin_profile', None)
+        return (profile.name if profile is not None else obj.actor.get_full_name()) or obj.actor.username

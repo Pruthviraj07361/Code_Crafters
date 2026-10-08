@@ -26,6 +26,13 @@ class AssignmentsTestBase(TestCase):
             'supervisor@example.com', AdminProfile.STAFF_SUPERVISOR, name='Sam Supervisor',
         )
 
+    def _make_native_superuser(self):
+        return get_user_model().objects.create_superuser(
+            username='root-admin',
+            email='root@example.com',
+            password='A-secure-password-123',
+        )
+
     def _make_faculty(self):
         return self._make_admin('faculty@example.com', AdminProfile.STAFF_FACULTY)
 
@@ -90,6 +97,18 @@ class SupervisorProblemStatementTests(AssignmentsTestBase):
         self.assertEqual(problem.week_number, 2)
         self.assertEqual(problem.sample_input, 'hello\n')
         self.assertEqual(problem.test_cases, self.PAYLOAD['test_cases'])
+
+    def test_native_superuser_can_create_problem_statement(self):
+        superuser = self._make_native_superuser()
+
+        response = self._post_json(
+            '/api/supervisor/problem-statements',
+            self.PAYLOAD,
+            superuser,
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()['title'], 'Reverse a String')
 
     def test_week_number_and_sample_input_are_optional(self):
         supervisor = self._make_supervisor()
@@ -253,6 +272,18 @@ class MeetingTests(AssignmentsTestBase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Meeting.objects.count(), 1)
         self.assertEqual(response.json()['updated_by_name'], 'Sam Supervisor')
+
+    def test_native_superuser_can_create_meeting(self):
+        superuser = self._make_native_superuser()
+
+        response = self._post_json(
+            '/api/supervisor/meeting',
+            self._payload(),
+            superuser,
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()['title'], 'Weekly meetup')
 
     def test_second_post_updates_the_same_meeting(self):
         supervisor = self._make_supervisor()

@@ -1,0 +1,25 @@
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    overscroll-behavior: none;
+    font-family: "Crimson Text", Georgia, serif;
+  }
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.code-editor-font,
+.code-editor-font *:not(.material-symbols-outlined) {
+  font-family:
+    "JetBrains Mono", "Fira Code", "Courier New", monospace !important;
+}

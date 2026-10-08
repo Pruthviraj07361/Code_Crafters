@@ -28,9 +28,13 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'true').strip().lower() in {'1', 'true', 'yes'}
 
-ALLOWED_HOSTS = []
+def _csv_env(name, default=''):
+    return [value.strip() for value in os.environ.get(name, default).split(',') if value.strip()]
+
+
+ALLOWED_HOSTS = _csv_env('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver')
 
 
 # Application definition
@@ -111,11 +115,34 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': os.environ.get('DRF_ANON_RATE', '20/minute'),
+        'user': os.environ.get('DRF_USER_RATE', '120/minute'),
+    },
 }
 
 # Origins allowed to call the JSON API under /api/. Add your deployed
 # frontend URL here too once it's hosted somewhere.
-CORS_ALLOWED_ORIGINS = os.environ.get('FRONTEND_ORIGIN', 'http://localhost:5173').split(',')
+CORS_ALLOWED_ORIGINS = _csv_env('FRONTEND_ORIGIN', 'http://localhost:5173')
+CSRF_TRUSTED_ORIGINS = _csv_env('CSRF_TRUSTED_ORIGINS')
+
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'false').strip().lower() in {
+    '1', 'true', 'yes',
+}
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = SECURE_HSTS_SECONDS > 0
+SECURE_HSTS_PRELOAD = SECURE_HSTS_SECONDS > 0
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
 
 
 # Database
@@ -127,8 +154,12 @@ if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(
             DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True,
+            conn_max_age=int(os.environ.get('DATABASE_CONN_MAX_AGE', '60')),
+            conn_health_checks=True,
+            ssl_require=os.environ.get(
+                'DATABASE_SSL_REQUIRE',
+                'false' if DATABASE_URL.startswith('sqlite') else 'true',
+            ).strip().lower() in {'1', 'true', 'yes'},
         ),
     }
 else:
@@ -175,12 +206,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 STATICFILES_DIRS = [BASE_DIR / 'templates' / 'frontend']
+=======
+STATICFILES_DIRS = [BASE_DIR / 'static']
+>>>>>>> 1c30e87 (..)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'accounts:profile'
-LOGOUT_REDIRECT_URL = 'accounts:login'
+LOGIN_URL = 'frontend-preview-login'
+LOGIN_REDIRECT_URL = 'frontend-preview'
+LOGOUT_REDIRECT_URL = 'frontend-preview'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -200,6 +235,20 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': os.environ.get(
+            'EMAIL_BACKEND',
+            'django.core.mail.backends.smtp.EmailBackend',
+        ),
+        'OPTIONS': {
+            'host': os.environ.get('EMAIL_HOST', ''),
+            'port': int(os.environ.get('EMAIL_PORT', '587')),
+            'username': os.environ.get('EMAIL_HOST_USER', ''),
+            'password': os.environ.get('EMAIL_HOST_PASSWORD', ''),
+            'use_tls': os.environ.get('EMAIL_USE_TLS', 'true').strip().lower() in {
+                '1', 'true', 'yes',
+            },
+        },
     },
 }
+
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'webmaster@localhost')

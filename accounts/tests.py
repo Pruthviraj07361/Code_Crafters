@@ -2,12 +2,35 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from rest_framework.test import APIClient
 
-from .models import AdminProfile, StudentProfile
+from .models import ActivityLog, AdminProfile, StudentProfile
 
 
 class AccountsTests(TestCase):
-	def test_registration_logs_user_in(self):
+	def test_frontend_pages_render(self):
+		for path in (
+			'/preview/',
+			'/preview/student/',
+			'/preview/faculty/',
+			'/preview/submission/',
+			'/preview/supervisor/',
+		):
+			with self.subTest(path=path):
+				response = self.client.get(path)
+				self.assertEqual(response.status_code, 200)
+
+	def test_root_uses_frontend_login(self):
+		response = self.client.get('/')
+
+		self.assertRedirects(response, '/preview/')
+
+	def test_account_templates_load_external_stylesheet(self):
+		response = self.client.get('/accounts/login/')
+
+		self.assertRedirects(response, '/preview/')
+
+	def test_legacy_registration_redirects_to_profile_aware_registration(self):
 		response = self.client.post(
 			'/accounts/register/',
 			{
@@ -17,9 +40,8 @@ class AccountsTests(TestCase):
 			},
 		)
 
-		self.assertRedirects(response, '/accounts/profile/')
-		self.assertTrue(response.wsgi_request.user.is_authenticated)
-		self.assertTrue(get_user_model().objects.filter(username='newuser').exists())
+		self.assertRedirects(response, '/preview/')
+		self.assertFalse(get_user_model().objects.filter(username='newuser').exists())
 
 	def test_login_and_logout(self):
 		user = get_user_model().objects.create_user(
@@ -31,18 +53,36 @@ class AccountsTests(TestCase):
 			'/accounts/login/',
 			{'username': user.username, 'password': 'A-secure-password-123'},
 		)
-		self.assertRedirects(response, '/accounts/profile/')
+		self.assertRedirects(response, '/preview/')
 
 		response = self.client.post('/accounts/logout/')
-		self.assertRedirects(response, '/accounts/login/')
+		self.assertRedirects(response, '/preview/')
 
 	def test_profile_requires_login(self):
 		response = self.client.get('/accounts/profile/')
 
-		self.assertRedirects(
-			response,
-			'/accounts/login/?next=/accounts/profile/',
+		self.assertRedirects(response, '/preview/')
+
+	def test_authenticated_profile_uses_role_frontend(self):
+		user = get_user_model().objects.create_user(
+			username='student@example.com',
+			password='A-secure-password-123',
 		)
+		StudentProfile.objects.create(
+			user=user,
+			name='Profile Student',
+			division='A',
+			division_roll_number='14',
+			branch='Computer',
+			phone='9999999999',
+			enrollment_number='ENR003',
+			is_approved=True,
+		)
+		self.client.force_login(user)
+
+		response = self.client.get('/accounts/profile/')
+
+		self.assertRedirects(response, '/preview/student/')
 
 	def test_login_rejects_external_next_url(self):
 		user = get_user_model().objects.create_user(
@@ -59,16 +99,43 @@ class AccountsTests(TestCase):
 			},
 		)
 
-		self.assertRedirects(response, '/accounts/profile/')
+		self.assertRedirects(response, '/preview/')
 
 
 class LoginAPITests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
     def _post(self, email, password):
         return self.client.post(
             '/api/auth/login',
             data=json.dumps({'email': email, 'password': password}),
             content_type='application/json',
         )
+
+    def test_authenticated_user_can_load_current_profile(self):
+        user = get_user_model().objects.create_user(
+            username='profile@example.com',
+            email='profile@example.com',
+            password='A-secure-password-123',
+        )
+        StudentProfile.objects.create(
+            user=user,
+            name='Profile Student',
+            division='A',
+            division_roll_number='14',
+            branch='Computer',
+            phone='9999999999',
+            enrollment_number='ENR003',
+            is_approved=True,
+        )
+        self.client.force_authenticate(user=user)
+
+        response = self.client.get('/api/auth/me')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['name'], 'Profile Student')
+        self.assertEqual(response.json()['enrollment_number'], 'ENR003')
 
     def test_approved_student_can_login(self):
         user = get_user_model().objects.create_user(
@@ -94,6 +161,49 @@ class LoginAPITests(TestCase):
         self.assertIn('token', body)
         self.assertEqual(body['user']['role'], 'student')
         self.assertEqual(body['user']['name'], 'Jane Student')
+
+    def test_superuser_can_login_without_admin_profile(self):
+        user = get_user_model().objects.create_superuser(
+            username='root-admin',
+            email='root@example.com',
+            password='A-secure-password-123',
+        )
+
+        response = self._post('root@example.com', 'A-secure-password-123')
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body['user']['role'], 'superuser')
+        self.assertEqual(body['user']['email'], 'root@example.com')
+
+    def test_native_superuser_can_load_approval_queues(self):
+        user = get_user_model().objects.create_superuser(
+            username='approval-admin',
+            email='approval-admin@example.com',
+            password='A-secure-password-123',
+        )
+        StudentProfile.objects.create(
+            user=get_user_model().objects.create_user(
+                username='pending-student@example.com',
+                email='pending-student@example.com',
+                password='A-secure-password-123',
+            ),
+            name='Pending Student',
+            division='A',
+            division_roll_number='14',
+            branch='Computer',
+            phone='9999999999',
+            enrollment_number='ENR-APPROVAL-001',
+            is_approved=False,
+        )
+        self.client.force_authenticate(user=user)
+
+        student_response = self.client.get('/api/faculty/pending-students')
+        staff_response = self.client.get('/api/superuser/pending-staff')
+
+        self.assertEqual(student_response.status_code, 200)
+        self.assertEqual(len(student_response.json()), 1)
+        self.assertEqual(staff_response.status_code, 200)
 
     def test_unapproved_student_is_rejected(self):
         user = get_user_model().objects.create_user(
@@ -165,6 +275,30 @@ class LoginAPITests(TestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_student_registration_normalizes_email_and_stores_semester(self):
+        response = self.client.post(
+            '/api/auth/student/register',
+            data=json.dumps({
+                'name': 'Jane Student',
+                'division': 'D1',
+                'division_roll_number': '12',
+                'branch': 'Computer',
+                'email': '  Student@Example.COM ',
+                'phone': '9999999999',
+                'enrollment_number': ' ENR003 ',
+                'semester': 3,
+                'password': 'A-secure-password-123',
+            }),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 201)
+        profile = StudentProfile.objects.get()
+        self.assertEqual(profile.user.email, 'student@example.com')
+        self.assertEqual(profile.user.username, 'student@example.com')
+        self.assertEqual(profile.enrollment_number, 'ENR003')
+        self.assertEqual(profile.semester, 3)
+
 
 class ApprovalAPITests(TestCase):
     def _make_faculty(self):
@@ -206,6 +340,17 @@ class ApprovalAPITests(TestCase):
         )
         return AdminProfile.objects.create(
             user=user, name='Pending Staff', phone='1', is_approved=False, staff_type='',
+        )
+
+    def _make_approved_student(self):
+        user = get_user_model().objects.create_user(
+            username='approvedstu@example.com', email='approvedstu@example.com',
+            password='A-secure-password-123',
+        )
+        return StudentProfile.objects.create(
+            user=user, name='Approved Stu', division='A', division_roll_number='1',
+            branch='CS', phone='1', enrollment_number='ENR101', semester=1,
+            is_approved=True,
         )
 
     def _token_header(self, user):
@@ -337,6 +482,55 @@ class ApprovalAPITests(TestCase):
             data=json.dumps({'staff_type': 'supervisor', 'approved': True}),
             content_type='application/json',
             **self._token_header(faculty),
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_approved_student_can_update_academic_profile(self):
+        student = self._make_approved_student()
+
+        response = self.client.patch(
+            '/api/auth/me/profile',
+            data=json.dumps({
+                'division': 'B',
+                'division_roll_number': '22',
+                'semester': 4,
+            }),
+            content_type='application/json',
+            **self._token_header(student.user),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        student.refresh_from_db()
+        self.assertEqual(student.division, 'B')
+        self.assertEqual(student.division_roll_number, '22')
+        self.assertEqual(student.semester, 4)
+        self.assertEqual(ActivityLog.objects.filter(category='profile').count(), 1)
+
+    def test_faculty_can_view_persistent_activity_log(self):
+        faculty = self._make_faculty()
+        pending = self._make_pending_student()
+        self.client.post(
+            f'/api/faculty/students/{pending.pk}/approve',
+            data=json.dumps({'approved': True}),
+            content_type='application/json',
+            **self._token_header(faculty),
+        )
+
+        response = self.client.get(
+            '/api/faculty/activity',
+            **self._token_header(faculty),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]['action'], 'student_approved')
+
+    def test_student_cannot_view_activity_log(self):
+        student = self._make_approved_student()
+
+        response = self.client.get(
+            '/api/faculty/activity',
+            **self._token_header(student.user),
         )
 
         self.assertEqual(response.status_code, 403)

@@ -23,8 +23,8 @@ JUDGE0_UNAVAILABLE_MESSAGE = (
 def get_judge0_config():
     api_key = os.environ.get('JUDGE0_API_KEY', '').strip()
     base_url = (
-        os.environ.get('JUDGE0_BASE_URL')
-        or os.environ.get('JUDGE0_URL')
+        os.environ.get('JUDGE0_URL')
+        or os.environ.get('JUDGE0_BASE_URL')
         or ''
     ).strip()
     return {

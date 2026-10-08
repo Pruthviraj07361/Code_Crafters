@@ -1,12 +1,12 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import AdminProfile, StudentProfile
+from .models import ActivityLog, AdminProfile, StudentProfile, record_activity
 from .permissions import IsFaculty, IsFacultyOrSuperuser, IsSuperuser
 from .serializers import (
     AdminRegisterSerializer,
@@ -15,6 +15,8 @@ from .serializers import (
     PendingStudentSerializer,
     StaffRoleAssignSerializer,
     StudentApprovalActionSerializer,
+    ActivityLogSerializer,
+    StudentProfileUpdateSerializer,
     StudentRegisterSerializer,
 )
 
@@ -47,6 +49,15 @@ def _serialize_user(user):
     """Build the {user: {...}} payload the frontend uses to decide which
     role's routes/pages to show. `role` is one of:
     'student', 'faculty', 'supervisor', 'superuser'."""
+    if user.is_superuser:
+        return {
+            'id': user.id,
+            'email': user.email,
+            'role': 'superuser',
+            'name': user.get_full_name() or user.username,
+            'phone': '',
+        }
+
     student_profile = getattr(user, 'student_profile', None)
     if student_profile is not None:
         return {
@@ -83,11 +94,21 @@ def login(request):
 
     # Both StudentRegisterSerializer and AdminRegisterSerializer create the
     # User with username=email, so email doubles as the login identifier.
+    email = serializer.validated_data['email']
+    password = serializer.validated_data['password']
     user = authenticate(
         request,
-        username=serializer.validated_data['email'],
-        password=serializer.validated_data['password'],
+        username=email,
+        password=password,
     )
+    if user is None:
+        account = get_user_model().objects.filter(email__iexact=email).first()
+        if account is not None:
+            user = authenticate(
+                request,
+                username=account.get_username(),
+                password=password,
+            )
     if user is None:
         return Response(
             {'detail': 'Invalid email or password.'},
@@ -103,7 +124,9 @@ def login(request):
     student_profile = getattr(user, 'student_profile', None)
     admin_profile = getattr(user, 'admin_profile', None)
 
-    if student_profile is not None:
+    if user.is_superuser:
+        pass
+    elif student_profile is not None:
         if not student_profile.is_approved:
             return Response(
                 {'detail': 'Your registration is pending approval.'},
@@ -115,7 +138,7 @@ def login(request):
                 {'detail': 'Your registration is pending admin approval.'},
                 status=status.HTTP_403_FORBIDDEN,
             )
-    else:
+    elif admin_profile is None:
         # Shouldn't happen via the two register endpoints above, but covers
         # e.g. accounts created directly in Django admin without a profile.
         return Response(
@@ -125,6 +148,47 @@ def login(request):
 
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key, 'user': _serialize_user(user)})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = _serialize_user(request.user)
+    if user is None:
+        return Response(
+            {'detail': 'No student or admin profile is linked to this account.'},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+    return Response(user)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_student_profile(request):
+    profile = getattr(request.user, 'student_profile', None)
+    if profile is None or not profile.is_approved:
+        return Response(
+            {'detail': 'Only approved students can update this profile.'},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+    serializer = StudentProfileUpdateSerializer(profile, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    record_activity(
+        request.user,
+        ActivityLog.CATEGORY_PROFILE,
+        'profile_updated',
+        f'{profile.name} updated their academic profile.',
+        target=profile,
+    )
+    return Response(_serialize_user(request.user))
+
+
+@api_view(['GET'])
+@permission_classes([IsFacultyOrSuperuser])
+def activity_log(request):
+    queryset = ActivityLog.objects.select_related('actor', 'actor__admin_profile')[:100]
+    return Response(ActivityLogSerializer(queryset, many=True).data)
 
 
 @api_view(['GET'])
@@ -148,12 +212,26 @@ def approve_student(request, pk):
     if serializer.validated_data['approved']:
         profile.is_approved = True
         profile.save(update_fields=['is_approved'])
+        record_activity(
+            request.user,
+            ActivityLog.CATEGORY_DECISION,
+            'student_approved',
+            f'{profile.name} was approved for portal access.',
+            target=profile,
+        )
         return Response({'detail': f'{profile.name} has been approved.'})
 
     # Rejected: deactivate the account rather than deleting it, so the
     # registration data isn't lost and a faculty member can revisit it.
     profile.user.is_active = False
     profile.user.save(update_fields=['is_active'])
+    record_activity(
+        request.user,
+        ActivityLog.CATEGORY_DECISION,
+        'student_rejected',
+        f'{profile.name} registration was rejected.',
+        target=profile,
+    )
     return Response({'detail': f'{profile.name}\u2019s registration has been rejected.'})
 
 
@@ -179,8 +257,22 @@ def assign_staff_role(request, pk):
         profile.staff_type = serializer.validated_data['staff_type']
         profile.is_approved = True
         profile.save(update_fields=['staff_type', 'is_approved'])
+        record_activity(
+            request.user,
+            ActivityLog.CATEGORY_DECISION,
+            'staff_role_assigned',
+            f'{profile.name} was assigned the {profile.staff_type} role.',
+            target=profile,
+        )
         return Response({'detail': f'{profile.name} has been assigned as {profile.staff_type}.'})
 
     profile.user.is_active = False
     profile.user.save(update_fields=['is_active'])
+    record_activity(
+        request.user,
+        ActivityLog.CATEGORY_DECISION,
+        'staff_rejected',
+        f'{profile.name} staff registration was rejected.',
+        target=profile,
+    )
     return Response({'detail': f'{profile.name}\u2019s registration has been rejected.'})

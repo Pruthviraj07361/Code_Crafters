@@ -96,73 +96,44 @@ class StudentSubmissionEndpointTests(SubmissionsTestBase):
         student = self._make_student()
         problem = self._make_problem(supervisor)
 
-        with patch(
-            'submissions.views.run_judge0_check',
-            return_value=(True, 'All 1 test cases passed.'),
-        ) as fake_check:
-            response = self._post_json(
-                f'/api/student/problem-statements/{problem.pk}/submit',
-                {'language': 'c', 'code': 'int main(){return 0;}'},
-                student,
-            )
+        response = self._post_json(
+            f'/api/student/problem-statements/{problem.pk}/submit',
+            {'language': 'c', 'code': 'int main(){return 0;}'},
+            student,
+        )
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 202)
         self.assertEqual(Submission.objects.filter(student=student.student_profile).count(), 1)
-        self.assertEqual(response.json()['status'], Submission.STATUS_PASSED)
-        fake_check.assert_called_once()
+        self.assertEqual(response.json()['status'], Submission.STATUS_PENDING)
 
     def test_incorrect_code_is_saved_as_failed(self):
         supervisor = self._make_supervisor()
         student = self._make_student()
         problem = self._make_problem(supervisor)
 
-        with patch(
-            'submissions.views.run_judge0_check',
-            return_value=(False, 'Test case 1 failed: Wrong Answer'),
-        ):
-            response = self._post_json(
-                f'/api/student/problem-statements/{problem.pk}/submit',
-                {'language': 'c', 'code': 'int main(){return 0;}'},
-                student,
-            )
+        response = self._post_json(
+            f'/api/student/problem-statements/{problem.pk}/submit',
+            {'language': 'c', 'code': 'int main(){return 0;}'},
+            student,
+        )
 
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()['status'], Submission.STATUS_FAILED)
-        self.assertEqual(Submission.objects.get().status, Submission.STATUS_FAILED)
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()['status'], Submission.STATUS_PENDING)
+        self.assertEqual(Submission.objects.get().status, Submission.STATUS_PENDING)
 
     def test_problem_without_test_cases_cannot_be_submitted(self):
         supervisor = self._make_supervisor()
         student = self._make_student()
         problem = self._make_problem(supervisor, test_cases=[])
 
-        with patch('submissions.views.run_judge0_check') as fake_check:
-            response = self._post_json(
-                f'/api/student/problem-statements/{problem.pk}/submit',
-                {'language': 'c', 'code': 'int main(){return 0;}'},
-                student,
-            )
+        response = self._post_json(
+            f'/api/student/problem-statements/{problem.pk}/submit',
+            {'language': 'c', 'code': 'int main(){return 0;}'},
+            student,
+        )
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(Submission.objects.count(), 0)
-        fake_check.assert_not_called()
-
-    def test_grader_outage_keeps_submission_pending(self):
-        supervisor = self._make_supervisor()
-        student = self._make_student()
-        problem = self._make_problem(supervisor)
-
-        with patch(
-            'submissions.views.run_judge0_check',
-            side_effect=RuntimeError('Judge0 is unavailable.'),
-        ):
-            response = self._post_json(
-                f'/api/student/problem-statements/{problem.pk}/submit',
-                {'language': 'c', 'code': 'int main(){return 0;}'},
-                student,
-            )
-
-        self.assertEqual(response.status_code, 503)
-        self.assertEqual(Submission.objects.get().status, Submission.STATUS_PENDING)
 
     def test_student_can_list_their_own_submissions(self):
         supervisor = self._make_supervisor()
@@ -562,6 +533,7 @@ class SubmissionCheckCommandTests(SubmissionsTestBase):
         submission.refresh_from_db()
         self.assertEqual(submission.status, Submission.STATUS_FAILED)
         self.assertEqual(submission.judge0_output, 'wrong output')
+        self.assertEqual(submission.attempt_count, 1)
 
     def test_check_submissions_marks_html_as_submitted(self):
         supervisor = self._make_supervisor()
@@ -581,6 +553,30 @@ class SubmissionCheckCommandTests(SubmissionsTestBase):
         submission.refresh_from_db()
         self.assertEqual(submission.status, Submission.STATUS_SUBMITTED)
         fake_check.assert_not_called()
+
+    def test_check_submissions_requeues_and_records_worker_error(self):
+        supervisor = self._make_supervisor()
+        student = self._make_student()
+        problem = self._make_problem(supervisor)
+        submission = Submission.objects.create(
+            student=student.student_profile,
+            problem_statement=problem,
+            language='c',
+            code='int main(){return 0;}',
+            status=Submission.STATUS_PENDING,
+        )
+
+        with patch(
+            'submissions.management.commands.check_submissions.run_judge0_check',
+            side_effect=RuntimeError('Judge0 unavailable'),
+        ):
+            call_command('check_submissions')
+
+        submission.refresh_from_db()
+        self.assertEqual(submission.status, Submission.STATUS_PENDING)
+        self.assertEqual(submission.attempt_count, 1)
+        self.assertEqual(submission.last_error, 'Judge0 unavailable')
+        self.assertEqual(submission.judge0_output, '')
 
 
 class Judge0CheckTests(TestCase):

@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from accounts.permissions import IsApprovedStudent, IsSupervisor
+from accounts.models import ActivityLog, record_activity
 
 from .models import Meeting, ProblemStatement
 from .serializers import (
@@ -30,8 +31,15 @@ def supervisor_problem_statements(request):
         serializer = ProblemStatementCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         problem = ProblemStatement.objects.create(
-            created_by=request.user.admin_profile,
+            created_by=getattr(request.user, 'admin_profile', None),
             **serializer.validated_data,
+        )
+        record_activity(
+            request.user,
+            ActivityLog.CATEGORY_ASSIGNMENT,
+            'problem_created',
+            f'{problem.title} was uploaded as a problem statement.',
+            target=problem,
         )
         return Response(
             SupervisorProblemStatementSerializer(problem).data,
@@ -66,8 +74,15 @@ def supervisor_meeting(request):
     meeting.title = data['title']
     meeting.notes = data.get('notes', '')
     meeting.scheduled_for = data['scheduled_for']
-    meeting.updated_by = request.user.admin_profile
+    meeting.updated_by = getattr(request.user, 'admin_profile', None)
     meeting.save()
+    record_activity(
+        request.user,
+        ActivityLog.CATEGORY_MEETING,
+        'meeting_updated',
+        f'Meeting "{meeting.title}" was scheduled or updated.',
+        target=meeting,
+    )
 
     return Response(
         SupervisorMeetingSerializer(meeting).data,

@@ -32,6 +32,7 @@ class SubmissionDetailSerializer(serializers.ModelSerializer):
             'code',
             'status',
             'judge0_output',
+            'attempt_count',
             'submitted_at',
             'checked_at',
         ]

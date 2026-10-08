@@ -1,0 +1,42 @@
+*,
+*::before,
+*::after,
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+button,
+input,
+select,
+textarea,
+label,
+div,
+nav,
+header,
+footer,
+table,
+th,
+td {
+  font-family: "Crimson Text", Georgia, serif !important;
+}
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined" !important;
+}
+body {
+  line-height: 1.7;
+}
+table tbody td {
+  padding-top: 1.15rem !important;
+  padding-bottom: 1.15rem !important;
+}
+table thead th {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}

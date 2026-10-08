@@ -1,51 +1,40 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.shortcuts import redirect, render
-from django.utils.http import url_has_allowed_host_and_scheme
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+
+def _frontend_destination(user):
+	if not user.is_authenticated:
+		return 'frontend-preview'
+
+	if user.is_superuser:
+		return 'frontend-preview-supervisor'
+
+	profile = getattr(user, 'admin_profile', None)
+	if profile is not None:
+		return {
+			'faculty': 'frontend-preview-faculty',
+			'supervisor': 'frontend-preview-supervisor',
+			'superuser': 'frontend-preview-supervisor',
+		}.get(profile.staff_type, 'frontend-preview')
+
+	return 'frontend-preview-student'
 
 
 def register(request):
-	if request.user.is_authenticated:
-		return redirect('accounts:profile')
-
-	form = UserCreationForm(request.POST or None)
-	if request.method == 'POST' and form.is_valid():
-		user = form.save()
-		login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-		messages.success(request, 'Your account has been created.')
-		return redirect('accounts:profile')
-
-	return render(request, 'accounts/register.html', {'form': form})
+	return redirect('frontend-preview')
 
 
 def login_view(request):
-	if request.user.is_authenticated:
-		return redirect('accounts:profile')
-
-	form = AuthenticationForm(request, data=request.POST or None)
-	if request.method == 'POST' and form.is_valid():
-		login(request, form.get_user())
-		next_url = request.POST.get('next') or request.GET.get('next')
-		if next_url and url_has_allowed_host_and_scheme(
-			next_url,
-			allowed_hosts={request.get_host()},
-			require_https=request.is_secure(),
-		):
-			return redirect(next_url)
-		return redirect('accounts:profile')
-
-	return render(request, 'accounts/login.html', {'form': form})
+	return redirect(_frontend_destination(request.user))
 
 
-@login_required
 def profile(request):
-	return render(request, 'accounts/profile.html')
+	return redirect(_frontend_destination(request.user))
 
 
 def logout_view(request):
 	if request.method == 'POST':
 		logout(request)
 		messages.info(request, 'You have been logged out.')
-	return redirect('accounts:login')
+	return redirect('frontend-preview')

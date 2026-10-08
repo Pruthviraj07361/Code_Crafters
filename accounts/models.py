@@ -47,3 +47,48 @@ class AdminProfile(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ActivityLog(models.Model):
+    CATEGORY_ASSIGNMENT = 'assignment'
+    CATEGORY_REVIEW = 'review'
+    CATEGORY_MEETING = 'meeting'
+    CATEGORY_DECISION = 'decision'
+    CATEGORY_PROFILE = 'profile'
+    CATEGORY_CHOICES = [
+        (CATEGORY_ASSIGNMENT, 'Problem assignment'),
+        (CATEGORY_REVIEW, 'Code review'),
+        (CATEGORY_MEETING, 'Meeting'),
+        (CATEGORY_DECISION, 'Approval decision'),
+        (CATEGORY_PROFILE, 'Profile'),
+    ]
+
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='activity_logs',
+    )
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    action = models.CharField(max_length=80)
+    description = models.TextField()
+    target_type = models.CharField(max_length=80, blank=True)
+    target_id = models.PositiveBigIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+
+    def __str__(self):
+        return self.description
+
+
+def record_activity(actor, category, action, description, target=None):
+    return ActivityLog.objects.create(
+        actor=actor,
+        category=category,
+        action=action,
+        description=description,
+        target_type=target.__class__.__name__ if target is not None else '',
+        target_id=getattr(target, 'pk', None),
+    )

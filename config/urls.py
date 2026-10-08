@@ -19,7 +19,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='accounts:login', permanent=False)),
+    path('', RedirectView.as_view(pattern_name='frontend-preview', permanent=False), name='home'),
     path('admin/', admin.site.urls),
     path('preview/', TemplateView.as_view(template_name='frontend/loginpg.html'), name='frontend-preview'),
     path('preview/login/', TemplateView.as_view(template_name='frontend/loginpg.html'), name='frontend-preview-login'),
